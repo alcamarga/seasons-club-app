@@ -1,0 +1,13 @@
+{
+    "id": "f163ef65-82fb-4756-805c-fadd535375a5",
+    "url": "github://frontend/src/index.html",
+    "title": "frontend/src/index.html",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/index.html",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=c13861d9f83630530a33a5cf194f8332f8ba176987e831440f4fc8768d233b0c5f1ace4242e3cb2c2e6c9889b565e6315b309547197c97904b9e4a042cd89f6f4e64c4e24adc628680a6871cc7185414357bc30ff37b8668cf20216118770f0c870e0522073c4a83987731a605a4e86aea875c4ea919dc862eaf88a0bc235e59c9d6316719f939ad8ca15d02ebdd1b66eadfb7f5f945e06e51ac687092f39cfe:be5ba0e9649e80244118e792019c5037",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 23,
+    "pageContent": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>Frontend</title>\n  <base href=\"/\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <link rel=\"icon\" type=\"image/x-icon\" href=\"favicon.ico\">\n</head>\n<body>\n  <app-root></app-root>\n</body>\n</html>\n",
+    "token_count_estimate": 89
+}

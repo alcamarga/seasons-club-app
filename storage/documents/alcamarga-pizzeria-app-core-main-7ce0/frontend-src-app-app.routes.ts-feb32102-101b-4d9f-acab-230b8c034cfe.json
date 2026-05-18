@@ -1,0 +1,13 @@
+{
+    "id": "feb32102-101b-4d9f-acab-230b8c034cfe",
+    "url": "github://frontend/src/app/app.routes.ts",
+    "title": "frontend/src/app/app.routes.ts",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/app/app.routes.ts",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=cc6a024786f7db6089111def65c6e8473e2f6c59177ea46ccd730f840c7f1f72ca684caad52219da13d1166bac15d2ea3c0b06ad07fac2997878f5844c9a7ff05bd2583663a363e267bb752a71f40459a34f80d50e947fcf236f2d5f9dbce04a5391a34ec88d828f35605d3de0d18389e30da0fc3e5419a9f9a66457897c78aa971bf0dd7c222847e2894d8efb9330ef8705f78cefc5e186ce791dfed809d656:02e9956f2d810bc2107728ed9bf036f0",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 186,
+    "pageContent": "import { Routes } from '@angular/router';\nimport { LoginComponent } from './components/login/login.component';\nimport { RegistroComponent } from './components/registro/registro.component';\nimport { DashboardComponent } from './components/dashboard/dashboard.component';\nimport { MenuComponent } from './components/menu/menu.component';\nimport { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';\nimport { ResumenPedidoComponent } from './components/resumen-pedido/resumen-pedido.component';\nimport { MisPedidosComponent } from './components/mis-pedidos/mis-pedidos.component';\nimport { GestionPedidosComponent } from './components/admin-dashboard/gestion-pedidos/gestion-pedidos.component';\nimport { AdminGuard } from './guards/admin.guard';\n\nexport const routes: Routes = [\n  // 1. Esta es la entrada principal ahora (Pública)\n  { path: '', component: MenuComponent, pathMatch: 'full' }, \n  \n  // 2. Otras rutas públicas\n  { path: 'menu', component: MenuComponent },\n  { path: 'login', component: LoginComponent },\n  { path: 'registro', component: RegistroComponent },\n  \n  // 3. Ruta protegida de dashboard de admin\n  { path: 'admin/dashboard', component: AdminDashboardComponent, canActivate: [AdminGuard] },\n  \n  // 4. Ruta protegida (requiere login) - dashboard de usuario\n  { path: 'dashboard', component: DashboardComponent },\n  { path: 'resumen', component: ResumenPedidoComponent },\n  { path: 'mis-pedidos', component: MisPedidosComponent },\n  { path: 'admin/pedidos', component: GestionPedidosComponent, canActivate: [AdminGuard] },\n\n  \n  // 5. Comodín por si escriben cualquier cosa\n  { path: '**', redirectTo: '' }\n];\n",
+    "token_count_estimate": 391
+}

@@ -1,0 +1,13 @@
+{
+    "id": "b50e3053-2ce0-4d39-9ff2-e4c2b8726e4d",
+    "url": "github://frontend/src/app/services/insumos.ts",
+    "title": "frontend/src/app/services/insumos.ts",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/app/services/insumos.ts",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=085db2f3c6479556ba19a99cae472a08c5f5c8995c620d18a8b7731356450b35edf38980167ab1b08c62d5d0cfdd1136711dbbf7304dfedb6e30f8d1cfa289580692687898f8fd4f08b404294d1b99b41fe6c80af5acc9820ecaeadcc420396ae85f64f23a34e32b7a16e677434851542dbeca446eb4e1337c69891360876dfdcfc80a52e34bfdf986b3cc0bd57eb897f920b24c0a010eb444f68d4f08757a8e73e92fe59986e7bb33e4461deb76d5eb:b1b24c7a7d7e130e0a765f7f91f6bb0b",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 146,
+    "pageContent": "import { Injectable } from '@angular/core';\nimport { HttpClient } from '@angular/common/http';\nimport { Observable } from 'rxjs';\n\n// Definimos cómo es un Insumo para que Angular no se confunda\nexport interface Insumo {\n  id: number;\n  nombre: string;\n  cantidad_actual: number;\n  unidad_medida: string;\n  stock_minimo: number;\n}\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class InsumosService {\n  private apiUrl = 'http://127.0.0.1:5000/api/insumos';\n\n  constructor(private http: HttpClient) { }\n\n  // Obtener todos los insumos\n  getInsumos(): Observable<Insumo[]> {\n    return this.http.get<Insumo[]>(this.apiUrl);\n  }\n\n  // Actualizar la cantidad de un insumo (cuando llegue pedido o se gaste)\n  updateInsumo(id: number, cantidad: number): Observable<Insumo> {\n    return this.http.put<Insumo>(`${this.apiUrl}/${id}`, { cantidad_actual: cantidad });\n  }\n\n  // Crear un nuevo insumo\n  createInsumo(insumo: any): Observable<Insumo> {\n    return this.http.post<Insumo>(this.apiUrl, insumo);\n  }\n\n  // Eliminar insumo\n  deleteInsumo(id: number): Observable<any> {\n    return this.http.delete(`${this.apiUrl}/${id}`);\n  }\n}\n",
+    "token_count_estimate": 315
+}

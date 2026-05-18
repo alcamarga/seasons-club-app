@@ -1,0 +1,13 @@
+{
+    "id": "7bdf495e-b88b-4d89-9838-b25369bc6448",
+    "url": "github://frontend/tsconfig.json",
+    "title": "frontend/tsconfig.json",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/tsconfig.json",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=36dbdd6b74a69238dbd30200be54683b124f0980fda78d433965b2a3dd9422e964c0c924e5295a91506df7d8b8f86e8d029f629a64132d89106bf8aa8fd96a66ea132e848f3963ded6a828d4ecc9c1f773fd7e792a9a7e8d1320395c3b167e8b71c8017b0a7b3e0752721e905f9abe9d15379d8119008d8bdb291d46eb86124602d78e4bb6751291058ddc1cbf2ea43de98d66e08bd271421e952ba70be3b243:30ec30bca7eb97e0fbbd0ffafe00ba07",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 145,
+    "pageContent": "/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */\n/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */\n{\n  \"compileOnSave\": false,\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitOverride\": true,\n    \"noPropertyAccessFromIndexSignature\": true,\n    \"noImplicitReturns\": true,\n    \"noFallthroughCasesInSwitch\": true,\n    \"skipLibCheck\": true,\n    \"isolatedModules\": true,\n    \"experimentalDecorators\": true,\n    \"importHelpers\": true,\n    \"target\": \"ES2022\",\n    \"module\": \"preserve\"\n  },\n  \"angularCompilerOptions\": {\n    \"enableI18nLegacyMessageIdFormat\": false,\n    \"strictInjectionParameters\": true,\n    \"strictInputAccessModifiers\": true,\n    \"strictTemplates\": true\n  },\n  \"files\": [],\n  \"references\": [\n    {\n      \"path\": \"./tsconfig.app.json\"\n    },\n    {\n      \"path\": \"./tsconfig.spec.json\"\n    }\n  ]\n}\n",
+    "token_count_estimate": 244
+}

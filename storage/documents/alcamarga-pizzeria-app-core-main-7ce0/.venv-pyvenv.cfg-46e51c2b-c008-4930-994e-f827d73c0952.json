@@ -1,0 +1,13 @@
+{
+    "id": "46e51c2b-c008-4930-994e-f827d73c0952",
+    "url": "github://.venv/pyvenv.cfg",
+    "title": ".venv/pyvenv.cfg",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": ".venv/pyvenv.cfg",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=e3759b5deb3c99f4f76e21f724ebe434e8d7e152903e2a8a53bed76b3279ab150604867a41c0cf285783b1da6c9cd3273dd39d96f855171417d16c7b44780c469f3b2c898abd6bac6fa79f1fad50121bb3aaa52d8354642ae9d59255a9c96d6d98944b90f0c780c8281d80a679b53450570d338d0d9c101354bef387268814eaa822ca7635cb287725b56005710f2660:db64e551a972a7f0b4128dcf55e9768d",
+    "published": "4/26/2026, 11:03:34 PM",
+    "wordCount": 14,
+    "pageContent": "home = /usr/bin\ninclude-system-site-packages = false\nversion = 3.12.3\nexecutable = /usr/bin/python3.12\ncommand = /usr/bin/python3 -m venv /home/camilo/pizzeria-app-core/.venv\n",
+    "token_count_estimate": 57
+}

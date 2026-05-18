@@ -1,0 +1,13 @@
+{
+    "id": "f743bd7d-e1d7-4085-a2bc-dc15f73a7d9d",
+    "url": "github://.venv/bin/flask",
+    "title": ".venv/bin/flask",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": ".venv/bin/flask",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=6fb04f0d04e1b56fee1e472bf82b2bd95276dd2b3db311e98855a3c67687016b24df4af4fac1927845d6114cb15460b8d2cdcf2f021014bda33c216965bf9965f64e48324c9aba695e734b6291920c657c5038f52cb1409b628a1418e913ac0be1ab6f78744959106b8cc70acc929d54c0f456e7d71e852e0bbc642487ea7a59782a3667bb0491fb1f420020f3ac1246:371a8b75bc41e05ebdfe1b3d36336504",
+    "published": "4/26/2026, 11:03:34 PM",
+    "wordCount": 25,
+    "pageContent": "#!/home/camilo/pizzeria-app-core/.venv/bin/python3\n# -*- coding: utf-8 -*-\nimport re\nimport sys\nfrom flask.cli import main\nif __name__ == '__main__':\n    sys.argv[0] = re.sub(r'(-script\\.pyw|\\.exe)?$', '', sys.argv[0])\n    sys.exit(main())\n",
+    "token_count_estimate": 77
+}

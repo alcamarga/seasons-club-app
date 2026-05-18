@@ -1,0 +1,13 @@
+{
+    "id": "33e43fd5-f959-48ef-bee6-7c8ba2745438",
+    "url": "github://frontend/src/app/services/api-health.service.ts",
+    "title": "frontend/src/app/services/api-health.service.ts",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/app/services/api-health.service.ts",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=7b6c634423cb26d67f311bebd07df142323c5b0aa65a00df69f0c79ec2d3ffd5f1bbd89674e672746716d3e7b39145fed0e9decbab8f8d6ba76b31c39c0744ec8cfe151d4e27d8dafd254fe4f5fbc4d7fc1d84abb6d936dcf6db5d8500b73e126645f5d49d92dbfe53d53846b822535126c3a5a7ee302fa12a505b4d08e22c2e88ede26d3cf1c6b8543252ca3080acfcc5e69797e62119d3aa9db6d00ece783a272de2b154e6c4c3e4b9dad33f45d2ba:c0a22b455e24522acbe057a75fc29816",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 73,
+    "pageContent": "import { Injectable, inject } from '@angular/core';\nimport { HttpClient } from '@angular/common/http';\nimport { Observable } from 'rxjs';\n\nimport { environment } from '../../environments/environment';\nimport { EstadoApiSalud } from '../models/estado-api-salud.model';\n\n// Comunicación HTTP con el backend Flask (salud del API) | HTTP calls to Flask backend (API health)\n@Injectable({\n  providedIn: 'root',\n})\nexport class ApiHealthService {\n  private readonly http = inject(HttpClient);\n  private readonly urlSalud = `${environment.apiUrl}/health`;\n\n  obtenerSalud(): Observable<EstadoApiSalud> {\n    return this.http.get<EstadoApiSalud>(this.urlSalud);\n  }\n}\n",
+    "token_count_estimate": 150
+}

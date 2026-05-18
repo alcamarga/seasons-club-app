@@ -1,0 +1,13 @@
+{
+    "id": "30699418-df59-4a95-8cf1-6b3e2723a451",
+    "url": "github://frontend/src/app/components/admin-dashboard/admin-dashboard.component.css",
+    "title": "frontend/src/app/components/admin-dashboard/admin-dashboard.component.css",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/app/components/admin-dashboard/admin-dashboard.component.css",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=752c50d86a5f36cca6ff3e42b89676a81090debbc2432860c55aef1f44f1cf0084bffb38f80dce205d4235968234de0087c11a0ce2e0d1d24c4aa7116996c7b4565e37df2a142ae250ff4a071ba77cc281344abd1b48c197591ac38ae5d063c984c9b422623c1b0c83fc984ad5081da141d77e921bbbd7dbbd0747d337d94a38452119bf2e2c96422cde0e4b7147208a849a9e159479ce26200eeaa75cb235f22b3dc81ef653a91cc79d7cdcf65a40c682cf0d8a54f1df3f6471c5c635f06b0944c74042001b24dd530cd26628381edd:ba896e9d43254f1d93ad06a76e96bc04",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 166,
+    "pageContent": ".dashboard-container {\n  padding: 20px;\n  max-width: 1200px;\n  margin: 0 auto;\n}\nh1 {\n  text-align: center;\n  color: #fff;\n  margin-bottom: 30px;\n}\n.cards {\n  display: flex;\n  gap: 20px;\n  margin-bottom: 30px;\n}\n.card {\n  flex: 1;\n  background: rgba(255,255,255,0.1);\n  backdrop-filter: blur(5px);\n  border-radius: 12px;\n  padding: 20px;\n  text-align: center;\n  color: #fff;\n}\n.card h2 {\n  margin-top: 0;\n  font-size: 1.2rem;\n  opacity: 0.8;\n}\n.card .value {\n  font-size: 2rem;\n  font-weight: bold;\n  margin: 10px 0;\n}\n.placeholder {\n  background: rgba(255,255,255,0.1);\n  backdrop-filter: blur(5px);\n  border-radius: 12px;\n  padding: 30px;\n  text-align: center;\n  color: #fff;\n}\n.chart-placeholder {\n  width: 100%;\n  height: 200px;\n  background: rgba(0,0,0,0.2);\n  margin-top: 20px;\n  border-radius: 8px;\n}\n.stat-card {\n  background: rgba(0, 0, 0, 0.4);\n  backdrop-filter: blur(10px);\n  border-radius: 15px;\n  border: 1px solid rgba(212, 175, 55, 0.2);\n  transition: transform 0.3s;\n}\n\n.stat-card:hover {\n  transform: translateY(-5px);\n  border-color: #d4af37;\n}\n\n.icon-box {\n  width: 50px;\n  height: 50px;\n  border-radius: 12px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 1.5rem;\n}\n",
+    "token_count_estimate": 441
+}

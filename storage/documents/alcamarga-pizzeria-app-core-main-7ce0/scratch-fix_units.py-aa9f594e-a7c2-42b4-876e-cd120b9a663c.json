@@ -1,0 +1,13 @@
+{
+    "id": "aa9f594e-a7c2-42b4-876e-cd120b9a663c",
+    "url": "github://scratch/fix_units.py",
+    "title": "scratch/fix_units.py",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "scratch/fix_units.py",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=69b0284f99add7af6fee35b48d04b818ae90f811f9cc7b0f5cd8b5fb951805c676f29a915254d787ed9709ae7d11a05285fc17997c1dd401fef376963c549202031aec67b7b33be39eceff8044f9ad90ee606d06d7bc9f6333aee9c20bc95c4cd269e412d81c0385d7faf1995a42749a19f175a20dbb6f6fe52aac9edd7829e871ebc3b6f8fbe008ad080f6e15782012b63cf75d251969540ddb518d55f6959f:6680cbd43255b73e11c07d5e94537a91",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 178,
+    "pageContent": "import sqlite3\nimport os\n\ndb_path = 'backend/pizzeria_core.db'\nif os.path.exists(db_path):\n    conn = sqlite3.connect(db_path)\n    cursor = conn.cursor()\n    \n    # 1. Renombrar Harina a Masa si existe\n    cursor.execute(\"UPDATE insumos SET nombre='Masa', unidad_medida='unidades' WHERE nombre='Harina'\")\n    \n    # 2. Corregir unidades de Queso y Salsa\n    cursor.execute(\"UPDATE insumos SET unidad_medida='gr' WHERE nombre='Queso Mozzarella'\")\n    cursor.execute(\"UPDATE insumos SET unidad_medida='ml' WHERE nombre='Salsa de Tomate'\")\n    \n    # 3. Asegurar que las cantidades actuales sean razonables para gr/ml\n    # Si Queso era 20.0 kg, ahora son 20000 gr.\n    cursor.execute(\"UPDATE insumos SET cantidad_actual = cantidad_actual * 1000 WHERE nombre='Queso Mozzarella' AND unidad_medida='gr' AND cantidad_actual < 1000\")\n    cursor.execute(\"UPDATE insumos SET cantidad_actual = cantidad_actual * 1000 WHERE nombre='Salsa de Tomate' AND unidad_medida='ml' AND cantidad_actual < 1000\")\n    \n    conn.commit()\n    print(\"[INFO] DB actualizada con unidades métricas\")\n    conn.close()\nelse:\n    print(\"DB not found\")\n",
+    "token_count_estimate": 310
+}

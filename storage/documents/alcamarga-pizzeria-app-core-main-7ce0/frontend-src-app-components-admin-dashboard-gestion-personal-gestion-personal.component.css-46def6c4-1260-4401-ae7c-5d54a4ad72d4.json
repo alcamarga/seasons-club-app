@@ -1,0 +1,13 @@
+{
+    "id": "46def6c4-1260-4401-ae7c-5d54a4ad72d4",
+    "url": "github://frontend/src/app/components/admin-dashboard/gestion-personal/gestion-personal.component.css",
+    "title": "frontend/src/app/components/admin-dashboard/gestion-personal/gestion-personal.component.css",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/app/components/admin-dashboard/gestion-personal/gestion-personal.component.css",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=bb13431b475ee6c6c5f092eaecca19a8a95eacc7acc0f9ae095cde0149a9762162fdb0aae4b5605bd09af23de36777e91a3ec51cbaf3fcaee5e9d5f139e7508ad5f63a144fe38ada7cc30ce48c4eade281b6de6c628752bacb953fb60ddd6d6cda8c196b6961f77c42772bf53a88ccce638d4551d9b8d8424056632b4f686ab50b059c579700d40b2c08901d09c7926b12900abfb8b8ad90981525414074776ab823b9f3da122a15c20ea3ae08c181d85657f84b9d6e66d8ee710b44ab902d4b2833c20a3984cf62afbcd4e7551bf73731f349fa9b020530d8edf4ffac0b55f6:81460d89165573e091f7187a98cbd71b",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 148,
+    "pageContent": ".text-gold { color: #d4af37; }\n.btn-gold { background: #d4af37; color: #000; border: none; font-weight: bold; }\n.btn-gold:hover { background: #b8962e; color: #000; }\n.border-gold { border-color: #d4af37 !important; }\n\n.bg-dark-glass {\n  background: rgba(15, 15, 15, 0.85);\n  backdrop-filter: blur(10px);\n  border-radius: 12px;\n  border: 1px solid rgba(212, 175, 55, 0.2);\n}\n\n.table-dark {\n  background: transparent !important;\n}\n\n.modal-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.8);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  z-index: 1100;\n}\n\n.modal-content {\n  width: 450px;\n  border-radius: 15px;\n  box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);\n  border: 1px solid #d4af37 !important;\n}\n\n.form-control, .form-select {\n  background-color: #1a1a1a !important;\n  color: white !important;\n  border: 1px solid #333 !important;\n}\n\n.form-control:focus, .form-select:focus {\n  border-color: #d4af37 !important;\n  box-shadow: 0 0 8px rgba(212, 175, 55, 0.4) !important;\n}\n\n.badge {\n  font-size: 0.75rem;\n  padding: 6px 10px;\n}\n",
+    "token_count_estimate": 401
+}

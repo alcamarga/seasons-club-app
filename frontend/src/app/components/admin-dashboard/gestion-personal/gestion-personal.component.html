@@ -1,0 +1,88 @@
+<div class="gestion-container">
+  <div class="header d-flex justify-content-between align-items-center">
+    <div>
+      <h2>👥 Gestión de Personal</h2>
+      <p>Administración de empleados y roles</p>
+    </div>
+    <button class="btn btn-warning" (click)="abrirModalNuevo()">+ Nuevo Empleado</button>
+  </div>
+
+  <div *ngIf="cargando()" class="text-center py-5">
+    <div class="spinner-border text-warning" role="status"></div>
+    <p class="text-white mt-2">Cargando personal...</p>
+  </div>
+
+  <div *ngIf="!cargando()" class="table-wrapper">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Rol</th>
+          <th class="text-center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of personal()">
+          <td class="text-warning fw-bold">#{{ u.id }}</td>
+          <td>{{ u.nombre }}</td>
+          <td class="text-white-50">{{ u.email }}</td>
+          <td>
+            <span [class]="'badge ' + badgeRol(u.rol)">
+              {{ u.rol | uppercase }}
+            </span>
+          </td>
+          <td class="text-center">
+            <button class="btn btn-sm btn-outline-info me-2" (click)="prepararEdicion(u)">Editar</button>
+            <button class="btn btn-sm btn-outline-danger" (click)="eliminarUsuario(u)">Borrar</button>
+          </td>
+        </tr>
+
+        <tr *ngIf="personal().length === 0">
+          <td colspan="5" class="text-center text-muted py-5">No hay personal registrado.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal-overlay" *ngIf="mostrarFormulario">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>{{ editandoId ? '📝 Editar Empleado' : '🆕 Nuevo Empleado' }}</h3>
+        <button class="btn-close-custom" (click)="cerrarFormulario()">×</button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label text-white">Nombre Completo</label>
+          <input type="text" class="form-control bg-dark text-white" [(ngModel)]="formulario.nombre" placeholder="Ej. Juan Perez">
+        </div>
+        
+        <div class="mb-3">
+          <label class="form-label text-white">Correo Electrónico</label>
+          <input type="email" class="form-control bg-dark text-white" [(ngModel)]="formulario.email" placeholder="correo@ejemplo.com">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label text-white">Rol en la Pizzería</label>
+          <select class="form-select bg-dark text-white" [(ngModel)]="formulario.rol">
+            <option *ngFor="let rol of rolesDisponibles" [value]="rol">{{ rol | titlecase }}</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label text-white">Contraseña {{ editandoId ? '(opcional)' : '' }}</label>
+          <input type="password" class="form-control bg-dark text-white" [(ngModel)]="formulario.password" placeholder="Mínimo 6 caracteres">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="cerrarFormulario()">Cancelar</button>
+        <button class="btn btn-warning" (click)="guardarPersonal()">
+          {{ editandoId ? 'Actualizar' : 'Registrar' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+{
+    "id": "5e48995a-a1d5-434d-bed2-494e8bf13ecf",
+    "url": "github://.venv/bin/gunicorn",
+    "title": ".venv/bin/gunicorn",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": ".venv/bin/gunicorn",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=eaadfcc577bca97fbd769a0a01e51c48b3fb27727a0da901f217b20b32a9ea354dbe0a2b7c1b9ad84324e8350c2a642c44fc238c8e0f4c773bf6555b421bdaa07b16d8821bb8d557e82ce158bb61170ade35c3f3583ec15977ff7dc0dd192d95492461ae345edfeb86429cbe59641f1e3f5a14f400f3b8a5ab4879fa6de151287637af2523cb090b2cd4f53e3b0a5fa313a1db5993b1380712633f144a6b3f7f:1d47eb0f2a0004f3ff4aa53bcd2a9caf",
+    "published": "4/26/2026, 11:03:34 PM",
+    "wordCount": 25,
+    "pageContent": "#!/home/camilo/pizzeria-app-core/.venv/bin/python3\n# -*- coding: utf-8 -*-\nimport re\nimport sys\nfrom gunicorn.app.wsgiapp import run\nif __name__ == '__main__':\n    sys.argv[0] = re.sub(r'(-script\\.pyw|\\.exe)?$', '', sys.argv[0])\n    sys.exit(run())\n",
+    "token_count_estimate": 81
+}

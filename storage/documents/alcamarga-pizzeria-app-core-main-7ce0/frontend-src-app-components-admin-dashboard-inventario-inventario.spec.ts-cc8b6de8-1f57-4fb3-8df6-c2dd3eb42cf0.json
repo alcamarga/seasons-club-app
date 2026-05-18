@@ -1,0 +1,13 @@
+{
+    "id": "cc8b6de8-1f57-4fb3-8df6-c2dd3eb42cf0",
+    "url": "github://frontend/src/app/components/admin-dashboard/inventario/inventario.spec.ts",
+    "title": "frontend/src/app/components/admin-dashboard/inventario/inventario.spec.ts",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/app/components/admin-dashboard/inventario/inventario.spec.ts",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=6fe42a4263c95b038964ac01766006d1f7c8fc32eabf61aa9f3eb0244d165f319177c4798e674566f67846a117aac552bcba5fe17158117c382bef399b78d088ab8353c7451ddd7e1053110f7aca76a0777410a817f810cda035a12f7d82251e96d3cf5c2172c843fc3a352ddabc7792a25d1dc828291d882d5dbd737007bca5fb67d78c418bc69791c7bae565cb27d2f682786cd262895644b6a3326482d2ec674d1367419397aeaa172527d7c6342039b8f98a115b3e3cf1b8c8088a8adea8dc7a73d5575d89d1f89d6c7d2db57d7f:121871903c3b979dbac987f4e43470e0",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 74,
+    "pageContent": "import { ComponentFixture, TestBed } from '@angular/core/testing';\n\nimport { InventarioComponent } from './inventario';\n\ndescribe('InventarioComponent', () => {\n  let component: InventarioComponent;\n  let fixture: ComponentFixture<InventarioComponent>;\n\n  beforeEach(async () => {\n    await TestBed.configureTestingModule({\n      imports: [InventarioComponent],\n    }).compileComponents();\n\n    fixture = TestBed.createComponent(InventarioComponent);\n    component = fixture.componentInstance;\n    fixture.detectChanges();\n  });\n\n  it('should create', () => {\n    expect(component).toBeTruthy();\n  });\n});\n",
+    "token_count_estimate": 112
+}

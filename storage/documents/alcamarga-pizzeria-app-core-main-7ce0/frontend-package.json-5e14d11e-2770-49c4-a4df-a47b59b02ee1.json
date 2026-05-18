@@ -1,0 +1,13 @@
+{
+    "id": "5e14d11e-2770-49c4-a4df-a47b59b02ee1",
+    "url": "github://frontend/package.json",
+    "title": "frontend/package.json",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/package.json",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=6ceca28b2413ec054195b9e1ac2f51a46f758934d427d4288351fe0f44b278e31c896db86b8ac81557ceb229d4ccc9f5e947aad215efe7454faeb6bf626a22131baae1c8f8b617c7027cc76404ffd32e88f2df4c00becef77a92e876420cf1f6e3309ace3189a7476c3dfdc5b0a4ac83e8c23174d429f3debda5bbc19ab00f70ae0acda6e8fd6b77be8489a2e8686f0edf32e21ef1323bae07d524d9a2cb78ba:6ccdbbc8a13bc5640a18479a24681075",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 145,
+    "pageContent": "{\n  \"name\": \"frontend\",\n  \"version\": \"0.0.0\",\n  \"scripts\": {\n    \"ng\": \"ng\",\n    \"start\": \"ng serve\",\n    \"build\": \"ng build\",\n    \"watch\": \"ng build --watch --configuration development\",\n    \"test\": \"ng test\"\n  },\n  \"private\": true,\n  \"packageManager\": \"npm@11.11.0\",\n  \"dependencies\": {\n    \"@angular/common\": \"^21.2.0\",\n    \"@angular/compiler\": \"^21.2.0\",\n    \"@angular/core\": \"^21.2.0\",\n    \"@angular/forms\": \"^21.2.0\",\n    \"@angular/platform-browser\": \"^21.2.0\",\n    \"@angular/router\": \"^21.2.0\",\n    \"bootstrap\": \"^5.3.8\",\n    \"rxjs\": \"~7.8.0\",\n    \"tslib\": \"^2.3.0\",\n    \"zone.js\": \"^0.16.1\"\n  },\n  \"devDependencies\": {\n    \"@angular/build\": \"^21.2.6\",\n    \"@angular/cli\": \"^21.2.6\",\n    \"@angular/compiler-cli\": \"^21.2.0\",\n    \"jsdom\": \"^28.0.0\",\n    \"prettier\": \"^3.8.1\",\n    \"typescript\": \"~5.9.2\",\n    \"vitest\": \"^4.0.8\"\n  }\n}\n",
+    "token_count_estimate": 310
+}

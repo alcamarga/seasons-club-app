@@ -1,0 +1,13 @@
+{
+    "id": "7f23ea3f-aca7-4825-9095-43b79ae726e4",
+    "url": "github://frontend/src/app/app.html",
+    "title": "frontend/src/app/app.html",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/app/app.html",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=e0f95b889b202187ef8be29e822167ab4849a4c03250fc9506737f14ceb6e64e24703b3ff78274492fb8880d75bd1328b2cefac70cab61430e453a880e84ae2787196924483d21991c7e4aabaab7110ab04375bf2271be41e3f7b00c96b42cb63a6d494ff8a9887aeb2a7c20f9b375f98325fbfc35a2b532350142a4d3a1348a62074683193e7b2478de40d33f411edb4fe1423274756c05c4c673e751454188:3c2870532739e97fa8c666c9c5773ff3",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 1,
+    "pageContent": "<router-outlet></router-outlet>\n",
+    "token_count_estimate": 9
+}

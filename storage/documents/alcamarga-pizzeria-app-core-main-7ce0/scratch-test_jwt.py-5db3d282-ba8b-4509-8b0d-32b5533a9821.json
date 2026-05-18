@@ -1,0 +1,13 @@
+{
+    "id": "5db3d282-ba8b-4509-8b0d-32b5533a9821",
+    "url": "github://scratch/test_jwt.py",
+    "title": "scratch/test_jwt.py",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "scratch/test_jwt.py",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=d18838c904ec6f08814ffd934dc66fd6030af02d14e88bbaa57c06866cdf41e746b1ae97e815424eeb4813b9ca92a34cc32f02697830e946e8d82eff15b197ab8b3bd756cab0ff4687ffe759cf56ed08922a05ca65c54019ffb7cbec6b7b575d83f2eab48d302e76e591ca9fe28111953ecc6c362253cffbda357ae3ffb23d7195471a13997bf4da3c28175c1fd600eb9b068aca2b1c9001db8f11c71335793d:237e090f143f4c21acc0b07fb4f2f264",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 27,
+    "pageContent": "import jwt\ntoken = \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsIm5vbWJyZSI6IkFkbWluaXN0cmFkb3IiLCJlbWFpbCI6ImFkbWluQHBpenplcmlhLmNvbSIsInJvbCI6ImFkbWluIiwiZXhwIjoxNzc3NjUyMjcyfQ.BSdIHhMjfv5hWEB_xvVXeyjzfxzySxQXtdSuEFlfV3c\"\nsecret = \"12345\"\ntry:\n    decoded = jwt.decode(token, secret, algorithms=[\"HS256\"])\n    print(\"SUCCESS:\", decoded)\nexcept Exception as e:\n    print(\"FAILURE:\", e)\n",
+    "token_count_estimate": 190
+}

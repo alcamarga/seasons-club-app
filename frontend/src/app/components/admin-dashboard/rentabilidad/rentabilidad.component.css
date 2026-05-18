@@ -1,0 +1,110 @@
+/* Módulo de Rentabilidad — Estilos */
+/* Autor: Camilo Martinez | Fecha: 01/05/2026 */
+
+.text-gold { color: #d4af37; }
+
+/* ===== Cards de resumen ===== */
+.summary-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(20, 20, 20, 0.85);
+  backdrop-filter: blur(10px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-4px);
+}
+
+.summary-green { border-left: 4px solid #2ecc71; box-shadow: 0 4px 20px rgba(46, 204, 113, 0.15); }
+.summary-red   { border-left: 4px solid #e74c3c; box-shadow: 0 4px 20px rgba(231, 76, 60, 0.15); }
+.summary-gold  { border-left: 4px solid #d4af37; box-shadow: 0 4px 20px rgba(212, 175, 55, 0.15); }
+
+.summary-icon {
+  font-size: 2.2rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.summary-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 0.2rem;
+}
+
+.summary-value {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.summary-sub {
+  font-size: 0.85rem;
+  margin-top: 0.2rem;
+}
+
+/* ===== Tabla ===== */
+.bg-dark-glass {
+  background: rgba(15, 15, 15, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.border-gold { border-color: #d4af37 !important; }
+
+.table-dark {
+  background: transparent !important;
+}
+
+.table-dark thead th {
+  border-bottom: 2px solid rgba(212, 175, 55, 0.4);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 14px 16px;
+}
+
+.table-dark tbody td {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  vertical-align: middle;
+}
+
+/* Filas coloreadas según margen */
+.margen-alto  { background: rgba(46, 204, 113, 0.04) !important; }
+.margen-medio { background: rgba(241, 196, 15, 0.04) !important; }
+.margen-bajo  { background: rgba(231, 76, 60, 0.06) !important; }
+
+.margen-label {
+  font-size: 0.85rem;
+  min-width: 42px;
+  text-align: right;
+}
+
+/* ===== Leyenda ===== */
+.leyenda {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.leyenda-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}

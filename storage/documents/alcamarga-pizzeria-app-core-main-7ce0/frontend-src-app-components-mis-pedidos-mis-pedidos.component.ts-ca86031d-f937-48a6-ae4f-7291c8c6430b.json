@@ -1,0 +1,13 @@
+{
+    "id": "ca86031d-f937-48a6-ae4f-7291c8c6430b",
+    "url": "github://frontend/src/app/components/mis-pedidos/mis-pedidos.component.ts",
+    "title": "frontend/src/app/components/mis-pedidos/mis-pedidos.component.ts",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/app/components/mis-pedidos/mis-pedidos.component.ts",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=c765ce1cc847668a544e22b7defce5c076fec9f0c6ed81301cdaed6302a1f4dba18d0bf94c846a4b7ebf299b0878e650758bf6c7fdeb1b1bb1cbeb02a211389744654005a92622a67bbb8e72adf2cf154315cad92f9f554fbd2330193b71156fb4fc8fe098b85cde205ab2b1e2a0dca0cbd540d98c765322e70f4378068933d311448842c26a2b721396009dd23d67632da1cd61de27cca5277eb0ab5d9f630595f3da6695c21ac4e03f3abcc117e49b0010d9241407bf1db2b3db4053b64806:697eeaf833e685bb9e1f51499c282d1d",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 225,
+    "pageContent": "import { Component, OnInit, inject } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { OrderService, Pedido } from '../../services/order.service';\nimport { RouterLink } from '@angular/router';\n\n@Component({\n  selector: 'app-mis-pedidos',\n  standalone: true,\n  imports: [CommonModule, RouterLink],\n  templateUrl: './mis-pedidos.component.html',\n  styleUrls: ['./mis-pedidos.component.css']\n})\nexport class MisPedidosComponent implements OnInit {\n  private orderService = inject(OrderService);\n  pedidos: Pedido[] = [];\n  cargando = true;\n\n  ngOnInit(): void {\n    this.cargarPedidos();\n  }\n\n  cargarPedidos(): void {\n    this.orderService.obtenerPedidos().subscribe({\n      next: (res) => {\n        this.pedidos = res.pedidos;\n        this.cargando = false;\n      },\n      error: (err) => {\n        console.error('Error al cargar pedidos:', err);\n        this.cargando = false;\n      }\n    });\n  }\n\n  getBadgeClass(estado: string): string {\n    switch (estado.toLowerCase()) {\n      case 'pendiente': return 'badge-pendiente';\n      case 'preparando': return 'badge-preparando';\n      case 'enviado': return 'badge-enviado';\n      case 'entregado': return 'badge-entregado';\n      case 'cancelado': return 'badge-cancelado';\n      default: return 'badge-secondary';\n    }\n  }\n}\n",
+    "token_count_estimate": 320
+}

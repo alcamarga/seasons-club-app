@@ -1,0 +1,13 @@
+{
+    "id": "b39c3056-25cf-4797-a62a-bda88bc869f7",
+    "url": "github://frontend/.editorconfig",
+    "title": "frontend/.editorconfig",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/.editorconfig",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=ddd479f3f5065ea5ca8befef115b612f69eb919b64db3052065e8fec2afce3f23141cb989c4fa6aa2380f560d3e48c063ca090b044bd622d29435ffec4d21c8266c2ab0c14b22c10a330b13c83cd6f3b3355b2fe470d13c86b838e999bbb858a2ad75fc0a73b46bd9eb7f5bbc87a3ed1330a635caec0e55956d00543e2b50d9087061752234f0d0b3b106b8496e8a52be79fd9a17b941e5ed952e845ecab6bd7:e8fb32dd75576868cf6b6164687381e0",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 25,
+    "pageContent": "# Editor configuration, see https://editorconfig.org\nroot = true\n\n[*]\ncharset = utf-8\nindent_style = space\nindent_size = 2\ninsert_final_newline = true\ntrim_trailing_whitespace = true\n\n[*.ts]\nquote_type = single\nij_typescript_use_double_quotes = false\n\n[*.md]\nmax_line_length = off\ntrim_trailing_whitespace = false\n",
+    "token_count_estimate": 83
+}

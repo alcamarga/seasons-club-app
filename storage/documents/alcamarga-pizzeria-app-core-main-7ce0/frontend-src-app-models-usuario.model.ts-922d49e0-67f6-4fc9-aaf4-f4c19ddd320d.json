@@ -1,0 +1,13 @@
+{
+    "id": "922d49e0-67f6-4fc9-aaf4-f4c19ddd320d",
+    "url": "github://frontend/src/app/models/usuario.model.ts",
+    "title": "frontend/src/app/models/usuario.model.ts",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/app/models/usuario.model.ts",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=4fdbbfec6d48116c652548a491a71da1541fa53bdb3d5fd058e62d8f451116124aa1bc4854a96da3859089cdd4ad1be5ce461ff13e383162d360273c4bd203898d6ef37fffbfb2efbccd8a3c64a304b41b37c7d6538b7cceee3d9786e053bcfc0e4bab1b2f62149ef8fb0a1f757ffa19b825b3abb2a9d79d808adbd9b59c783d3d8457030a5c18fc99fb926d04bbfe509ad32a403107c35648bb3c5ace6d47fc6a0297257b1fbf36332454e528a56213:d106320ea436fe947fd838087c896a60",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 148,
+    "pageContent": "// Interfaces para el modelo Usuario y autenticación JWT.\n// Autor: Camilo Martinez | Fecha: 23/03/2026 | Versión: 4.1\n\nexport type RolUsuario = 'cliente' | 'admin' | 'cocinero' | 'domiciliario';\n\nexport interface Usuario {\n  id: number;\n  nombre: string;\n  email: string;\n  rol: RolUsuario;\n  fecha_registro?: string;\n}\n\n// Datos necesarios para el formulario de registro | Data needed for registration form\nexport interface RegistroCargaUtil {\n  nombre: string;\n  email: string;\n  contrasena: string;\n}\n\n// Datos necesarios para el inicio de sesión | Data needed for login\nexport interface LoginCargaUtil {\n  email: string;\n  contrasena: string;\n}\n\n// Estructura de la respuesta del servidor al autenticar | Server response structure on authentication\nexport interface RespuestaAutenticacion {\n  access_token: string;\n  usuario: Usuario;\n  rol: string;\n  email: string;\n}\n\n// Representación de la sesión activa en el estado de la aplicación | Active session representation in app state\nexport interface SesionActiva {\n  usuario: Usuario;\n  accessToken: string;\n}\n",
+    "token_count_estimate": 260
+}

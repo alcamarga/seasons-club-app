@@ -1,0 +1,12 @@
+<!-- Assuming existing header structure; we add the admin button -->
+<header class="app-header">
+  <div class="logo">
+    <span>🍕</span> Pizzería Core
+  </div>
+  <nav class="header-nav">
+    <!-- Existing buttons (login, etc.) -->
+    <button class="btn btn-outline-light" (click)="irALogin()">Iniciar Sesión</button>
+    <!-- Admin button -->
+    <button class="btn btn-admin" [routerLink]="['/admin/dashboard']">Administrador</button>
+  </nav>
+</header>

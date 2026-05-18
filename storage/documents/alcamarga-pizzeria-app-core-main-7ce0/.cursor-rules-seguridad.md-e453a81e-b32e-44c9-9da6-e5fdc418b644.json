@@ -1,0 +1,13 @@
+{
+    "id": "e453a81e-b32e-44c9-9da6-e5fdc418b644",
+    "url": "github://.cursor-rules/seguridad.md",
+    "title": ".cursor-rules/seguridad.md",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": ".cursor-rules/seguridad.md",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=027304c0230436fc88a35642fd4b02d65294176ab9f835015c8818f52989bb00fa22536933ae8a6c0f8e2969ada29aadd315228d21ebd3ceaf46008aef0439299e594a60bcd883e1371822e657243fb9afdcdd12ffc9c906cdbb507bbdb9117add94733f846f1b985a03097dfd9883aef9b56dc0ed7f5698dfa98d10f72f8caf6fe573079209b3933be01d5d1b2f560ddbc0fbfa2c2663807cd9b63cbbd29641:8ecabcef588add4e32a013e63f4b2f76",
+    "published": "4/26/2026, 11:03:34 PM",
+    "wordCount": 245,
+    "pageContent": "> **Creado por:** Camilo Martinez\n> **Fecha:** 11 de abril de 2026\n> **Estado:** Estándar de Seguridad\n\n🔑 Gestión de Secretos y Variables\nCero Hardcoding: Prohibido escribir claves API, tokens, contraseñas o URIs de bases de datos directamente en el código.\n\nUso de .env: Toda configuración sensible debe ir en el archivo .env.\n\nGit Hygiene: Verifica siempre que el archivo .env esté incluido en el .gitignore.\n\n🛡️ Defensa contra Ataques Comunes\nValidación de Inputs: Sanitiza y valida toda entrada del usuario en el Frontend (Angular) y, obligatoriamente, en el Backend (Python/Flask) para prevenir SQL Injection y XSS.\n\nSeguridad de Base de Datos: El Frontend nunca se conecta directamente a la base de datos. Toda consulta debe pasar por el Backend.\n\nCORS: La API no debe aceptar peticiones de cualquier dominio. Configura una whitelist específica.\n\n🔐 Control de Acceso y Sesiones\nRutas Protegidas: Las rutas privadas deben requerir autenticación. Un usuario no autenticado no debe ver datos privados.\n\nValidación en Servidor: Los permisos de administrador o roles se validan en el servidor, jamás confíes solo en la lógica del frontend.\n\nRate Limiting: Implementa límites de peticiones por IP para evitar ataques de fuerza bruta o abuso de la API.\n\n📂 Auditoría y Manejo de Datos\nErrores Seguros: Los mensajes de error para el usuario deben ser genéricos. No reveles rutas de archivos, versiones de software o estructuras de la DB.\n\nLogs Limpios: No registres datos sensibles (contraseñas, tarjetas, tokens) en los logs de la consola o archivos.\n\nDependencias: Antes de finalizar, sugiere ejecutar npm audit o pip audit para revisar vulnerabilidades en las librerías.",
+    "token_count_estimate": 448
+}

@@ -1,0 +1,35 @@
+/* You can add global styles to this file, and also import other style files */
+
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/assets/images/pizzeria-app-core.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  color: #ffffff; /* Text color set to white for better visibility */
+}
+
+.menu-wrapper {
+  min-height: 100vh;
+  color: #ffffff; /* Ensure text in the menu is white */
+}
+
+.navbar-menu {
+  background: rgba(0, 0, 0, 0.7); /* Darker overlay for the navbar */
+  color: #ffffff; /* Text color set to white */
+}
+
+.menu-header {
+  color: #ffffff; /* Ensure text in the menu header is white */
+}
+
+.pizza-card {
+  background: rgba(0, 0, 0, 0.7); /* Darker overlay for the pizza cards */
+  color: #ffffff; /* Ensure text in the pizza cards is white */
+}
+
+.menu-footer {
+  color: #ffffff; /* Ensure text in the footer is white */
+}

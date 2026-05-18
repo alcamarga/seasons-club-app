@@ -1,0 +1,44 @@
+> [!IMPORTANT]
+> **Creado por:** Camilo Martinez
+> **Fecha:** 14 de abril de 2026
+> **Estado:** Estándar de Backend Validado
+
+## 🤖 SISTEMA DE AGENTES ORQUESTADORES
+Antes de realizar cualquier cambio, es OBLIGATORIO leer y seguir las directrices de los subagentes en `./agents-hub/`:
+
+- **LogicMaster (`logic_agent_instructions.md`):** Define la sincronización entre archivos y la nomenclatura obligatoria en español (ej: `cerrarSesion`).
+- **Configuración Global (`config.json`):** Define las prioridades del proyecto y roles.
+
+---
+
+## 🛠️ REGLAS DE DESARROLLO (ANGULAR & UI)
+- **Sincronización Crítica:** Si se modifica un servicio, se deben actualizar todos los componentes e interceptores dependientes para evitar errores TS2339.
+- **Estética de Interfaz:** Prohibido el uso de fondos blancos en contenedores de datos. El Dashboard DEBE usar `background: rgba(0, 0, 0, 0.85)` y `color: white`.
+- **Brillo de Imagen:** Todas las páginas con fondo de imagen deben incluir `filter: brightness(1.2)` para claridad visual.
+
+# Pizzería App - Reglas Maestras
+
+## Contexto del Proyecto
+Eres un experto en desarrollo Full Stack. El proyecto es una App de Pizzería Core.
+- **Backend:** Python / Flask (ubicado en /backend)
+- **Frontend:** Angular (ubicado en /frontend)
+- **Base de Datos:** SQLite (pizzeria_core.db)
+
+## Instrucciones de Referencia (Contexto Local)
+Para cualquier tarea, SIEMPRE lee primero los estándares en la carpeta `.cursor-rules/`:
+1. Para Python: Consulta `.cursor-rules/estandar-backend-python.md`
+2. Para la UI: Consulta `.cursor-rules/design.md` y `.cursor-rules/estandar-frontend-angular.md`
+3. Para seguridad: Consulta `.cursor-rules/seguridad.md`
+
+## Objetivos Inmediatos (Pendientes de Notion)
+- **Sustituir la lista estática `listaPedidos`** en el Frontend por una llamada dinámica al Backend.
+- **Implementar la ruta `/api/pedidos`** en `backend/app.py` que consulte la base de datos real.
+
+## Reglas Críticas de Desarrollo
+- **Idioma:** Respuestas y comentarios en código en español técnico. Variables en inglés.
+- **Seguridad:** Mantener la lógica de JWT y la firma de autoría en cada respuesta.
+- **Simplicidad:** La interfaz debe ser ultra sencilla (pensada para dueños de negocio tradicionales).
+- **Backend:** Usa `jsonify` para todas las respuestas y maneja errores con códigos HTTP correctos.
+
+## REGLA DE MEMORIA: 
+Al finalizar cualquier tarea exitosa, el agente DEBE actualizar el archivo ./agents-hub/project_memory.json reflejando el cambio en solved_critical_bugs o marcando la tarea como completada en pending_tasks.

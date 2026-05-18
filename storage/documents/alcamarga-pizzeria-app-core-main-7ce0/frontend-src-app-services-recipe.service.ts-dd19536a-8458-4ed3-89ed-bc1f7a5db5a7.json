@@ -1,0 +1,13 @@
+{
+    "id": "dd19536a-8458-4ed3-89ed-bc1f7a5db5a7",
+    "url": "github://frontend/src/app/services/recipe.service.ts",
+    "title": "frontend/src/app/services/recipe.service.ts",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/app/services/recipe.service.ts",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=82fda68253b000ad571da2ff073ae5fc597162aced5f85406198cf4c24a59c34a0194f81320c371ec9cbea653c29d5c3f0692e3f55175d3a1d770150d6311fa44164799a42ec4ccb541f37c98e3b6cba505bd5c913b59fa831e1419ae0d320abf86e3a69496d3c0ca2d18c107d0f6810518fdabd55e55bac41b128d47a6aa4b07c8951de4f7f355d5273a51623fa4dcb63ed4aed9ab39789d60b28c7595ac3a6f0d05527e5b5eb7349621a362457bc14:8777221fdc3fb412b5ca247c8a00482c",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 92,
+    "pageContent": "import { Injectable, inject } from '@angular/core';\nimport { HttpClient } from '@angular/common/http';\nimport { Observable } from 'rxjs';\nimport { environment } from '../../environments/environment';\n\nexport interface RecetaItem {\n  id?: number;\n  pizza_id: number;\n  insumo_id: number;\n  insumo_nombre?: string;\n  cantidad_gastada: number;\n  unidad_medida?: string;\n}\n\n@Injectable({ providedIn: 'root' })\nexport class RecipeService {\n  private http = inject(HttpClient);\n  private apiUrl = `${environment.apiUrl}/pizzas`;\n\n  obtenerReceta(pizzaId: number): Observable<{ receta: RecetaItem[] }> {\n    return this.http.get<{ receta: RecetaItem[] }>(`${this.apiUrl}/${pizzaId}/receta`);\n  }\n\n  guardarReceta(pizzaId: number, receta: RecetaItem[]): Observable<any> {\n    return this.http.post(`${this.apiUrl}/${pizzaId}/receta`, receta);\n  }\n}\n",
+    "token_count_estimate": 209
+}

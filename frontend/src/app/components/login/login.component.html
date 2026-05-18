@@ -1,0 +1,100 @@
+<!-- Formulario de inicio de sesión | Login form -->
+<!-- Autor: Camilo Martinez | Fecha: 15/04/2026 -->
+
+<div class="login-wrapper d-flex align-items-center justify-content-center min-vh-100">
+  <div class="login-card glass-effect">
+
+    <!-- Encabezado con gradiente dorado | Header with gold gradient -->
+    <div class="login-header text-center py-4">
+      <div class="logo-icon mb-2">🍕</div>
+      <h2 class="mb-1">Pizzería Core</h2>
+      <p class="mb-0">Inicia sesión para continuar</p>
+    </div>
+
+    <div class="login-body">
+
+      <!-- Alerta de error | Error alert -->
+      @if (errorMensaje) {
+        <div class="alert alert-error d-flex align-items-center gap-2" role="alert">
+          <span class="error-icon">⚠️</span>
+          <span>{{ errorMensaje }}</span>
+        </div>
+      }
+
+      <!-- Formulario | Form -->
+      <form [formGroup]="formulario" (ngSubmit)="iniciarSesion()" novalidate>
+
+        <!-- Email -->
+        <div class="form-group mb-3">
+          <label for="email" class="form-label">
+            <span class="label-icon">📧</span>
+            Correo electrónico
+          </label>
+          <input
+            id="email"
+            type="email"
+            class="form-control"
+            [class.is-invalid]="email.invalid && email.touched"
+            formControlName="email"
+            placeholder="usuario@ejemplo.com"
+            autocomplete="email">
+          @if (email.invalid && email.touched) {
+            <div class="invalid-feedback d-block">
+              @if (email.errors?.['required']) {
+                <small>El correo es obligatorio.</small>
+              }
+              @if (email.errors?.['email']) {
+                <small>Ingresa un correo válido.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- Contraseña | Password -->
+        <div class="form-group mb-4">
+          <label for="contrasena" class="form-label">
+            <span class="label-icon">🔐</span>
+            Contraseña
+          </label>
+          <input
+            id="contrasena"
+            type="password"
+            class="form-control"
+            [class.is-invalid]="contrasena.invalid && contrasena.touched"
+            formControlName="contrasena"
+            placeholder="Mínimo 6 caracteres"
+            autocomplete="current-password">
+          @if (contrasena.invalid && contrasena.touched) {
+            <div class="invalid-feedback d-block">
+              @if (contrasena.errors?.['required']) {
+                <small>La contraseña es obligatoria.</small>
+              }
+              @if (contrasena.errors?.['minlength']) {
+                <small>Debe tener al menos 6 caracteres.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- Botón submit | Submit button -->
+        <button
+          type="submit"
+          class="btn-submit w-100 fw-bold py-3"
+          [disabled]="enviando">
+          @if (enviando) {
+            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+          }
+          {{ enviando ? 'Iniciando sesión...' : 'Iniciar Sesión' }}
+        </button>
+
+      </form>
+
+      <!-- Link a registro | Register link -->
+      <p class="text-center mt-4 mb-0 text-muted small">
+        ¿No tienes cuenta?
+        <a routerLink="/registro" class="fw-semibold link-gold">Regístrate aquí</a>
+      </p>
+
+    </div>
+  </div>
+</div>

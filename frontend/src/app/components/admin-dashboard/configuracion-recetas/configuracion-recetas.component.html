@@ -1,0 +1,86 @@
+<div class="recipe-config-container">
+  <div class="header">
+    <h2>Configuración de Recetas</h2>
+    <p>Define el consumo de insumos por cada producto</p>
+  </div>
+
+  <div class="main-layout">
+    <!-- Lista de Productos -->
+    <div class="sidebar">
+      <h3>Productos</h3>
+      <ul class="pizza-list">
+        <li *ngFor="let p of pizzas()" 
+            [class.active]="pizzaSeleccionadaId === p.id"
+            (click)="seleccionarPizza(p.id)">
+          {{ p.nombre }}
+          <span class="category">{{ p.categoria }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Editor de Receta -->
+    <div class="editor" *ngIf="pizzaSeleccionadaId">
+      <div class="editor-header">
+        <h3>Receta para: <span>{{ pizzas().find(p => p.id === pizzaSeleccionadaId)?.nombre }}</span></h3>
+        <button class="btn-save" (click)="guardarReceta()">Guardar Cambios</button>
+      </div>
+
+      <!-- Selector de Tamaño -->
+      <div class="size-selector-container">
+        <label for="tamano">Tamaño de la Pizza:</label>
+        <select id="tamano" [(ngModel)]="tamanoSeleccionado" (change)="cambiarTamano()" class="size-select">
+          <option *ngFor="let t of tamanos" [value]="t">{{ t }}</option>
+        </select>
+      </div>
+
+      <div *ngIf="recetaActual.length > 0">
+        <table class="recipe-table">
+          <thead>
+            <tr>
+              <th>Insumo</th>
+              <th>Cantidad</th>
+              <th>Unidad</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let r of recetaActual; let i = index">
+              <td>{{ r.insumo_nombre }}</td>
+              <td>
+                <input type="number" [(ngModel)]="r.cantidad_gastada" class="qty-input">
+              </td>
+              <td>{{ r.unidad_medida }}</td>
+              <td>
+                <button class="btn-delete" (click)="quitarIngrediente(i)">🗑️</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="empty-state" *ngIf="recetaActual.length === 0" style="padding: 2rem; text-align: center; color: #a99d91; background: #1a1a1a; border-radius: 8px; margin-bottom: 2rem;">
+        <p>No hay ingredientes asignados a esta receta.</p>
+      </div>
+
+      <!-- Agregar nuevo ingrediente -->
+      <div class="add-ingredient">
+        <h4>Agregar Ingrediente</h4>
+        <div class="add-form">
+          <select [(ngModel)]="nuevoIngrediente.insumo_id">
+            <option [value]="0">Seleccione Insumo...</option>
+            <option *ngFor="let ins of insumosDisponibles()" [value]="ins.id">
+              {{ ins.nombre }} ({{ ins.unidad_medida }})
+            </option>
+          </select>
+          <input type="number" [(ngModel)]="nuevoIngrediente.cantidad_gastada" placeholder="Cant.">
+          <button (click)="agregarIngrediente()">Añadir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="no-selection" *ngIf="!pizzaSeleccionadaId">
+      <i class="icon-select"></i>
+      <p>Selecciona un producto de la izquierda para editar su receta</p>
+    </div>
+  </div>
+</div>

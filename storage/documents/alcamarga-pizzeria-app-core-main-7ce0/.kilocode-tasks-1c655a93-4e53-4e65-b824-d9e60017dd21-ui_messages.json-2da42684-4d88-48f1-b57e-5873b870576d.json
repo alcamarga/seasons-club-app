@@ -1,0 +1,13 @@
+{
+    "id": "2da42684-4d88-48f1-b57e-5873b870576d",
+    "url": "github://.kilocode/tasks/1c655a93-4e53-4e65-b824-d9e60017dd21/ui_messages.json",
+    "title": ".kilocode/tasks/1c655a93-4e53-4e65-b824-d9e60017dd21/ui_messages.json",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": ".kilocode/tasks/1c655a93-4e53-4e65-b824-d9e60017dd21/ui_messages.json",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=43280ca3a6f91a9062fbbfb52f604e40b915772e65ce04c5981d21b4e549abc53b79dfe3facb6d774ccd9041b3b5485e4ead59d783d68cf4198522d5fac40bab7c651a8974d57e726c32ff56cd59edf31f06e41808b9f84a8fb3741131500dc9925d1fa3342b6327e1df489366ed0df41e5f18f88e67a3dab64769374aaf2f02dba4aca7e328842eb96d5459f457367af30eefad92a1a288ebc9db43e9fe8710acca6a1f1693e313009eda07fe38ed123027b9a3d6b2cb0a1c729f4524d3c34cb69fda8b4dde4214bf6ab2a7eabbfcaa:5275e593448483bc20d19b31a03ddfd5",
+    "published": "4/26/2026, 11:03:34 PM",
+    "wordCount": 24,
+    "pageContent": "[{\"ts\":1777064710753,\"type\":\"say\",\"say\":\"task\",\"text\":\"hola estas ahi ?\",\"images\":[]},{\"ts\":1777064710753,\"type\":\"say\",\"say\":\"api_req_started\",\"text\":\"{\\\"apiProtocol\\\":\\\"openai\\\"}\"},{\"ts\":1777064716625,\"type\":\"say\",\"say\":\"api_req_retry_delayed\",\"text\":\"OpenAI completion error: Connection error.\",\"partial\":false},{\"ts\":1777064720095,\"type\":\"say\",\"say\":\"api_req_retry_delayed\",\"text\":\"OpenAI completion error: Connection error.\",\"partial\":false},{\"ts\":1777064724484,\"type\":\"say\",\"say\":\"api_req_retry_delayed\",\"text\":\"OpenAI completion error: Connection error.\",\"partial\":false},{\"ts\":1777064730991,\"type\":\"say\",\"say\":\"api_req_retry_delayed\",\"text\":\"OpenAI completion error: Connection error.\",\"partial\":false},{\"ts\":1777064741610,\"type\":\"say\",\"say\":\"api_req_retry_delayed\",\"text\":\"OpenAI completion error: Connection error.\",\"partial\":false}]",
+    "token_count_estimate": 230
+}

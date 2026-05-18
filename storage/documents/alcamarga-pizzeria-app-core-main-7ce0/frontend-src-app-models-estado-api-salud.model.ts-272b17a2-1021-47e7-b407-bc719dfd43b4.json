@@ -1,0 +1,13 @@
+{
+    "id": "272b17a2-1021-47e7-b407-bc719dfd43b4",
+    "url": "github://frontend/src/app/models/estado-api-salud.model.ts",
+    "title": "frontend/src/app/models/estado-api-salud.model.ts",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/app/models/estado-api-salud.model.ts",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=6dfe62e774f47a1ba2e80d0ca6396977b419f0000c48c4c0d9229f8bc66d996146687e0f3e3e8da9a69a7753f7d5b6860ddd5b4b444534fba7fa3745a7cb442b4ef3f61f4bae02a80110a0fb18370e5a0fa584c12245dce51061665082854cb0f6c23c40fc4994c0f6e6f173438d62762b2fcb89d32c53f505bcc4309cf868701a5aa7de56c962cb83c18864d4e0d03fb5fd0c728a8c60e02a1f58b5bf95866fe451e2b952b84a07eb07893ccd4c670e:9577fd614870c551000a290d855b99c7",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 22,
+    "pageContent": "// Respuesta tipada del endpoint GET /api/health | Typed response for GET /api/health\nexport interface EstadoApiSalud {\n  status: string;\n  service: string;\n}\n",
+    "token_count_estimate": 40
+}

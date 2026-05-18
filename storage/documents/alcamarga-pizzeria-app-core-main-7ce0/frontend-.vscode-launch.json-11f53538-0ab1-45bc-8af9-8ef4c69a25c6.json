@@ -1,0 +1,13 @@
+{
+    "id": "11f53538-0ab1-45bc-8af9-8ef4c69a25c6",
+    "url": "github://frontend/.vscode/launch.json",
+    "title": "frontend/.vscode/launch.json",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/.vscode/launch.json",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=25df3f1370d58e9212c50ffcee1fe21bb60b83e418345d05d2bd23f92679c676a097f4ce9ea0641a185e3abdd829a6c65cb17693a89bf6deb4cc54186f471cbfcfc49beea3a206eba6ce078cc084545a312e05c9e9a8db071638d5a157974ad42107b2d6b1e55ebe65f717544f42a8fe5ba77a293aa95e42e3b14676e2e8fb0cce82bd3c2de2d4be523f002d8db270bcdbec6b256aaa67486dde7b39e30d1254:875a80d157b89358396287707c006dfd",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 106,
+    "pageContent": "{\n  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387\n  \"version\": \"0.2.0\",\n  \"configurations\": [\n    {\n      \"name\": \"ng serve\",\n      \"type\": \"chrome\",\n      \"request\": \"launch\",\n      \"preLaunchTask\": \"npm: start\",\n      \"url\": \"http://localhost:4200/\"\n    },\n    {\n      \"name\": \"ng test\",\n      \"type\": \"chrome\",\n      \"request\": \"launch\",\n      \"preLaunchTask\": \"npm: test\",\n      \"url\": \"http://localhost:9876/debug.html\"\n    }\n  ]\n}\n",
+    "token_count_estimate": 142
+}

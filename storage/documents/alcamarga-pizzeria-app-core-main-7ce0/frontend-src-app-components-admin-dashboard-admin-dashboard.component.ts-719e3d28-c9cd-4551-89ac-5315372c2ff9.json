@@ -1,0 +1,13 @@
+{
+    "id": "719e3d28-c9cd-4551-89ac-5315372c2ff9",
+    "url": "github://frontend/src/app/components/admin-dashboard/admin-dashboard.component.ts",
+    "title": "frontend/src/app/components/admin-dashboard/admin-dashboard.component.ts",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/app/components/admin-dashboard/admin-dashboard.component.ts",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=c1a4b07f84ecd2f728dc930207f0cf0ecf6cbeb1f3cfd7dabfbe3d66cc20c4e0c6a5eb9a0087cfffbee72df7ffebe9b305d7e39782b2cc856be8d6031ff917f03371b9a1b4951b40ed0892921cda2702fe8a5f7dba5dbdb09a1cbfcf3c2be376b2c70349e2fbabe180878766ae874c77fb75260282133f30088d13af869525a5a0a2efb6cd6f337788ca35a59b193e0d01f1c54971d9d7378e4bca34d73368cb4147bae1b52f36e74250d3f5550fab5694b3f79833b676356d8ed486585d2eea86dee92de50365fd78c7535748067f45:48b687e2e8d4e246bfda310447d9db96",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 190,
+    "pageContent": "import { Component } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { AuthService } from '../../services/auth.service';\nimport { InventarioComponent } from './inventario/inventario';\nimport { DashboardComponent } from '../dashboard/dashboard.component';\nimport { GestionPedidosComponent } from './gestion-pedidos/gestion-pedidos.component';\nimport { ConfiguracionRecetasComponent } from './configuracion-recetas/configuracion-recetas.component';\nimport { GestionPersonalComponent } from './gestion-personal/gestion-personal.component';\nimport { Usuario } from '../../models/usuario.model';\n\n@Component({\n  selector: 'app-admin-dashboard',\n  standalone: true,\n  imports: [CommonModule, InventarioComponent, DashboardComponent, GestionPedidosComponent, ConfiguracionRecetasComponent, GestionPersonalComponent],\n  templateUrl: './admin-dashboard.component.html',\n  styleUrls: ['./admin-dashboard.component.css']\n})\nexport class AdminDashboardComponent {\n  ventasDelDia: number = 0;\n  pedidosPendientes: number = 0;\n  inventarioPizzas: number = 0;\n  pestanaActiva: string = 'pedidos'; // Default para todos los roles\n  usuario: Usuario | null = null;\n\n  constructor(private auth: AuthService) {\n    this.usuario = this.auth.obtenerUsuarioActual();\n    \n    // Si es cocinero, forzar pestaña pedidos\n    if (this.usuario?.rol === 'cocinero') {\n      this.pestanaActiva = 'pedidos';\n    }\n\n    // Mock data; replace with real service calls\n    this.ventasDelDia = 12450;\n    this.pedidosPendientes = 23;\n    this.inventarioPizzas = 150;\n  }\n\n  cambiarPestana(pestana: string) {\n    this.pestanaActiva = pestana;\n  }\n}\n",
+    "token_count_estimate": 392
+}

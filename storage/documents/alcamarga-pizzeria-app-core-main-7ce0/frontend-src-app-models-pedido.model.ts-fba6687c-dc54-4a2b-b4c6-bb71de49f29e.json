@@ -1,0 +1,13 @@
+{
+    "id": "fba6687c-dc54-4a2b-b4c6-bb71de49f29e",
+    "url": "github://frontend/src/app/models/pedido.model.ts",
+    "title": "frontend/src/app/models/pedido.model.ts",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/app/models/pedido.model.ts",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=d01e48f5c5277bc11bec932b4aa1b4cea371ada63fb4a42cbaefd9e1ef09d23246a4cec2cede6cdb82b6af9ed948d98ee8031f406a4803bc3a9afb36d26ce81a763bb45c1b8ee29c12accb0a7ff5a01fac31106940e53701278afa85091576312546df5029d01fdaa727e4808b66124080900e7400faa3d37232a39ca15a62928a811afe431ff26e1a8aa5dd0e4b384b4d2c4aff19bca70f9301ec097932bbaa561aaa5e5693f32a15185806a644cc54:2b08f5c5784dcb02df7d4d4b4564b119",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 64,
+    "pageContent": "// Interfaces para la gestión de pedidos.\n// Autor: Camilo Martinez | Fecha: 23/03/2026 | Versión: 4.1\n\nexport interface ArticuloPedido {\n  nombre: string;\n  tamano: string;\n  cantidad: number;\n  precio: number;\n}\n\nexport interface Pedido {\n  id: number;\n  usuario_id?: number;\n  fecha_hora: string;\n  articulos: ArticuloPedido[];\n  subtotal: number;\n  iva: number;\n  total: number;\n}\n\nexport interface CargaPedido {\n  items: ArticuloPedido[];\n  total: number;\n}\n",
+    "token_count_estimate": 129
+}

@@ -1,0 +1,13 @@
+{
+    "id": "dff36bb2-ec49-46be-8849-a961b65ccea7",
+    "url": "github://frontend/.prettierrc",
+    "title": "frontend/.prettierrc",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/.prettierrc",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=b58ef99e2641b4b7f37d42a265e2f7a8e921b9bdba886436bda874292d96a93362300f78b4ec3f8e4dba2f4c852d6a966ca45c9f186875f15a2dd4ecc61aaf410fe54b9ca2cdd9723c1d5b848a57a085260ffb6dcda891541600778ff5f9c890f03c60ea851bd0f9338b580d7be82b72bf9ee81cb2e0664abc1ace0344b614d111e3462135028d0f2079b145057e728b55d3e18b252635c9bf3eb053f184ba7c:c3260f11af209cd689ce78e829d4b6ca",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 49,
+    "pageContent": "{\n  \"printWidth\": 100,\n  \"singleQuote\": true,\n  \"overrides\": [\n    {\n      \"files\": \"*.html\",\n      \"options\": {\n        \"parser\": \"angular\"\n      }\n    }\n  ]\n}\n",
+    "token_count_estimate": 49
+}

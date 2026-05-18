@@ -1,0 +1,13 @@
+{
+    "id": "1e9fd289-b2d0-49db-bbc8-262bb555ad4e",
+    "url": "github://.venv/bin/python",
+    "title": ".venv/bin/python",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": ".venv/bin/python",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=40fc1cd5c54dda159e376a81e50076190637d12fdeea64771f5940fbc72a6779141313749c898ad876859d77035f42671d298713420c9b0be70acd59662a54bb7d1b9e67da5239b8428137702c9dfef7f153f27a24e3fe8c3ebaee763ea376351a1fcc862499d1e20c5438266f6584ac91112b9b1f8e4ddff7244393f227536fc1820540f572f20496a79b8e7255916e:d825eba321f0f44147ebf2bac430c57a",
+    "published": "4/26/2026, 11:03:34 PM",
+    "wordCount": 1,
+    "pageContent": "python3",
+    "token_count_estimate": 2
+}

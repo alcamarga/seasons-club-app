@@ -1,0 +1,13 @@
+{
+    "id": "c792311f-1902-40c8-8f52-6cb258621fda",
+    "url": "github://frontend/src/app/components/admin-dashboard/gestion-pedidos/gestion-pedidos.component.html",
+    "title": "frontend/src/app/components/admin-dashboard/gestion-pedidos/gestion-pedidos.component.html",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/app/components/admin-dashboard/gestion-pedidos/gestion-pedidos.component.html",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=99a039b6ecf1af9bc7793ba4a77f315aee6913022f8617d65db6d2b43c5f807f8815d9eccf89144737896aec250138f5cd7f07eb8da5d8313adf85667a6b1381956c35a858a14d6d899dcbaab4f8229f1bdf39c7264f963866ee14704f23d011287044c38bfbf758d664c56c7c9a3f687ef1af96b0718cde06e0d52a62f274a0418fc7fee46155bde2eb93f269d8e198c82b9855d94c0242efe54b2f1fffa57331593c4c8a26490e5370e40bb5e33aaca5a1eea2947022dbd8d80a3c067f93b5b1278f3da0f5b5e7542321d91cf826852b9d4c0632af14d3bad5e17cdb33ebee:86b0949420379a0b534b904f8e8fe518",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 420,
+    "pageContent": "<div class=\"gestion-container\">\n  <div class=\"header\">\n    <h2>Gestión de Pedidos</h2>\n    <p>Control de flujo y estados de venta</p>\n  </div>\n\n  <div *ngIf=\"cargando\" class=\"loading\">\n    <div class=\"spinner\"></div>\n  </div>\n\n  <div *ngIf=\"!cargando\" class=\"table-wrapper\">\n    <table class=\"admin-table\">\n      <thead>\n        <tr>\n          <th>ID</th>\n          <th>Fecha</th>\n          <th>Cliente ID</th>\n          <th>Total</th>\n          <th>Artículos</th>\n          <th>Estado</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr *ngFor=\"let p of pedidos\">\n          <td>#{{ p.id }}</td>\n          <td>{{ p.fecha_hora }}</td>\n          <td>User #{{ p.usuario_id }}</td>\n          <td class=\"price\">{{ p.total | currency:'USD':'symbol':'1.0-0' }}</td>\n          <td>\n            <div class=\"articulos-cell\">\n              <span *ngFor=\"let a of p.articulos\">{{ a.cantidad }}x {{ a.nombre }}</span>\n            </div>\n          </td>\n          <td>\n            <select \n              [(ngModel)]=\"p.estado\" \n              (change)=\"cambiarEstado(p.id, p.estado)\"\n              [class]=\"'status-select ' + p.estado.toLowerCase()\">\n              <option *ngFor=\"let st of estadosDisponibles\" [value]=\"st\">{{ st }}</option>\n            </select>\n          </td>\n        </tr>\n      </tbody>\n    </table>\n  </div>\n\n  <!-- Toast Notification -->\n  <div class=\"toast-notification\" [class.show]=\"mostrarToast()\">\n    {{ mensajeToast() }}\n  </div>\n</div>\n",
+    "token_count_estimate": 412
+}

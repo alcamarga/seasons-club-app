@@ -1,0 +1,13 @@
+{
+    "id": "ea27d9a3-b4b1-4212-ae45-4d383de099f8",
+    "url": "github://frontend/tsconfig.spec.json",
+    "title": "frontend/tsconfig.spec.json",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/tsconfig.spec.json",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=47f7ca9a133132375bf8ad916598317ccc2bef7bf6a51e25cdc0e24c33f418a5779b91ee4c5fe79de966ac4fedcf1a27bc6eaecbf094ef783a30e1f2e9f527ebda5a2674dd685644466e16172108bbca59d785f5bb29cadd09013b4d33f50f9228e196d4f42128afabf88cc204bd75386f1b5c36c9199f751e3b13a225fd59133739fce456209043cea6a2adebe7fa46908564548766ec5dd2f2174abcbe1e4e:24409c8b3d90cd3bb7fceff03a7c57f5",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 60,
+    "pageContent": "/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */\n/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */\n{\n  \"extends\": \"./tsconfig.json\",\n  \"compilerOptions\": {\n    \"outDir\": \"./out-tsc/spec\",\n    \"types\": [\n      \"vitest/globals\"\n    ]\n  },\n  \"include\": [\n    \"src/**/*.d.ts\",\n    \"src/**/*.spec.ts\"\n  ]\n}\n",
+    "token_count_estimate": 114
+}

@@ -1,0 +1,13 @@
+{
+    "id": "5fe4d331-a8af-4535-a4ce-11cc8a4bc707",
+    "url": "github://agents-hub/inventory_agent_instructions.md",
+    "title": "agents-hub/inventory_agent_instructions.md",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "agents-hub/inventory_agent_instructions.md",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=2b99b291146ea56920d00ac37f0f53d39b69725f318b71df156f3e5230457fc8af98ce48e7e48ebe23cbf41e7b3c22aee3c1803b90b7ca9a5953a83a3c262a5385f74ea4d37a5eb13ab710ac2ddf4a0639d1408133ac5c535baf4ef9406dfce3be608da5f7c49cd10435356cc2a06876b2db344096c5cc6ef1f13a2892feb7a26b14883160fbeccf30d2d909719455e7a342dd7018b4cae9c6652e74f9d2eff1328014ca6cd64876fa138ff0fd282395:25af91ace55629cfa5a3d59b41b9649d",
+    "published": "4/26/2026, 11:03:35 PM",
+    "wordCount": 121,
+    "pageContent": "---\nAgent-ID: InventoryGuard-V1\nAuthor: Milo [Camilo Martinez]\nRole: Especialista en Lógica de Stock e Insumos\nProject: Pizzería Core\n---\n\n## 🎯 OBJETIVO\nGestionar la relación entre el inventario de materias primas (insumos) y la disponibilidad de productos finales (pizzas).\n\n## 🛠️ REGLAS DE ORO\n1. **Lógica de Disponibilidad:** Una pizza solo puede estar \"Disponible\" si TODOS sus insumos base tienen stock > 0.\n2. **Alertas de Stock:** Si un insumo baja del 10% de su capacidad, el agente debe proponer marcar el ítem con un estilo visual de \"Advertencia\" (amarillo).\n3. **Nomenclatura de Datos:**\n   - Insumos: `ingredientes`, `cantidad_disponible`, `unidad_medida`.\n   - Estado: `enStock` (boolean), `agotado` (boolean).\n\n## 📋 TAREAS TÉCNICAS\n- Crear/Mantener el servicio `insumos.service.ts`.\n- Asegurar que el Dashboard muestre una tabla clara de \"Materias Primas\" separada de la de \"Ventas\".",
+    "token_count_estimate": 282
+}

@@ -1,0 +1,135 @@
+/* Estilos del Dashboard | Dashboard styles */
+/* Autor: Camilo Martinez | Fecha: 15/04/2026 */
+/* Estética: Crema/Dorado con transparencia y bordes redondeados - UI Oscura */
+
+:host {
+  --color-oro: #d4af37;
+  --color-oro-oscuro: #b8922c;
+  --color-crema: #fff8e7;
+  --color-crema-oscuro: #f0e6c8;
+  --color-fondo-oscuro: rgba(0, 0, 0, 0.8);
+  --color-borde: rgba(212, 175, 55, 0.3);
+  --sombra-fuerte: 0 8px 30px rgba(0, 0, 0, 0.3);
+  --radio-borde: 20px;
+}
+
+/* Wrapper principal | Main wrapper */
+.dash-container {
+  background-image: url('/assets/images/pizzeria-app-core.jpg');
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  filter: brightness(1.1);
+}
+
+/* Panel principal | Main panel */
+.main-panel {
+  background: var(--color-fondo-oscuro);
+  backdrop-filter: blur(15px);
+  border-radius: var(--radio-borde);
+  border: 1px solid var(--color-borde);
+  box-shadow: var(--sombra-fuerte);
+  padding: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.main-panel h2 {
+  color: var(--color-oro);
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* Botón de volver | Back button */
+.btn-dark {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--color-crema);
+  transition: all 0.3s ease;
+}
+
+.btn-dark:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Contenedor de tabla | Table container */
+.table-container {
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 15px;
+  padding: 20px;
+  margin-top: 20px;
+  border: 1px solid var(--color-borde);
+}
+
+/* Tabla de productos | Products table */
+.table-container .table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 0;
+  background: transparent !important;
+}
+
+.table-container .table thead th {
+  color: var(--color-oro) !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 14px 16px;
+  border-bottom: 2px solid var(--color-oro);
+  background: rgba(0, 0, 0, 0.6) !important;
+}
+
+.table-container .table tbody td {
+  color: #f5f5dc !important;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 248, 231, 0.15);
+  vertical-align: middle;
+  background: transparent !important;
+}
+
+.table-container .table tbody tr {
+  transition: all 0.2s ease;
+  background: rgba(0, 0, 0, 0.4) !important;
+}
+
+.table-container .table tbody tr:hover {
+  background: rgba(212, 175, 55, 0.15) !important;
+}
+
+.table-container .table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Badge de ID | ID badge */
+.text-muted {
+  color: rgba(255, 248, 231, 0.6) !important;
+}
+
+/* Variant list */
+.variant-list {
+  color: var(--color-crema);
+  font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main-panel {
+    padding: 16px;
+    margin: 0 12px;
+  }
+
+  .main-panel h2 {
+    font-size: 1.25rem;
+  }
+
+  .table {
+    font-size: 0.85rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 10px 8px;
+  }
+}

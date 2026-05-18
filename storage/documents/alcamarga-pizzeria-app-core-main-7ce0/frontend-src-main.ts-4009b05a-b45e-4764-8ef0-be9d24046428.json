@@ -1,0 +1,13 @@
+{
+    "id": "4009b05a-b45e-4764-8ef0-be9d24046428",
+    "url": "github://frontend/src/main.ts",
+    "title": "frontend/src/main.ts",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/main.ts",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=80638146711ccb50cced4484f13060df1226eaea845a9894ed307a4327c6adc78cac91776d167bcf6479045c82cdb8fedd2ebb4db1247aa9552120cd0a35c4aca1b9c1967c61ee5754f7a2a384fbf65735fafe08c0df30651049ae7dc4d8da399a3fe56bf1846182ed83c7f5f65edeb5d9840b0b2903e0dbf617b7870d52687b635f976c91c05178ac7022d733e25e34507a54ffba27f733828ab885aa7bee58:212e981e10cb142836b6fadecaa359b9",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 19,
+    "pageContent": "import { bootstrapApplication } from '@angular/platform-browser';\nimport { appConfig } from './app/app.config';\nimport { AppComponent } from './app/app';\n\nbootstrapApplication(AppComponent, appConfig).catch((err) => console.error(err));",
+    "token_count_estimate": 48
+}

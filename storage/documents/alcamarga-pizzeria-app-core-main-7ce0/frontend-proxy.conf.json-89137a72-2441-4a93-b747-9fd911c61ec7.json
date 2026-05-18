@@ -1,0 +1,13 @@
+{
+    "id": "89137a72-2441-4a93-b747-9fd911c61ec7",
+    "url": "github://frontend/proxy.conf.json",
+    "title": "frontend/proxy.conf.json",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/proxy.conf.json",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=2e6bb360ae282d6e60ca8eb4549cb04fe98250604c8e5beba5931e6c9dfd3a5d19d74a0daf7a5abc5b85de864154ec284055e877f4cabd67c6c95331d87dc5ac4bd41e1ac0b0bf82114189b78b4d091d4d1a3e90cb7f307ab29c578eb4983d1c8f84f315ef27bc08c2a52970116ef86e5a0596e0b80e3985e4297632fb6f52acaaf28989bcc2ad3e179460b989a20b7320b3f1c1ed451686232b97bdcca39a96:7712697f956553ed59918769c636ca87",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 21,
+    "pageContent": "{\n  \"/api\": {\n    \"target\": \"http://127.0.0.1:5000\",\n    \"secure\": false,\n    \"changeOrigin\": true\n  }\n}\n",
+    "token_count_estimate": 40
+}

@@ -1,0 +1,13 @@
+{
+    "id": "941d8349-5bcd-4fa4-b80c-012c676971c3",
+    "url": "github://.kilocode/tasks/1375a6ef-d8de-4906-bde4-cbec6246e532/api_conversation_history.json",
+    "title": ".kilocode/tasks/1375a6ef-d8de-4906-bde4-cbec6246e532/api_conversation_history.json",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": ".kilocode/tasks/1375a6ef-d8de-4906-bde4-cbec6246e532/api_conversation_history.json",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=3740d633ba3f18a0ab3a6cff5e87a7f8a396ad11660258cdd39e8ff771e52758cb953ce0ab182ba27b8c3d9c066330c7a315299f6aa4b283a6825496e2140535c9b3f5061fd586b435ddf25da0d6ebb5f45c5dc954d2392209fead2c123d68493ea5890d3e98477902d4bfd02fb8fb7c9f62983b88a80c2300a811696e67d037a84378c5eb2f7beff16ee4df18e4a32483d51fd6ebb6a1a2b3720f566dddf872dea1e24894d1136208dd31684a36ce2003b518152bf315495b14221b44c3d0913182c2e5a731a7623965e4ec4545954596da5c91714224f1af63e4debd026ca7:a217cb0f21fa78fa3f8e2de1a13a9eb0",
+    "published": "4/26/2026, 11:03:34 PM",
+    "wordCount": 128,
+    "pageContent": "[{\"role\":\"user\",\"content\":[{\"type\":\"text\",\"text\":\"Hola Qwen, soy Milo. Necesito que modifiques mi archivo app.py. Específicamente la función actualizar_estado_pedido(id) que está cerca de la línea 527.\\n\\nTu misión:\\nHaz que cuando el nuevo_estado sea igual a 'entregado', el sistema ejecute esta lógica de inventario:\\n\\nObtenga todos los productos que pertenecen a ese pedido_id.\\n\\nPor cada producto, consulte la tabla recetas para saber cuántos gramos de cada ingrediente (queso, masa, etc.) utiliza.\\n\\nReste esas cantidades de la columna stock en la tabla insumos.\\n\\nImportante: Si el stock de algún insumo no alcanza para cubrir la receta, debe cancelar la operación (hacer un rollback) y devolver un mensaje de error: 'No hay suficiente stock para completar el pedido'.\\n\\nDame el código en Python usando SQLAlchemy (o el método que tengo en mi app) listo para aplicar.\"}],\"ts\":1777065838791},{\"role\":\"user\",\"content\":[{\"type\":\"text\",\"text\":\"que paso si realisaste los cambio ?\"}],\"ts\":1777066874468}]",
+    "token_count_estimate": 280
+}

@@ -1,0 +1,13 @@
+{
+    "id": "159c2710-0650-402b-8990-f31a788c0aa4",
+    "url": "github://frontend/src/app/guards/admin.guard.ts",
+    "title": "frontend/src/app/guards/admin.guard.ts",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/app/guards/admin.guard.ts",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=7408462e35262901526a1e5ae8081b3caa66b71984e894692fe84eba6aa159ac6ab48e28da62d2235ed003a578c496831e4c8ab405f2d33b911b6ec3f26ed12add5748403829ca99ccc89d5d8cfd0d69b4dffcff3eea4e37b476f0393f144d8a302989ed75399667d2935d7024af85a1a0af2a09f04bdc3d68fd1a9b0142f076bf8e393ec2258a04fe5009cdf08a9f03429dc31f1d1299e3f153ca82d0cdf1034c2ea616cce429e66a7911236301d564:63cdab0894f9df10359932624dcb5f44",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 264,
+    "pageContent": "import { Injectable } from '@angular/core';\nimport { CanActivate, Router } from '@angular/router';\nimport { AuthService } from '../services/auth.service';\nimport { Observable, map, take, delay } from 'rxjs';\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class AdminGuard implements CanActivate {\n  constructor(private auth: AuthService, private router: Router) {}\n\n  canActivate(): Observable<boolean> {\n    return this.auth.sesionActiva$.pipe(\n      take(1),\n      map(sesion => {\n        const token = sesion?.accessToken || localStorage.getItem('access_token');\n        const rol = sesion?.usuario?.rol || localStorage.getItem('user_role');\n        \n        console.log('%c [DEBUG] ENTRANDO AL DASHBOARD CON ROL: ' + rol, 'background: #222; color: #bada55; font-size: 1.5rem; padding: 10px;');\n        \n        // RELAJACIÓN MÁXIMA: Si hay token, entramos.\n        if (token) {\n          return true;\n        }\n        \n        // Si no hay token, PERO el servidor podría estar caído, no redirigir violentamente\n        console.warn('[AdminGuard] No se detectó token. Permaneciendo en la ruta actual para inspección.');\n        return false;\n      }),\n      // Si el rol es null, esperamos un poco (opcionalmente)\n      delay(100)\n    );\n  }\n}\n",
+    "token_count_estimate": 304
+}

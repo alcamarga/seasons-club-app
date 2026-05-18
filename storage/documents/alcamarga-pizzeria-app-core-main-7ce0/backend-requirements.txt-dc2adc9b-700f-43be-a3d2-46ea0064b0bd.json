@@ -1,0 +1,13 @@
+{
+    "id": "dc2adc9b-700f-43be-a3d2-46ea0064b0bd",
+    "url": "github://backend/requirements.txt",
+    "title": "backend/requirements.txt",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "backend/requirements.txt",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=192f72dc79268bfa05993c8de9a55caee4689d8f0810e42386001b33a9dd4a5daafe3e15957984bebf689c9f1eb5880e917f035aeb41633c2234d8ae1c22c7a413049cc48a23fa807a65a23b163e44823fcd797a941f5e25882a4c826619617de8b13e6c441572bc94848581b9e8a654e94facf2bdb4d8c6296bf0760c4a7b8db021a99d6ea398675855999e4d3a51c6dcceb16df8d380e5c744e4d90b42b169:136406059be9da95e6ca22adb165613e",
+    "published": "4/26/2026, 11:03:35 PM",
+    "wordCount": 1,
+    "pageContent": "flask==3.0.0\nflask-cors==4.0.0\nflask-sqlalchemy==3.1.1\nPyJWT==2.8.0\nwerkzeug==3.0.1\ngunicorn==21.2.0\n",
+    "token_count_estimate": 59
+}

@@ -1,0 +1,13 @@
+{
+    "id": "a6b497e8-1828-4122-be48-1cc2b30fe18b",
+    "url": "github://frontend/src/app/components/header/header.component.html",
+    "title": "frontend/src/app/components/header/header.component.html",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/app/components/header/header.component.html",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=b4b6e1d0076fce1fc526404f464098cdea89347097642722c03a867eef19abcd8a55ab9418b6008ce3065c340537a1d6ff132b9ef2aa4924f15c6736420d41f1b440ff70a78e3332b668439e994b54414578388f25e9d1b2a4d2bbe9b641909d63e173e3bb1558a2f85cfcf4b9140c9e6d990d5a26e3dd4376395f98522b839129f832901562041dbdd5095ac336d05b80ceda67f324fbffdd6219ea6392ba43bc099f30400d4d9263f64b7e7c81d9b5dce904592a775b4380469d3cd297b96c:7afc43937ffdfda3209c9429df9f78f8",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 59,
+    "pageContent": "<!-- Assuming existing header structure; we add the admin button -->\n<header class=\"app-header\">\n  <div class=\"logo\">\n    <span>🍕</span> Pizzería Core\n  </div>\n  <nav class=\"header-nav\">\n    <!-- Existing buttons (login, etc.) -->\n    <button class=\"btn btn-outline-light\" (click)=\"irALogin()\">Iniciar Sesión</button>\n    <!-- Admin button -->\n    <button class=\"btn btn-admin\" [routerLink]=\"['/admin/dashboard']\">Administrador</button>\n  </nav>\n</header>\n",
+    "token_count_estimate": 123
+}

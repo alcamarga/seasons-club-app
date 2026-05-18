@@ -1,0 +1,169 @@
+  <style>
+  .menu-page {
+    /* Usamos filter: brightness para aclarar la imagen sin capas negras */
+    background-image: url('/assets/images/pizzeria-app-core.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    /* Ajusta este valor (1.2 es más luz, 0.8 es menos) */
+    filter: brightness(1.1); 
+  }
+  
+  /* Contenedor para que el contenido NO se aclare con el fondo */
+  .content-wrapper { filter: brightness(1) !important; position: relative; z-index: 1; }
+
+  .glass-card { 
+    background: rgba(0, 0, 0, 0.75); /* Tarjeta oscura para que el texto blanco resalte */
+    backdrop-filter: blur(10px); 
+    border: 1px solid rgba(255,255,255,0.2); 
+    border-radius: 20px;
+  }
+</style>
+
+<div class="menu-page">
+  <div class="content-wrapper">
+    <nav class="navbar navbar-dark bg-dark bg-opacity-75 p-3">
+      <div class="container d-flex justify-content-between">
+        <span class="navbar-brand fw-bold text-warning">🍕 Pizzería Core</span>
+        <div class="d-flex gap-2">
+          @if (usuarioActual?.rol === 'admin') {
+            <button class="btn btn-warning btn-sm fw-bold" (click)="irAlDashboard()">📊 Dashboard</button>
+          }
+          @if (estaAutenticado()) {
+            <button class="btn btn-warning btn-sm fw-bold position-relative me-2" (click)="router.navigate(['/resumen'])">
+              🛒 Ver Carrito
+              @if (cartService.totalArticulos() > 0) {
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">
+                  {{ cartService.totalArticulos() }}
+                </span>
+              }
+            </button>
+            <button class="btn btn-outline-warning btn-sm fw-bold me-2" (click)="router.navigate(['/mis-pedidos'])">
+              📋 Mis Pedidos
+            </button>
+            <button class="btn btn-outline-light btn-sm" (click)="auth.cerrarSesion()">Salir</button>
+          } @else {
+            <button class="btn btn-outline-light btn-sm" (click)="router.navigate(['/login'])">Iniciar Sesión</button>
+          }
+        </div>
+      </div>
+    </nav>
+
+    <div class="container py-5 text-center">
+      <!-- Alerta de éxito flotante -->
+      @if (mensajeExito()) {
+        <div class="alert alert-success position-fixed top-0 start-50 translate-middle-x mt-3 shadow-lg border-2 border-success" 
+             style="z-index: 2000; min-width: 300px; animation: fadeInDown 0.4s both;">
+          <div class="d-flex align-items-center justify-content-center gap-2">
+            <span>🎉</span>
+            <span class="fw-bold">{{ mensajeExito() }}</span>
+          </div>
+        </div>
+      }
+
+      <h1 class="display-3 fw-bold mb-5 text-white" style="text-shadow: 0px 4px 10px rgba(0,0,0,0.9)">Nuestro Menú</h1>
+
+      @if (usuarioActual?.rol === 'admin') {
+        @if (mostrarFormulario) {
+          <div class="menu-form bg-dark bg-opacity-75 p-4 rounded border border-warning shadow-lg text-start mx-auto mt-4" style="max-width: 800px; display: inline-block;">
+            <h3 class="text-warning mb-3">✏️ Editar Pizza</h3>
+            
+            <div class="row g-2 align-items-end">
+              <div class="col-md-3">
+                <label class="form-label text-white small mb-1">Nombre</label>
+                <input class="form-control form-control-sm bg-dark text-white border-secondary" [(ngModel)]="nuevaPizza.nombre">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label text-white small mb-1">Descripción</label>
+                <input class="form-control form-control-sm bg-dark text-white border-secondary" [(ngModel)]="nuevaPizza.descripcion">
+              </div>
+              <div class="col-md-3">
+                <label class="form-label text-white small mb-1">Categoría</label>
+                <select class="form-select form-select-sm bg-dark text-white border-secondary" [(ngModel)]="nuevaPizza.categoria">
+                  <option *ngFor="let cat of categoriasPosibles" [value]="cat">{{cat}}</option>
+                </select>
+              </div>
+              
+              <div class="col-md-3" *ngIf="mostrarCampoPrecioForm(1)">
+                <label class="form-label text-warning small mb-1">{{ getEtiquetaPrecioForm(1) }}</label>
+                <input type="number" class="form-control form-control-sm bg-dark text-white border-secondary" [(ngModel)]="nuevaPizza.precio_1" placeholder="$">
+              </div>
+              <div class="col-md-3" *ngIf="mostrarCampoPrecioForm(2)">
+                <label class="form-label text-warning small mb-1">{{ getEtiquetaPrecioForm(2) }}</label>
+                <input type="number" class="form-control form-control-sm bg-dark text-white border-secondary" [(ngModel)]="nuevaPizza.precio_2" placeholder="$">
+              </div>
+              <div class="col-md-3" *ngIf="mostrarCampoPrecioForm(3)">
+                <label class="form-label text-warning small mb-1">{{ getEtiquetaPrecioForm(3) }}</label>
+                <input type="number" class="form-control form-control-sm bg-dark text-white border-secondary" [(ngModel)]="nuevaPizza.precio_3" placeholder="$">
+              </div>
+
+              <div class="col-md-3 d-flex gap-2 ms-auto mt-3">
+                <button class="btn btn-sm btn-success fw-bold w-100" (click)="guardarPizza()">Guardar</button>
+                <button type="button" class="btn btn-sm btn-outline-light w-100" (click)="cancelarFormulario()">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        }
+      }
+      <div class="row g-4 text-start">
+        @for (pizza of pizzas(); track pizza.id) {
+          <div class="col-md-6 col-lg-4">
+            <div class="glass-card p-4 h-100 shadow-lg text-white">
+              <div class="d-flex justify-content-between align-items-center mb-3 border-bottom border-secondary pb-2">
+                <h3 class="text-warning fw-bold h4 mb-0">{{ pizza.nombre }}</h3>
+                @if (usuarioActual?.rol === 'admin') {
+                  <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-outline-info" (click)="modificarPizza(pizza.id)">✏️</button>
+                  </div>
+                }
+              </div>
+              <p class="small opacity-75 mb-2">{{ pizza.descripcion || 'Sin descripción' }}</p>
+
+              <!-- Precio 1 -->
+              <div class="d-flex justify-content-between align-items-center mb-2 p-2 rounded bg-white bg-opacity-10 border border-white border-opacity-10" *ngIf="pizza.precio_1 !== undefined && pizza.precio_1 !== null">
+                <span class="small">{{ getEtiquetasPrecio(pizza.categoria || 'Pizza')[0] }}: <b class="text-warning">${{ pizza.precio_1 | number }}</b></span>
+                @if (usuarioActual?.rol !== 'admin') {
+                  <button class="btn btn-sm transition-all" 
+                          [class.btn-warning]="!agregandoState()[pizza.id + '-' + getEtiquetasPrecio(pizza.categoria || 'Pizza')[0]]"
+                          [class.btn-success]="agregandoState()[pizza.id + '-' + getEtiquetasPrecio(pizza.categoria || 'Pizza')[0]]"
+                          (click)="agregarAlCarrito(pizza, getEtiquetasPrecio(pizza.categoria || 'Pizza')[0], pizza.precio_1 || 0)">
+                    {{ agregandoState()[pizza.id + '-' + getEtiquetasPrecio(pizza.categoria || 'Pizza')[0]] ? '✅ ¡Agregado!' : '🛒 Comprar' }}
+                  </button>
+                }
+              </div>
+
+              <!-- Precio 2 -->
+              <div class="d-flex justify-content-between align-items-center mb-2 p-2 rounded bg-white bg-opacity-10 border border-white border-opacity-10" *ngIf="pizza.precio_2">
+                <span class="small">{{ getEtiquetasPrecio(pizza.categoria || 'Pizza')[1] }}: <b class="text-warning">${{ pizza.precio_2 | number }}</b></span>
+                @if (usuarioActual?.rol !== 'admin') {
+                  <button class="btn btn-sm transition-all" 
+                          [class.btn-warning]="!agregandoState()[pizza.id + '-' + getEtiquetasPrecio(pizza.categoria || 'Pizza')[1]]"
+                          [class.btn-success]="agregandoState()[pizza.id + '-' + getEtiquetasPrecio(pizza.categoria || 'Pizza')[1]]"
+                          (click)="agregarAlCarrito(pizza, getEtiquetasPrecio(pizza.categoria || 'Pizza')[1], pizza.precio_2)">
+                    {{ agregandoState()[pizza.id + '-' + getEtiquetasPrecio(pizza.categoria || 'Pizza')[1]] ? '✅ ¡Agregado!' : '🛒 Comprar' }}
+                  </button>
+                }
+              </div>
+
+              <!-- Precio 3 -->
+              <div class="d-flex justify-content-between align-items-center mb-2 p-2 rounded bg-white bg-opacity-10 border border-white border-opacity-10" *ngIf="pizza.precio_3">
+                <span class="small">{{ getEtiquetasPrecio(pizza.categoria || 'Pizza')[2] }}: <b class="text-warning">${{ pizza.precio_3 | number }}</b></span>
+                @if (usuarioActual?.rol !== 'admin') {
+                  <button class="btn btn-sm transition-all" 
+                          [class.btn-warning]="!agregandoState()[pizza.id + '-' + getEtiquetasPrecio(pizza.categoria || 'Pizza')[2]]"
+                          [class.btn-success]="agregandoState()[pizza.id + '-' + getEtiquetasPrecio(pizza.categoria || 'Pizza')[2]]"
+                          (click)="agregarAlCarrito(pizza, getEtiquetasPrecio(pizza.categoria || 'Pizza')[2], pizza.precio_3)">
+                    {{ agregandoState()[pizza.id + '-' + getEtiquetasPrecio(pizza.categoria || 'Pizza')[2]] ? '✅ ¡Agregado!' : '🛒 Comprar' }}
+                  </button>
+                }
+              </div>
+
+
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

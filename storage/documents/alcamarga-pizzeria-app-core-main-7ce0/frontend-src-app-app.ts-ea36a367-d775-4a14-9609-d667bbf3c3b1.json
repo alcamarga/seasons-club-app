@@ -1,0 +1,13 @@
+{
+    "id": "ea36a367-d775-4a14-9609-d667bbf3c3b1",
+    "url": "github://frontend/src/app/app.ts",
+    "title": "frontend/src/app/app.ts",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/app/app.ts",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=429fc03cb7be9485989336f4b12539e2a11ca5348568b8e83fe90d7b2bb641eaa2ab54601e2c5ce626e41d90dfc439ec3c1114fe1c520408cc66112b3f2efb78cc091cad2a912a32788ac832e8b4010fa69206cd1b03488751a332e422baf47266f436887668d4dd44310c9667f4ce0a1a97124b4fb98536052c5c263b74bdf9781379db58b450b55a297b63ef2b4ec0015703034c6f799cf09ab557640e882d:39cccc9a8ea0afe6a611639be8e696f6",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 39,
+    "pageContent": "import { Component } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { RouterOutlet } from '@angular/router';\n\n@Component({\n  selector: 'app-root',\n  standalone: true,\n  imports: [CommonModule, RouterOutlet],\n  templateUrl: './app.html',\n  styleUrl: './app.css',\n})\nexport class AppComponent {\n  title = 'pizzeria-frontend';\n}\n",
+    "token_count_estimate": 83
+}

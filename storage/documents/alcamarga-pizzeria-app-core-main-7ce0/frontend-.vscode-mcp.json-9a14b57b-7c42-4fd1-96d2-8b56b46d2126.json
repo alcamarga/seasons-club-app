@@ -1,0 +1,13 @@
+{
+    "id": "9a14b57b-7c42-4fd1-96d2-8b56b46d2126",
+    "url": "github://frontend/.vscode/mcp.json",
+    "title": "frontend/.vscode/mcp.json",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/.vscode/mcp.json",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=2c5b402eab0b7d1222c5f86a65a190befa617badd862fe8c0835807e8d99b2f51c7d9821aece6550fa4477590521dd8bdc191cf644860c94f1632a266d5312d928def5a2a51b471fd191534994a1ca6c8b104c84be644469473764f3465f04fb4b3363a7bfb2d714437335a5abc9fa2d5ad90818f769df02234289ef5a7f753fce4eef5af9042f6790388d36c5060e4e35745ee7f59fbe1bef43071d365a1e65:dafed300ebf0193efe5e6bb37a2c1808",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 38,
+    "pageContent": "{\n  // For more information, visit: https://angular.dev/ai/mcp\n  \"servers\": {\n    \"angular-cli\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"@angular/cli\", \"mcp\"]\n    }\n  }\n}\n",
+    "token_count_estimate": 58
+}

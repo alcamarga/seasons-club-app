@@ -1,0 +1,13 @@
+{
+    "id": "97af4ed9-2e58-45e8-b9b2-68f0208103fa",
+    "url": "github://backend/init_db.py",
+    "title": "backend/init_db.py",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "backend/init_db.py",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=a92e4dc699468749423b4e07203851e5958e085380fff03b2f9e21966577007ae1f0b48cdd3a0fefe4c9dc02dc801908b8535f128cf760ea3deb1ef66c820adee4adec0d878efea7d370639429932d5ec3f11ea6592ea225e5172181ca9a07611d53bc08a81b248d430899d3878d16447a7b9a1d770078e54f0f7fb030842ed3683ecaab85cd21756074483e1a2646352cc988a19db703de8928c2d5ac205a44:749085ff6ecd2600db199a2f491eaea3",
+    "published": "4/26/2026, 11:03:35 PM",
+    "wordCount": 23,
+    "pageContent": "from app import db, app\nwith app.app_context():\n    db.create_all()\n    print(\"✅ ¡Tablas creadas con éxito en la base de datos!\")\n",
+    "token_count_estimate": 35
+}

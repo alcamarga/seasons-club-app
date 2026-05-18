@@ -1,0 +1,92 @@
+/* Contenedor adaptado a project_memory.json (fondo oscuro translúcido) | Container adapted to project_memory.json (translucent dark background) */
+.inventario-container {
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 1px solid #d4af37; /* Borde dorado | Gold border */
+  border-radius: 8px;
+  padding: 24px;
+  margin: 20px 0;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.6); /* Sombra difuminada | Soft shadow */
+  color: #f5f5dc; /* Texto crema | Cream text */
+  font-family: 'Inter', 'Roboto', sans-serif;
+}
+
+/* Título superior | Top title */
+.inventario-title {
+  color: #d4af37;
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+/* Envoltura para tabla responsiva | Responsive table wrapper */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+/* Estilos de la tabla central | Core table styles */
+.inventario-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.inventario-table th {
+  padding: 14px 16px;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.5); /* Borde divisor dorado | Gold divider border */
+  color: #d4af37;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+}
+
+.inventario-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  color: #f5f5dc;
+  font-size: 0.95rem;
+}
+
+/* Interacción de filas | Row interactions */
+.inventario-table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.inventario-table tbody tr:hover {
+  background-color: rgba(212, 175, 55, 0.15); /* Efecto hover dorado suave | Soft gold hover */
+}
+
+/* Fila vacía | Empty row */
+.no-data {
+  text-align: center;
+  font-style: italic;
+  color: #aaaaaa;
+  padding: 30px;
+}
+
+/* Etiquetas de alerta visual | Visual alert badges */
+.badge {
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+}
+
+/* Alerta de bajo stock | Low stock alert */
+.badge.danger {
+  background-color: rgba(255, 60, 60, 0.15);
+  color: #ff6b6b;
+  border: 1px solid #ff6b6b;
+  box-shadow: 0 0 8px rgba(255, 107, 107, 0.3);
+}
+
+/* Alerta de stock suficiente | Sufficient stock alert */
+.badge.ok {
+  background-color: rgba(76, 209, 55, 0.15);
+  color: #4cd137;
+  border: 1px solid #4cd137;
+}

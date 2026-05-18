@@ -1,0 +1,73 @@
+<div class="resumen-container">
+  <div class="glass-card shadow-lg p-4">
+    <div class="header mb-4">
+      <h2 class="text-warning fw-bold"><i class="bi bi-cart4"></i> Resumen de tu Pedido</h2>
+      <p class="text-white-50 small">Revisa tus productos antes de confirmar</p>
+    </div>
+
+    @if (!items() || items().length === 0) {
+      <div class="text-center py-5">
+        <div class="empty-icon">🍕</div>
+        <h4 class="text-white mt-3">Tu carrito está vacío</h4>
+        <button class="btn btn-outline-warning mt-3" (click)="volverAlMenu()">Explorar Menú</button>
+      </div>
+    } @else {
+      <div class="items-list scroll-custom">
+        @for (item of items(); track $index) {
+          <div class="item-row d-flex justify-content-between align-items-center p-3 mb-2">
+            <div class="item-info">
+              <h6 class="text-white mb-0">{{ item.nombre }}</h6>
+              <span class="badge bg-secondary opacity-75">{{ item.tamano || 'Estándar' }}</span>
+            </div>
+            
+            <div class="item-controls d-flex align-items-center gap-3">
+              <div class="qty-selector d-flex align-items-center">
+                <button class="btn-qty" (click)="disminuir($index)">-</button>
+                <span class="qty-text">{{ item.cantidad }}</span>
+                <button class="btn-qty" (click)="aumentar($index)">+</button>
+              </div>
+              
+              <div class="price text-end" style="min-width: 100px;">
+                <div class="text-warning fw-bold">${{ (item.precioUnitario * item.cantidad) | number:'1.0-0' }}</div>
+                <div class="text-white-50 x-small">${{ item.precioUnitario | number:'1.0-0' }} c/u</div>
+              </div>
+
+              <button class="btn-remove" (click)="eliminar($index)" title="Quitar item">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="totals-section mt-4 pt-3 border-top border-secondary border-opacity-50">
+        <div class="d-flex justify-content-between text-white mb-2">
+          <span class="text-white-50">Subtotal ({{ totalItems() }} items)</span>
+          <span>${{ total() | number:'1.0-0' }}</span>
+        </div>
+        <div class="d-flex justify-content-between text-white-50 mb-2 small">
+          <span>IVA (19%)</span>
+          <span>${{ iva() | number:'1.0-0' }}</span>
+        </div>
+        <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25">
+          <span class="text-warning fw-bold fs-5">TOTAL</span>
+          <span class="text-warning fw-bold fs-4">${{ totalConIva() | number:'1.0-0' }}</span>
+        </div>
+      </div>
+
+      <div class="actions-grid mt-4 gap-3">
+        <button class="btn btn-confirm py-3 fw-bold" (click)="confirmarPedido()">
+          CONFIRMAR PEDIDO
+        </button>
+        <div class="d-flex gap-2">
+          <button class="btn btn-cancel flex-grow-1" (click)="cancelarPedido()">
+            CANCELAR
+          </button>
+          <button class="btn btn-outline-light flex-grow-1" (click)="volverAlMenu()">
+            SEGUIR COMPRANDO
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</div>

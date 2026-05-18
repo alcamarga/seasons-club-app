@@ -1,0 +1,13 @@
+{
+    "id": "bd327a17-728b-467b-9806-bc53cec3b94d",
+    "url": "github://.cursor-rules/tasks.md",
+    "title": ".cursor-rules/tasks.md",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": ".cursor-rules/tasks.md",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=143432534a73bae3091fdd9b84d74b849c8b4538aa4faec0a8cdea5aa62e4ed9392b69e625c274c0cd0b8a2aba49cb9e1b4c76181c161a0e386e4fb13aa6ea08b0af9fa8a93dfd359e66eb6530c198c434818bdc768f2a5f4a486975c173bd4e8fe255d99b4f4a17d0379dc956982d192952cbedf2f1a4c9c9b6edbeee1e8f3d3a1332ff0f960522d3823b56ab9350964917fd3773702eac5a9f643f5efc4fe6:c493f3180225ee6ea16b632fde582e91",
+    "published": "4/26/2026, 11:03:34 PM",
+    "wordCount": 102,
+    "pageContent": "> **Autor:** Camilo Martinez\n> **Documento:** Roadmap de Tareas\n\n# 🚀 Registro de Tareas (Backlog)\n\n## 🟢 Finalizado (Done)\n- [x] Configuración inicial del entorno Linux.\n- [x] Estructura base del Frontend en Angular.\n- [x] Corrección de errores de Zone.js y Polyfills.\n- [x] Creación del Sistema de Reglas (.cursor-rules).\n- [x] Conexión HttpClient entre Frontend y Backend (`ApiHealthService`, proxy `/api` → Flask :5000, `environment.apiUrl`).\n- [x] Configuración de CORS en el servidor Python (`flask-cors` + cabeceras en `backend/app.py`; origen Angular `:4200` OK en dev).\n\n## 🟡 En Progreso (Doing)\n- _(vacío)_\n\n## 🔴 Pendiente (To Do)\n- [ ] Implementar actualización de estados de pedidos.\n- [ ] Pruebas de integración final.\n\n---\n**Lead Developer:** Camilo",
+    "token_count_estimate": 226
+}

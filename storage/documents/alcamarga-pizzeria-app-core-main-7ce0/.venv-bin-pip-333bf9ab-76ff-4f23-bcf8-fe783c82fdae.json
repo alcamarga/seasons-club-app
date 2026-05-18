@@ -1,0 +1,13 @@
+{
+    "id": "333bf9ab-76ff-4f23-bcf8-fe783c82fdae",
+    "url": "github://.venv/bin/pip",
+    "title": ".venv/bin/pip",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": ".venv/bin/pip",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=860f6a129f52cf940bc8f2ae782039240e0799970cfaa5db47519be9cdbe9574fb8bf1720016ca2b16df829e35d0ae22b41c62909378adac28b325e6ba6f4133f2b44ec95346d9c38145174d5075b7337f272ce4b7e9531de6ca4cdafd906035637f6533d1ab1fe2268bd9a70a4533458ae7401d64acde764c40d5baf69aa39d4459adfb12c6d9185dc02adffb45f396:dd4b8f872a3666a71940af30a5821ba8",
+    "published": "4/26/2026, 11:03:34 PM",
+    "wordCount": 25,
+    "pageContent": "#!/home/camilo/pizzeria-app-core/.venv/bin/python3\n# -*- coding: utf-8 -*-\nimport re\nimport sys\nfrom pip._internal.cli.main import main\nif __name__ == '__main__':\n    sys.argv[0] = re.sub(r'(-script\\.pyw|\\.exe)?$', '', sys.argv[0])\n    sys.exit(main())\n",
+    "token_count_estimate": 80
+}

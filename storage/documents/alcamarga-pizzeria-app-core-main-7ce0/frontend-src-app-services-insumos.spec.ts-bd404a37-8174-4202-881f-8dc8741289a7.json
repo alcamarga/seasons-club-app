@@ -1,0 +1,13 @@
+{
+    "id": "bd404a37-8174-4202-881f-8dc8741289a7",
+    "url": "github://frontend/src/app/services/insumos.spec.ts",
+    "title": "frontend/src/app/services/insumos.spec.ts",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/app/services/insumos.spec.ts",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=82937068df770a78e540e6e2f874df120ff77415899f449483d81c0189906ef08b302a29d04b26688f6e57054f7b590b1247391ec0ef77fbf6e165b9eba7b76c89411ead74cecc803b46dd86761c0d1d7a73fe037af15a37eb2a852b080fbf17c8e5b75ff6508bd7bb537813f11162d089649c1e4def9a9e47ec8c3ff92cd3a232aa8cdcc93ebcaaa2469f5f3e8895f5dc532a729a1ff0fa44d3cb9cda036a114e61ba38d745040df68a37e2132b6c02:b532bc18d9c2d5cbdf6695d41a6e33c2",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 47,
+    "pageContent": "import { TestBed } from '@angular/core/testing';\n\nimport { Insumos } from './insumos';\n\ndescribe('Insumos', () => {\n  let service: Insumos;\n\n  beforeEach(() => {\n    TestBed.configureTestingModule({});\n    service = TestBed.inject(Insumos);\n  });\n\n  it('should be created', () => {\n    expect(service).toBeTruthy();\n  });\n});\n",
+    "token_count_estimate": 78
+}

@@ -1,0 +1,44 @@
+/* Custom styles for the login button */
+.custom-login-btn {
+  background-color: #fff3cd; /* Crema suave */
+  border: 1px solid #d4af37; /* Borde sólido de color oro */
+  border-radius: 8px; /* Esquinas redondeadas */
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+  color: #000000; /* Text color set to black for better contrast */
+}
+
+.custom-login-btn:hover {
+  background-color: #ffe08c; /* Crema más oscuro al pasar el mouse */
+  border-color: #b8860b; /* Borde más oscuro al pasar el mouse */
+  color: #000000; /* Text color set to black for better contrast */
+}
+
+/* Form styles - Dark elegant form on pizza background */
+.glass-card .form-label.text-crema {
+  color: #f5f5dc !important;
+  font-weight: 600;
+}
+
+.glass-card .form-control,
+.glass-card textarea.form-control {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid #d4af37 !important;
+  color: #f5f5dc !important;
+  border-radius: 8px;
+}
+
+.glass-card .form-control:focus,
+.glass-card textarea.form-control:focus {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-color: #d4af37 !important;
+  color: #f5f5dc !important;
+  box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25) !important;
+}
+
+.glass-card .form-control::placeholder,
+.glass-card textarea.form-control::placeholder {
+  color: rgba(245, 245, 220, 0.5);
+}

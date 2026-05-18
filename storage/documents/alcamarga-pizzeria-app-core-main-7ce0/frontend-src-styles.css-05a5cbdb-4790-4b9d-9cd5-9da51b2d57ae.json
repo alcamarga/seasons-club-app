@@ -1,0 +1,13 @@
+{
+    "id": "05a5cbdb-4790-4b9d-9cd5-9da51b2d57ae",
+    "url": "github://frontend/src/styles.css",
+    "title": "frontend/src/styles.css",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/styles.css",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=b88624a2f05b44c5e0a391803e4407af7b10309f280963f6f363d88982f9eea52aa63a04a655b8e888c28d41ff4a9bda9e138ec2a465eb4a2c302fd563d5927d9aa8baf24c955634fe2d85a15f94d41c31ebb95c9cd4ecd01fc32fa0c2cd6ec397468a503cfe3f5384c75d5b16cceee15d01e5ef8d11be077459d20a9982c16d7222ed34a8944485c5daa01fd5018d09cb3c104dd6b4a3f9c48f64c6bf5be5f6:8fcedf0b06c32e862c2b42769a9587e6",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 156,
+    "pageContent": "/* You can add global styles to this file, and also import other style files */\n\nbody, html {\n  height: 100%;\n  margin: 0;\n  font-family: Arial, sans-serif;\n  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('assets/images/pizzeria-app-core.jpg');\n  background-size: cover;\n  background-attachment: fixed;\n  background-position: center;\n  color: #ffffff; /* Text color set to white for better visibility */\n}\n\n.menu-wrapper {\n  min-height: 100vh;\n  color: #ffffff; /* Ensure text in the menu is white */\n}\n\n.navbar-menu {\n  background: rgba(0, 0, 0, 0.7); /* Darker overlay for the navbar */\n  color: #ffffff; /* Text color set to white */\n}\n\n.menu-header {\n  color: #ffffff; /* Ensure text in the menu header is white */\n}\n\n.pizza-card {\n  background: rgba(0, 0, 0, 0.7); /* Darker overlay for the pizza cards */\n  color: #ffffff; /* Ensure text in the pizza cards is white */\n}\n\n.menu-footer {\n  color: #ffffff; /* Ensure text in the footer is white */\n}\n",
+    "token_count_estimate": 284
+}

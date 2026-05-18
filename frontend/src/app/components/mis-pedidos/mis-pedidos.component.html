@@ -1,0 +1,86 @@
+<div class="mis-pedidos-page">
+  <div class="mis-pedidos-container">
+    <div class="header">
+      <h1>🍕 Mis Pedidos</h1>
+      <p>Sigue el rastro de tus pizzas favoritas</p>
+    </div>
+
+    <!-- Cargando -->
+    <div *ngIf="cargando" class="loading">
+      <div class="spinner"></div>
+      <p>Cargando tus pedidos...</p>
+    </div>
+
+    <!-- Sin pedidos -->
+    <div *ngIf="!cargando && pedidos && pedidos.length === 0" class="empty-state">
+      <div style="font-size: 4rem;">🍕</div>
+      <h3>Aún no tienes pedidos</h3>
+      <p>¿Qué tal si pides algo delicioso ahora?</p>
+      <button routerLink="/menu" class="btn-primary">Ver Menú</button>
+    </div>
+
+    <!-- Lista de pedidos -->
+    <div *ngIf="!cargando && pedidos && pedidos.length > 0" class="pedidos-list">
+      <div *ngFor="let pedido of pedidos" class="pedido-card">
+
+        <!-- Encabezado de la tarjeta -->
+        <div class="pedido-header">
+          <span class="pedido-id">Orden #{{ pedido.id }}</span>
+          <span [class]="'badge ' + getBadgeClass(pedido.estado || 'Pendiente')">
+            {{ pedido.estado || 'Pendiente' }}
+          </span>
+        </div>
+
+        <!-- Cuerpo -->
+        <div class="pedido-body">
+
+          <!-- Fecha -->
+          <div class="info-row">
+            <span class="label">📅 Fecha:</span>
+            <span class="value">{{ pedido.fecha_hora || pedido.fecha || '—' }}</span>
+          </div>
+
+          <!-- Artículos del pedido -->
+          <div class="info-row" *ngIf="pedido.articulos && pedido.articulos.length > 0">
+            <span class="label">🛒 Productos:</span>
+            <div class="articulos-mini">
+              <span *ngFor="let art of pedido.articulos" class="articulo-item">
+                <span class="art-cantidad">{{ art.cantidad }}×</span>
+                <span class="art-nombre">{{ art.nombre }}</span>
+                <span class="art-tamano" *ngIf="art.tamano">({{ art.tamano }})</span>
+                <span class="art-precio">${{ art.precio | number:'1.0-0' }}</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Fallback: si no hay articulos pero hay string de pizzas -->
+          <div class="info-row" *ngIf="(!pedido.articulos || pedido.articulos.length === 0) && pedido.pizzas">
+            <span class="label">🛒 Productos:</span>
+            <span class="value">{{ pedido.pizzas }}</span>
+          </div>
+
+          <!-- Desglose fiscal -->
+          <div class="totales-desglose">
+            <div class="info-row subtotal-row">
+              <span class="label">Subtotal:</span>
+              <span class="value">${{ (pedido.total / 1.19) | number:'1.0-0' }}</span>
+            </div>
+            <div class="info-row iva-row">
+              <span class="label">IVA (19%):</span>
+              <span class="value iva">${{ (pedido.total - pedido.total / 1.19) | number:'1.0-0' }}</span>
+            </div>
+            <div class="info-row total-row">
+              <span class="label">💰 Total:</span>
+              <span class="value total">${{ pedido.total | number:'1.0-0' }}</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-actions">
+      <button routerLink="/menu" class="btn-secondary">← Volver al Menú</button>
+    </div>
+  </div>
+</div>

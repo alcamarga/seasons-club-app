@@ -1,0 +1,13 @@
+{
+    "id": "97553a2f-30c6-4b29-90d3-1ec61502628b",
+    "url": "github://.cursor-rules/design.md",
+    "title": ".cursor-rules/design.md",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": ".cursor-rules/design.md",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=36bbfee7dfeb2c341ac420cb4945738406fc9e3626475fe6cde98c1a563efa0d10ebea8d690e0d4f981a23a77c4d18c107a1825b2676a2abed6f57b6ef46dcdf366dbb71504dbb3688ed0d5a43a4e1d6c4fb27192302d1e537a9462f731007b46fc4e51503ae190e75ea01608c2e0a51b7020aac7befc30d8a758773418867079dcd5648dfee929e10b481251b96badc0df11a8fa68ff71934a4c3aebd1c555d:b9d6d1018b59c9b03c4c50de970e8a9c",
+    "published": "4/26/2026, 11:03:34 PM",
+    "wordCount": 95,
+    "pageContent": "> **Autor:** Camilo Martinez\n> **Documento:** Guía de Estilo y UX\n\n# 🎨 Estándares de Diseño\n\n## 1. Identidad Visual\n- **Paleta de Colores:** Basada en Pizzería (Rojos #FF0000, Naranjas, Blancos).\n- **Tipografía:** Limpia y legible (Sans-serif).\n\n## 2. Componentes UI (Bootstrap 5)\n- **Tablas:** Siempre con la clase `table table-striped table-hover`.\n- **Botones:** Usar clases semánticas (`btn-primary` para acciones principales, `btn-danger` para cancelar).\n- **Responsividad:** Todo debe verse bien en móviles y tablets de cocina.\n\n## 3. UX (Experiencia de Usuario)\n- Los mensajes de error deben ser amigables.\n- Siempre mostrar un \"spinner\" o mensaje de carga mientras se obtienen datos del API.\n\n---\n**Lead Developer:** Camilo",
+    "token_count_estimate": 209
+}

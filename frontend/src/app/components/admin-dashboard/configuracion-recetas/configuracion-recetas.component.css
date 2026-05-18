@@ -1,0 +1,182 @@
+.recipe-config-container {
+  padding: 1rem;
+}
+
+.header h2 {
+  color: #d4af37;
+  text-transform: uppercase;
+}
+
+.main-layout {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+  min-height: 500px;
+}
+
+.sidebar {
+  background: rgba(30, 30, 30, 0.5);
+  border-radius: 10px;
+  padding: 1rem;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.pizza-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.pizza-list li {
+  padding: 0.8rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+
+.pizza-list li:hover {
+  background: rgba(212, 175, 55, 0.1);
+}
+
+.pizza-list li.active {
+  background: rgba(212, 175, 55, 0.2);
+  border-left: 4px solid #d4af37;
+}
+
+.category {
+  font-size: 0.7rem;
+  color: #888;
+  text-transform: uppercase;
+}
+
+.editor {
+  background: rgba(20, 20, 20, 0.5);
+  border-radius: 10px;
+  padding: 2rem;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.editor-header h3 span {
+  color: #d4af37;
+}
+
+.recipe-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.recipe-table th {
+  text-align: left;
+  color: #d4af37;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.recipe-table td {
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.qty-input {
+  width: 80px;
+  background: #111;
+  border: 1px solid #444;
+  color: #fff;
+  padding: 0.3rem;
+  border-radius: 5px;
+}
+
+.btn-delete {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.add-ingredient {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.add-form {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.add-form select, .add-form input {
+  background: #111;
+  border: 1px solid #444;
+  color: #fff;
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+
+.add-form button {
+  background: #d4af37;
+  color: #000;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-save {
+  background: #2ecc71;
+  color: #fff;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.no-selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+}
+
+.size-selector-container {
+  background: rgba(212, 175, 55, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.size-selector-container label {
+  font-weight: bold;
+  color: #d4af37;
+}
+
+.size-select {
+  background: #2a2a2a;
+  color: #fff;
+  border: 1px solid #444;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+
+.size-select:focus {
+  border-color: #d4af37;
+}

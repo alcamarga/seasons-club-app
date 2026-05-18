@@ -1,0 +1,13 @@
+{
+    "id": "8ee3cfeb-5c52-47db-af89-3ac913dd3a2f",
+    "url": "github://scratch/check_db.py",
+    "title": "scratch/check_db.py",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "scratch/check_db.py",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=1823d83beaec374f2853b87117ad0fb6dcf4df411999bf28cd8a6d64d2fe2dbf566df10d5a7aa6fecb452c1279625fd89314b56816773f1f26704efe5c2bb6e71bcd0c4ad2a35f59f9f4c2be348e328c005d23baf1aa9053fe81182774ba65d5448954b07acf01c84a98a430cccb85b3b60552d9ea3c6d1889515640dc254c3245258866895adf62d96da3325b6b95814a2244516ce2fd4f4a30db9719a02314:125b9013afce32c2a462bbe5de8b39d9",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 58,
+    "pageContent": "import sqlite3\nimport os\n\ndb_path = 'backend/pizzeria_core.db'\nif os.path.exists(db_path):\n    conn = sqlite3.connect(db_path)\n    cursor = conn.cursor()\n    cursor.execute(\"SELECT id, nombre, email FROM usuarios\")\n    rows = cursor.fetchall()\n    for row in rows:\n        print(row)\n    conn.close()\nelse:\n    print(\"DB not found\")\n",
+    "token_count_estimate": 82
+}

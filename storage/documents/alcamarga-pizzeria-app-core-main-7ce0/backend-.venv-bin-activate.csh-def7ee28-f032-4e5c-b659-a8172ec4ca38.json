@@ -1,0 +1,13 @@
+{
+    "id": "def7ee28-f032-4e5c-b659-a8172ec4ca38",
+    "url": "github://backend/.venv/bin/activate.csh",
+    "title": "backend/.venv/bin/activate.csh",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "backend/.venv/bin/activate.csh",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=5d3b73f683fc5340cbe45ef1497bd3de2ea24fb8761f1b69b39f78b58be5418e0095e12b1c972a1c983f5f8621914a2da63aacbf05ebc8acd62a8b7948e21301ead4a32c7139327765bc3b5d31c07f2fe59c9cfa6c94d749cfbaa8d1feb819273e86aefd5f9da8e2da007f25f64706b66b994492de1ac8ae6e15b22e0a60e1fbd65bc95515f795cf45b2e1abd1a23c5bdc454d5e078069cf4ac8f67d25b972a2:0c1a16e85299013e90b39cc26b5d1aea",
+    "published": "4/26/2026, 11:03:35 PM",
+    "wordCount": 97,
+    "pageContent": "# This file must be used with \"source bin/activate.csh\" *from csh*.\n# You cannot run it directly.\n\n# Created by Davide Di Blasi <davidedb@gmail.com>.\n# Ported to Python 3.3 venv by Andrew Svetlov <andrew.svetlov@gmail.com>\n\nalias deactivate 'test $?_OLD_VIRTUAL_PATH != 0 && setenv PATH \"$_OLD_VIRTUAL_PATH\" && unset _OLD_VIRTUAL_PATH; rehash; test $?_OLD_VIRTUAL_PROMPT != 0 && set prompt=\"$_OLD_VIRTUAL_PROMPT\" && unset _OLD_VIRTUAL_PROMPT; unsetenv VIRTUAL_ENV; unsetenv VIRTUAL_ENV_PROMPT; test \"\\!:*\" != \"nondestructive\" && unalias deactivate'\n\n# Unset irrelevant variables.\ndeactivate nondestructive\n\nsetenv VIRTUAL_ENV /home/camilo/pizzeria-app-core/backend/.venv\n\nset _OLD_VIRTUAL_PATH=\"$PATH\"\nsetenv PATH \"$VIRTUAL_ENV/\"bin\":$PATH\"\n\n\nset _OLD_VIRTUAL_PROMPT=\"$prompt\"\n\nif (! \"$?VIRTUAL_ENV_DISABLE_PROMPT\") then\n    set prompt = '(.venv) '\"$prompt\"\n    setenv VIRTUAL_ENV_PROMPT '(.venv) '\nendif\n\nalias pydoc python -m pydoc\n\nrehash\n",
+    "token_count_estimate": 272
+}

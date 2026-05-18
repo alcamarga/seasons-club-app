@@ -1,0 +1,13 @@
+{
+    "id": "8470672e-999b-4122-be79-bef57595d037",
+    "url": "github://agents-hub/config.json",
+    "title": "agents-hub/config.json",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "agents-hub/config.json",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=3bd5d5bbf7de3bc908611e71966dc611096f18d677af38d25a20111eb97105c7b082c01e809a8902329e5964f2a25ec2a3d3afcbad0f67fa161a7adb5eea8790e474289b229a610eb2d9914e54cbe879e0bfd08617534b1166709c69b38240dcecb2b76c91b0a33c98438a72053cfbe6eaf9b49e2c01a946a247a3dabb92b9c7696027cc8584c2c1a08cb63a9e54c42ac7c2754e89cad051f1a32d69dee4d8bb:b259623192abc3b599db494ab4ff3b2a",
+    "published": "4/26/2026, 11:03:35 PM",
+    "wordCount": 401,
+    "pageContent": "-{\n    \"metadata\": {\n      \"agent_id\": \"Pizzeria-Orchestrator-V1\",\n      \"author\": \"Milo [Camilo Martinez]\",\n      \"project\": \"Pizzeria-Core-Global\",\n      \"license\": \"Personal-Proprietary\",\n      \"date\": \"2026-04-18\"\n    },\n    \"project_name\": \"Pizzería Core\",\n    \"agents\": [\n      {\n        \"id\": \"logic_master\",\n        \"name\": \"Agente de Lógica y Sincronización\",\n        \"role\": \"Especialista en TypeScript y Angular\",\n        \"priority_files\": [\n          \"frontend/src/app/services/\",\n          \"frontend/src/app/components/\",\n          \"frontend/src/app/interceptors/\"\n        ],\n        \"rules\": [\n          \"Mantener nombres de funciones en español (ej: cerrarSesion, obtenerPizzas).\",\n          \"Verificar que cada cambio en un Service se refleje en los Components que lo inyectan.\",\n          \"Asegurar que los errores TS2339 se resuelvan sincronizando el archivo .ts con el .html.\"\n        ]\n      },\n      {\n        \"id\": \"inventory_guard\",\n        \"name\": \"InventoryGuard\",\n        \"role\": \"Gestor de Materias Primas e Insumos\",\n        \"priority_files\": [\n          \"frontend/src/app/models/insumo.model.ts\",\n          \"backend/models/inventario.py\"\n        ]\n      },\n      {\n        \"id\": \"billing_scribe\",\n        \"name\": \"BillingScribe\",\n        \"role\": \"Contabilidad y Procesamiento de Pagos\",\n        \"priority_files\": [\n          \"frontend/src/app/services/factura.service.ts\",\n          \"backend/routes/pagos.py\"\n        ]\n      }\n    ]\n  }",
+    "token_count_estimate": 377
+}

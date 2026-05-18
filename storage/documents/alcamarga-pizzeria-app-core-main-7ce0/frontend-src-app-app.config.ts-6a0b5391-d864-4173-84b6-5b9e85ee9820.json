@@ -1,0 +1,13 @@
+{
+    "id": "6a0b5391-d864-4173-84b6-5b9e85ee9820",
+    "url": "github://frontend/src/app/app.config.ts",
+    "title": "frontend/src/app/app.config.ts",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/app/app.config.ts",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=01ce6e247495d0c3219e59c834fc0a5b6a3cd75b70106d8934d68ed4dcf77e9ba3b4a23e62787dbb1ebbec7b3aa2fdecc9a86f93e1a44cc969b63bfc0ff4799fba9841965de53396e9414d779145d1bd51b0ed58c1d9790ed44b63fbd5f3814cb621bc104e8234ec0a106d0ea6a2858e69c00445ba28143ccbb11a7618c2c5b32241594e40663e5033dfd4274f679284cf395c585321d29e381f10a2d910a81e:13bcf6ef163cc94e72a70513ff9e894e",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 75,
+    "pageContent": "import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';\nimport { provideRouter } from '@angular/router';\nimport { provideHttpClient, withInterceptors } from '@angular/common/http';\n\nimport { routes } from './app.routes';\nimport { authInterceptor } from './interceptors/auth.interceptor';\n\nexport const appConfig: ApplicationConfig = {\n  providers: [\n    // Coalescing de eventos de zona para mejor rendimiento en dev | Zone event coalescing for better dev performance\n    provideZoneChangeDetection({ eventCoalescing: true }),\n    provideRouter(routes),\n    provideHttpClient(withInterceptors([authInterceptor])),\n  ],\n};",
+    "token_count_estimate": 132
+}

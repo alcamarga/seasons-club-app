@@ -1,0 +1,13 @@
+{
+    "id": "3eeecc5a-3893-4c41-9102-73c2636ec89f",
+    "url": "github://frontend/.vscode/tasks.json",
+    "title": "frontend/.vscode/tasks.json",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/.vscode/tasks.json",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=b1cdacbf600ef174d84d7199131cf5def1abbffed8d776051b0342e675fc4715cc5bd309c63340de26b9f132b3e82633787d5d6eb0396f9110407ea97914882bb89c9a46b498c45cfc42d594b3a7ee39093e7b19d6c936f30bb8d1b158608952910db1c4b89d1ffebc833df7d58ab510853075404f357fe0cf792f6e43f6cd9acc75f684e8758af43ea6eea026f624cb861a74e82095f7f463a59e9a8da45887:de283ce37f4b1ed1733dfd78976d7669",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 334,
+    "pageContent": "{\n  // For more information, visit: https://go.microsoft.com/fwlink/?LinkId=733558\n  \"version\": \"2.0.0\",\n  \"tasks\": [\n    {\n      \"type\": \"npm\",\n      \"script\": \"start\",\n      \"isBackground\": true,\n      \"problemMatcher\": {\n        \"owner\": \"typescript\",\n        \"pattern\": \"$tsc\",\n        \"background\": {\n          \"activeOnStart\": true,\n          \"beginsPattern\": {\n            \"regexp\": \"Changes detected\"\n          },\n          \"endsPattern\": {\n            \"regexp\": \"bundle generation (complete|failed)\"\n          }\n        }\n      }\n    },\n    {\n      \"type\": \"npm\",\n      \"script\": \"test\",\n      \"isBackground\": true,\n      \"problemMatcher\": {\n        \"owner\": \"typescript\",\n        \"pattern\": \"$tsc\",\n        \"background\": {\n          \"activeOnStart\": true,\n          \"beginsPattern\": {\n            \"regexp\": \"Changes detected\"\n          },\n          \"endsPattern\": {\n            \"regexp\": \"bundle generation (complete|failed)\"\n          }\n        }\n      }\n    }\n  ]\n}\n",
+    "token_count_estimate": 240
+}

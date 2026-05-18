@@ -1,0 +1,163 @@
+<div class="rentabilidad-container p-4">
+
+  <!-- Encabezado -->
+  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+    <h2 class="text-gold mb-0">📊 Análisis de Rentabilidad</h2>
+    
+    <div class="d-flex align-items-center gap-3">
+      <div class="size-filter d-flex align-items-center gap-2">
+        <label class="text-white-50 small mb-0">Ver tamaño:</label>
+        <select class="form-select form-select-sm bg-dark text-white border-gold" 
+                [(ngModel)]="tamanoSeleccionado" 
+                (change)="cambiarTamano()" 
+                style="width: 140px; cursor: pointer;">
+          <option *ngFor="let t of tamanos" [value]="t">{{ t }}</option>
+        </select>
+      </div>
+
+      <button class="btn btn-outline-warning btn-sm fw-bold" (click)="cargar()" [disabled]="cargando()">
+        @if (cargando()) { ⏳ Cargando... } @else { 🔄 Actualizar }
+      </button>
+    </div>
+  </div>
+
+  <!-- Error -->
+  @if (error()) {
+    <div class="alert alert-danger">{{ error() }}</div>
+  }
+
+  <!-- Cargando -->
+  @if (cargando()) {
+    <div class="text-center py-5">
+      <div class="spinner-border text-warning" role="status"></div>
+      <p class="text-white-50 mt-3">Calculando costos y márgenes...</p>
+    </div>
+  }
+
+  @if (!cargando() && !error()) {
+
+    <!-- ===== CARDS DE RESUMEN ===== -->
+    @if (resumen()) {
+      <div class="row g-3 mb-4">
+
+        <!-- Más rentable -->
+        <div class="col-md-4">
+          <div class="summary-card summary-green">
+            <div class="summary-icon">🏆</div>
+            <div class="summary-body">
+              <div class="summary-label">Más Rentable</div>
+              <div class="summary-value">{{ resumen()!.mas_rentable?.nombre || '—' }}</div>
+              <div class="summary-sub text-success fw-bold">
+                {{ resumen()!.mas_rentable?.margen_porcentaje || 0 }}% margen
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mayor costo -->
+        <div class="col-md-4">
+          <div class="summary-card summary-red">
+            <div class="summary-icon">⚠️</div>
+            <div class="summary-body">
+              <div class="summary-label">Mayor Costo de Producción</div>
+              <div class="summary-value">{{ resumen()!.mayor_costo?.nombre || '—' }}</div>
+              <div class="summary-sub text-danger fw-bold">
+                ${{ resumen()!.mayor_costo?.costo_produccion || 0 | number:'1.0-0' }} / unidad
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ganancia total estimada -->
+        <div class="col-md-4">
+          <div class="summary-card summary-gold">
+            <div class="summary-icon">💰</div>
+            <div class="summary-body">
+              <div class="summary-label">Ganancia Total Estimada</div>
+              <div class="summary-value text-warning">
+                ${{ resumen()!.ganancia_total_estimada | number:'1.0-0' }}
+              </div>
+              <div class="summary-sub text-white-50">
+                Basado en pedidos entregados
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    }
+
+    <!-- ===== TABLA DE PRODUCTOS ===== -->
+    <div class="card bg-dark-glass border-gold">
+      <div class="table-responsive">
+        <table class="table table-dark table-hover mb-0 align-middle">
+          <thead>
+            <tr class="text-gold border-gold">
+              <th>Producto</th>
+              <th>Categoría</th>
+              <th class="text-end">Costo Prod.</th>
+              <th class="text-end">Precio Venta</th>
+              <th class="text-end">Ganancia</th>
+              <th style="min-width: 180px;">Margen</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (p of productosFiltrados(); track p.id + '-' + p.tamano) {
+
+              <tr [ngClass]="claseMargen(p.margen_porcentaje)">
+                <td class="fw-bold text-white">{{ p.nombre }}</td>
+                <td>
+                  <span class="badge bg-secondary">{{ p.categoria }}</span>
+                </td>
+                <td class="text-end text-white-50">${{ p.costo_produccion | number:'1.0-0' }}</td>
+                <td class="text-end text-white">${{ p.precio_venta | number:'1.0-0' }}</td>
+                <td class="text-end fw-bold"
+                    [class.text-success]="p.ganancia > 0"
+                    [class.text-danger]="p.ganancia <= 0">
+                  ${{ p.ganancia | number:'1.0-0' }}
+                </td>
+                <td>
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="progress flex-grow-1" style="height: 8px; background: rgba(255,255,255,0.1);">
+                      <div class="progress-bar"
+                           [ngClass]="claseBarra(p.margen_porcentaje)"
+                           [style.width]="anchoBarra(p.margen_porcentaje)">
+                      </div>
+                    </div>
+                    <span class="margen-label fw-bold"
+                          [class.text-success]="p.margen_porcentaje >= 50"
+                          [class.text-warning]="p.margen_porcentaje >= 30 && p.margen_porcentaje < 50"
+                          [class.text-danger]="p.margen_porcentaje < 30">
+                      {{ p.margen_porcentaje }}%
+                    </span>
+                  </div>
+                </td>
+              </tr>
+            }
+            @if (productosFiltrados().length === 0) {
+              <tr>
+                <td colspan="6" class="text-center text-muted py-4">
+                  No hay productos con receta configurada.
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Leyenda -->
+    <div class="leyenda mt-3 d-flex gap-3 flex-wrap">
+      <span class="leyenda-item">
+        <span class="dot bg-success"></span> Margen alto (≥ 50%)
+      </span>
+      <span class="leyenda-item">
+        <span class="dot bg-warning"></span> Margen medio (30–49%)
+      </span>
+      <span class="leyenda-item">
+        <span class="dot bg-danger"></span> Margen bajo (&lt; 30%) — revisar precio o receta
+      </span>
+    </div>
+
+  }
+</div>

@@ -1,0 +1,13 @@
+{
+    "id": "70bb4503-1127-4e9a-80f1-0bd8a27a67b6",
+    "url": "github://frontend/src/environments/environment.prod.ts",
+    "title": "frontend/src/environments/environment.prod.ts",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/environments/environment.prod.ts",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=3d549b3a639c7e3d34f02ba1cb1c8a7d30fcd2c64858bd7b56bc22433f220d161d826630ee4028e388f1acb96b546c6134b3e0d9e9f6607bf9c5db3ed49beeb7ef48ca546f36f55c03ad697443ebf20ce70010d5d77bc9bdcb9e814ee02eecedc23b0816e1c6e11c817d40be8382a27aa24962f28e8d4a86abbfd68e05b7a27428d63070537c0d8ca8b211dd90e1a90b933585ec1996c8e9558a8ed7e403b875169e052277b79b86d6a103d39cc765d7:4cbc010f4e80888293a615b33ffafedc",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 28,
+    "pageContent": "// Producción: sustituir por la URL real del API desplegado | Production: replace with deployed API base URL\nexport const environment = {\n  produccion: true,\n  apiUrl: '/api',\n};\n",
+    "token_count_estimate": 44
+}

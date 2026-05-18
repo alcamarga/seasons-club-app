@@ -1,0 +1,13 @@
+{
+    "id": "ed499050-ac5f-493d-ae59-62a0f2029c31",
+    "url": "github://frontend/src/app/components/menu/menu.component.css",
+    "title": "frontend/src/app/components/menu/menu.component.css",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/app/components/menu/menu.component.css",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=ca65c44b49ed07e3eb808e7eb4fb763480bed88323f44f26b7919765269fe9c3f158b0a1d468d70f4060f0affbd42c8a5c80e70ab7e4e3f1dd66f645eab1f59da3caaacb51c967884fa573b345e99d2935f96d434a6dc961f12d23b1173526a6f13aae580094c22c816ed92bb11f601d657ed666b3c4da8e1664d942184f2090154675305f9fc95f1f953fad1ce4270362e6f36c58be07c3da81f4a6481d8976aa897c127fbfa152e831da3dddcc73107f17df581e314b5c3a3ce70ac9d50f26:22f91ed843d84bf57132fd1073bfa51d",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 182,
+    "pageContent": "/* Custom styles for the login button */\n.custom-login-btn {\n  background-color: #fff3cd; /* Crema suave */\n  border: 1px solid #d4af37; /* Borde sólido de color oro */\n  border-radius: 8px; /* Esquinas redondeadas */\n  padding: 8px 16px;\n  font-size: 16px;\n  cursor: pointer;\n  transition: background-color 0.3s, border-color 0.3s;\n  color: #000000; /* Text color set to black for better contrast */\n}\n\n.custom-login-btn:hover {\n  background-color: #ffe08c; /* Crema más oscuro al pasar el mouse */\n  border-color: #b8860b; /* Borde más oscuro al pasar el mouse */\n  color: #000000; /* Text color set to black for better contrast */\n}\n\n/* Form styles - Dark elegant form on pizza background */\n.glass-card .form-label.text-crema {\n  color: #f5f5dc !important;\n  font-weight: 600;\n}\n\n.glass-card .form-control,\n.glass-card textarea.form-control {\n  background: rgba(255, 255, 255, 0.1) !important;\n  border: 1px solid #d4af37 !important;\n  color: #f5f5dc !important;\n  border-radius: 8px;\n}\n\n.glass-card .form-control:focus,\n.glass-card textarea.form-control:focus {\n  background: rgba(255, 255, 255, 0.15) !important;\n  border-color: #d4af37 !important;\n  color: #f5f5dc !important;\n  box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25) !important;\n}\n\n.glass-card .form-control::placeholder,\n.glass-card textarea.form-control::placeholder {\n  color: rgba(245, 245, 220, 0.5);\n}\n",
+    "token_count_estimate": 435
+}

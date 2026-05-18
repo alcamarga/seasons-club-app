@@ -1,0 +1,13 @@
+{
+    "id": "9ac3681d-3494-4a4f-a4aa-2a225bd8a4c6",
+    "url": "github://frontend/src/app/interceptors/auth.interceptor.ts",
+    "title": "frontend/src/app/interceptors/auth.interceptor.ts",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/app/interceptors/auth.interceptor.ts",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=05ab84262453c166baa4d5499cdcf22cbf2e5fd85819b277ac7774349efdcbdb15bf959a05e70dd183310fbb4ec56b0d7620d3f44d4d2684656eacbf174a4108dd7a967879894006b174baa27ddf0713817c80823c173380203ba6f66f0af9ba93e3d2ffd84f51e8a779a721c863b6691c53ba558504726089e1902d195f06a1b8e3d1aeed4e2f19fb8a04856808246b84ad446e0ae59c491873da02fe388d486b074ee564a59843be4496fde23fcc56:35e31d933c89164b6ce728df0713e873",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 275,
+    "pageContent": "// Interceptor HTTP para inyectar el JWT y manejar errores 401.\n// Autor: Camilo Martinez\n// Fecha: 21/03/2026\n\nimport { inject } from '@angular/core';\nimport {\n  HttpInterceptorFn,\n  HttpRequest,\n  HttpHandlerFn,\n  HttpEvent,\n  HttpErrorResponse\n} from '@angular/common/http';\nimport { Observable, throwError } from 'rxjs';\nimport { catchError } from 'rxjs/operators';\nimport { AuthService } from '../services/auth.service';\n\n// Interceptor funcional (Angular 17+ standalone, sin clase)\n// Functional interceptor (Angular 17+ standalone, no class)\nexport const authInterceptor: HttpInterceptorFn = (\n  req: HttpRequest<unknown>,\n  next: HttpHandlerFn\n): Observable<HttpEvent<unknown>> => {\n  const authService = inject(AuthService);\n  const token: string | null = authService.obtenerTokenAcceso();\n  \n  if (token) {\n    console.log(`[AuthInterceptor] Token enviado para ${req.url}:`, token.substring(0, 20) + '...');\n  } else {\n    console.warn(`[AuthInterceptor] No hay token para la petición a:`, req.url);\n  }\n\n  // Clonar la petición e inyectar el header Authorization si hay token\n  const peticionAutenticada: HttpRequest<unknown> = token\n    ? req.clone({\n        setHeaders: { Authorization: 'Bearer ' + token }\n      })\n    : req;\n\n  return next(peticionAutenticada).pipe(\n    catchError((error: HttpErrorResponse) => {\n      // Si el backend responde 401, la sesión expiró o el token es inválido\n      // If backend responds 401, session expired or token is invalid\n      if (error.status === 401) {\n        console.error('[AuthInterceptor] Error 401 Detectado - Expulsando usuario...');\n        authService.expulsarUsuario();\n      }\n      return throwError(() => error);\n    })\n  );\n};\n",
+    "token_count_estimate": 416
+}

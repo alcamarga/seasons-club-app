@@ -1,0 +1,13 @@
+{
+    "id": "1a93e488-16f0-4aba-873f-2c6a45502c80",
+    "url": "github://frontend/src/app/services/order.service.ts",
+    "title": "frontend/src/app/services/order.service.ts",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/app/services/order.service.ts",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=4bdece58d924f5fdaf246306c1177edb13f7e2620b9d2e763488611ec8903e3019b4f74a06d011ff8ec2d78b30580f755099957e243fd76431f098a8e82fe587c88742e1ac8f72af0150994d5d5b508057e4e272134bb3dfa9b2645e131486eeb4bbb938047eedf78c4e7ed01551f687416235912d097284ff8035c5ea0db2d902248a93689fbb5ced448fd845b6fcb218f950ef434c1ca1ae04dd2e0931011d046dd626930be50fb5d59f267bcb49a8:7ce81592caa3f8653af8d8b447ed0694",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 132,
+    "pageContent": "import { Injectable, inject } from '@angular/core';\nimport { HttpClient } from '@angular/common/http';\nimport { Observable } from 'rxjs';\nimport { environment } from '../../environments/environment';\n\nexport interface ItemPedido {\n  nombre: string;\n  tamano: string;\n  cantidad: number;\n  precio: number;\n}\n\nexport interface Pedido {\n  id: number;\n  usuario_id: number;\n  fecha_hora: string;\n  subtotal: number;\n  iva: number;\n  total: number;\n  estado: string;\n  articulos: ItemPedido[];\n}\n\n@Injectable({ providedIn: 'root' })\nexport class OrderService {\n  private http = inject(HttpClient);\n  private apiUrl = `${environment.apiUrl}/pedidos`;\n\n  // Listar pedidos (filtra automáticamente en el backend por token)\n  obtenerPedidos(): Observable<{ pedidos: Pedido[] }> {\n    return this.http.get<{ pedidos: Pedido[] }>(this.apiUrl);\n  }\n\n  // Actualizar estado (solo para admin)\n  actualizarEstado(id: number, estado: string): Observable<any> {\n    return this.http.patch(`${this.apiUrl}/${id}/estado`, { estado });\n  }\n}\n",
+    "token_count_estimate": 241
+}

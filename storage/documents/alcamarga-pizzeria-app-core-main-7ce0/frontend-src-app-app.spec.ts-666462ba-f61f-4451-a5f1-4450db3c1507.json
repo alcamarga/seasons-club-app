@@ -1,0 +1,13 @@
+{
+    "id": "666462ba-f61f-4451-a5f1-4450db3c1507",
+    "url": "github://frontend/src/app/app.spec.ts",
+    "title": "frontend/src/app/app.spec.ts",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/app/app.spec.ts",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=3aed9b7765b24723ecd2c3e13870a7e846a608d4125abed1a0697aa3108a7d4c0e07a74547b5c3aaee3150f7497cd3fde4fa302d254d9c6942bee372f97481504eba6496fb0fd8d2fa9ab65e2bb28153489390be3305d3075fc40375629e6bdc687295b22e5545cb4c71d96d292335a8c7e3b78613d982235c245066ebf7591597764e17dcee4bee3af4607a233aabf11e23a6a0a0b73abadccd60738f7f605f:4cf3632cb04179a6641aadfd68c6815d",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 213,
+    "pageContent": "import { TestBed } from '@angular/core/testing';\nimport { of } from 'rxjs';\n\nimport { AppComponent } from './app';\nimport { ApiHealthService } from './services/api-health.service';\n\ndescribe('AppComponent', () => {\n  beforeEach(async () => {\n    await TestBed.configureTestingModule({\n      imports: [AppComponent],\n      providers: [\n        {\n          provide: ApiHealthService,\n          useValue: {\n            obtenerSalud: () =>\n              of({ status: 'ok', service: 'Pizzeria App Core API' }),\n          },\n        },\n      ],\n    }).compileComponents();\n  });\n\n  it('should create the app', () => {\n    const fixture = TestBed.createComponent(AppComponent);\n    const app = fixture.componentInstance;\n    expect(app).toBeTruthy();\n  });\n\n  it('should render pizzeria title', async () => {\n    const fixture = TestBed.createComponent(AppComponent);\n    fixture.detectChanges();\n    await fixture.whenStable();\n    const compiled = fixture.nativeElement as HTMLElement;\n    expect(compiled.querySelector('h1')?.textContent).toContain('Pizzería Core');\n  });\n});\n",
+    "token_count_estimate": 219
+}

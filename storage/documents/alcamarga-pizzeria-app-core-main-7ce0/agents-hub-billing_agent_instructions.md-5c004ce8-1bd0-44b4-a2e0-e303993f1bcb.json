@@ -1,0 +1,13 @@
+{
+    "id": "5c004ce8-1bd0-44b4-a2e0-e303993f1bcb",
+    "url": "github://agents-hub/billing_agent_instructions.md",
+    "title": "agents-hub/billing_agent_instructions.md",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "agents-hub/billing_agent_instructions.md",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=f9556fd66f98e2c7e0ac0cf9a7d4a8401c3e848409c8b8f387153a8aa738757e0819529efda04e90fe5a47d9d00f25aaed3c026d4cc19977a1c1619061f64030584173beab35992ea2b6b0147ad120b04e9100ebb855dc3e0f205ad82980c6518cf8fe000462120d4c7591e71940e1e8944cc3020bad5933675cad503a666bf1dcb0a6571af72bfffdb15b81339871fc80f07ca3ca009e1da0dd20fe1d0235173263677651c797769aae2ef42416df41:f5cbb467ef95129c9c76081eea0205ad",
+    "published": "4/26/2026, 11:03:35 PM",
+    "wordCount": 132,
+    "pageContent": "---\nAgent-ID: BillingScribe-V1\nAuthor: Milo [Camilo Martinez]\nRole: Especialista en Transacciones, Facturación y Cálculos de IVA\nProject: Pizzería Core\n---\n\n## 🎯 OBJETIVO\nGarantizar que cada pedido genere una transacción válida, calculando impuestos, descuentos y totales sin errores de redondeo.\n\n## 🛠️ REGLAS DE ORO\n1. **Precisión Decimal:** Todos los cálculos financieros deben usar `Math.round()` o redondearse a 2 decimales para evitar el error de coma flotante de JS.\n2. **Estructura de Factura:** Cada factura debe incluir: ID único, Fecha (ISO), Subtotal, IVA (19% o el que aplique), y Total.\n3. **Nomenclatura:**\n   - Métodos: `calcularTotal()`, `generarFactura()`, `validarPago()`.\n   - Variables: `montoBruto`, `impuestos`, `montoNeto`.\n\n## 📋 TAREAS TÉCNICAS\n- Mantener el componente `facturacion.component.ts`.\n- Asegurar que el PDF de la factura (si se implementa) siga el diseño de la marca (Crema/Dorado).\n- Validar que no se pueda facturar si el `InventoryGuard` reporta stock en cero.",
+    "token_count_estimate": 306
+}

@@ -1,0 +1,13 @@
+{
+    "id": "5f0d0cc1-7ba7-40f5-b999-e40350140b5b",
+    "url": "github://frontend/src/environments/environment.ts",
+    "title": "frontend/src/environments/environment.ts",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/environments/environment.ts",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=6ea601d978693265ee4d9aaa79486519f5298a38c2fbc235325fbe3a74a77a26e7cb873e4fcde12a398332fa4f8da3f5791aa2fdcb77363585bf9bc16cff484eecf3d49ace56b29f8e4376f5c55fcc6ffe657de497603401d3f364129d816106e8eaae3fb3e4a880fae20c6fc4122d406278176d7d0db3f0d0fc73e4fce52a2bbaa0d5f731e9e21598d794e0c5c9ee6d7c7c4bab16d932e22c5e6019d89c17d526b4417d44ff7b83633be065c50ab3d9:2f62ce6ad368f8d69409b949148a946d",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 35,
+    "pageContent": "// Configuración de desarrollo: el proxy de ng serve reenvía /api al backend Flask | Dev config: dev server proxy forwards /api to Flask backend\nexport const environment = {\n  produccion: false,\n  apiUrl: 'http://localhost:5000/api',\n};\n",
+    "token_count_estimate": 58
+}

@@ -1,0 +1,13 @@
+{
+    "id": "b8ae5628-5d1d-4b6e-8fde-fd6e9fea0608",
+    "url": "github://frontend/src/app/app.css",
+    "title": "frontend/src/app/app.css",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/app/app.css",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=9f60a5de4dfb21790122e730933423938f71b9b34f25413513f0f348e6f6c7638d64d6d106d4f9236effe6d737043e51b4bfed6a5cb1d725f28707874525d8e314ede8fa552b3bd98a30b9dbf8bc0a4c838ae3f762739afd7bb313f196255f38e71178547a0780197c91dd3798265be1741ebc1e63bed7a191f3cbe1bb13822ef9f27fa9d8821f685394913ac7ed3dd188af2593a84566e4eed9d5b50ad3bd91:76604cd99f33a9b2b2bdc56242757eef",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 23,
+    "pageContent": "/* App root styles - minimal since dashboard has its own styles */\n/* Estilos mínimos - el dashboard tiene sus propios estilos */\n",
+    "token_count_estimate": 28
+}

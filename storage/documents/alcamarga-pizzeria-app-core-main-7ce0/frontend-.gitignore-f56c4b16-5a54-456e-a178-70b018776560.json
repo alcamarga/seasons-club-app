@@ -1,0 +1,13 @@
+{
+    "id": "f56c4b16-5a54-456e-a178-70b018776560",
+    "url": "github://frontend/.gitignore",
+    "title": "frontend/.gitignore",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/.gitignore",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=2729650db3f07f98a939d70f790e1bcb5dff845a10d8f7473073e96ba5945cab92f7b6e5424efeaba93a12aeebf6e0c61c944c23e20deb65fef1cb4af18476239c7d9a8bd5a0f78fed6102849e643f9f75aec3f5c59d078b98f9cad968ebc117ab71cb39836f9318290d881e9ca35987ec8900e006981f7609ca62d6074a707ee44b2d9d7c6d2f0fa435ab6a7002c8c2934e643835b3862e7a62ae1028b27972:3acf1c20cbcbcf37051ffcf450ca8021",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 20,
+    "pageContent": "# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.\n\n# Compiled output\n/dist\n/tmp\n/out-tsc\n/bazel-out\n\n# Node\n/node_modules\nnpm-debug.log\nyarn-error.log\n\n# IDEs and editors\n.idea/\n.project\n.classpath\n.c9/\n*.launch\n.settings/\n*.sublime-workspace\n\n# Visual Studio Code\n.vscode/*\n!.vscode/settings.json\n!.vscode/tasks.json\n!.vscode/launch.json\n!.vscode/extensions.json\n!.vscode/mcp.json\n.history/*\n\n# Miscellaneous\n/.angular/cache\n.sass-cache/\n/connect.lock\n/coverage\n/libpeerconnection.log\ntestem.log\n/typings\n__screenshots__/\n\n# System files\n.DS_Store\nThumbs.db\n",
+    "token_count_estimate": 172
+}

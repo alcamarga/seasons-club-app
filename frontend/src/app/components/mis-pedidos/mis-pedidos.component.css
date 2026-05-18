@@ -1,0 +1,263 @@
+.mis-pedidos-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: rgba(15, 15, 15, 0.95);
+  border-radius: 20px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  color: #d4af37;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 0.5rem;
+}
+
+.header p {
+  color: #aaa;
+  font-style: italic;
+}
+
+.pedidos-list {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.pedido-card {
+  background: rgba(30, 30, 30, 0.6);
+  border-radius: 15px;
+  padding: 1.5rem;
+  border-left: 5px solid #d4af37;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.pedido-card:hover {
+  transform: translateY(-5px);
+  background: rgba(40, 40, 40, 0.8);
+}
+
+.pedido-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.pedido-id {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #d4af37;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+}
+
+.label {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.value {
+  font-weight: 500;
+}
+
+.articulos-mini {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.total-row {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.totales-desglose {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.subtotal-row {
+  margin-bottom: 0.4rem;
+}
+
+.subtotal-row .label,
+.subtotal-row .value {
+  color: rgba(255,255,255,0.6);
+  font-size: 0.9rem;
+}
+
+.iva-row {
+  margin-bottom: 0.6rem;
+}
+
+.iva-row .label {
+  color: rgba(255,255,255,0.5);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.iva-row .value.iva {
+  color: rgba(212, 175, 55, 0.7);
+  font-size: 0.85rem;
+}
+
+.total-row {
+  padding-top: 0.6rem;
+  border-top: 1px solid rgba(212, 175, 55, 0.3);
+  margin-top: 0.4rem;
+}
+
+.total {
+  font-size: 1.3rem;
+  color: #d4af37;
+  font-weight: bold;
+}
+
+/* Badges */
+.badge {
+  padding: 0.4rem 1rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.badge-pendiente { background: rgba(212, 175, 55, 0.2); color: #d4af37; border: 1px solid #d4af37; }
+.badge-preparando { background: rgba(52, 152, 219, 0.2); color: #3498db; border: 1px solid #3498db; }
+.badge-enviado { background: rgba(230, 126, 34, 0.2); color: #e67e22; border: 1px solid #e67e22; }
+.badge-entregado { background: rgba(46, 204, 113, 0.2); color: #2ecc71; border: 1px solid #2ecc71; }
+.badge-cancelado { background: rgba(231, 76, 60, 0.2); color: #e74c3c; border: 1px solid #e74c3c; }
+
+.btn-primary, .btn-secondary {
+  padding: 0.8rem 2rem;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  margin: 0.5rem;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #d4af37, #b8860b);
+  color: #000;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+  transform: scale(1.05);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid #d4af37;
+  color: #d4af37;
+}
+
+.btn-secondary:hover {
+  background: rgba(212, 175, 55, 0.1);
+}
+
+.footer-actions {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 0;
+}
+
+.empty-state h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(212, 175, 55, 0.1);
+  border-top: 5px solid #d4af37;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Fondo consistente con el resto de la app */
+.mis-pedidos-page {
+  background-image: url('/assets/images/pizzeria-app-core.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+/* Artículos del pedido */
+.articulos-mini {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  text-align: right;
+}
+
+.articulo-item {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 0.9rem;
+}
+
+.art-cantidad {
+  color: #d4af37;
+  font-weight: bold;
+  min-width: 24px;
+}
+
+.art-nombre {
+  color: #fff;
+  font-weight: 500;
+}
+
+.art-tamano {
+  color: #aaa;
+  font-size: 0.8rem;
+}
+
+.art-precio {
+  color: #d4af37;
+  font-weight: bold;
+  margin-left: 0.3rem;
+}

@@ -1,0 +1,13 @@
+{
+    "id": "3362a9d4-f600-414c-962d-6c38a7e84590",
+    "url": "github://frontend/.vscode/extensions.json",
+    "title": "frontend/.vscode/extensions.json",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/.vscode/extensions.json",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=8002b0212e054ca5f0e8e7c1f1e3753785aea1e662feee596292c9bcdb89201fe3f93a4ac69c95fb64f2adeda4fc576cb6d67bd61d6dd031942510f8ebfe9ca1af3fbfc14289cccb88fb57e3bc44e22b468bcdae185a598e5aa286a8e21480d85d5caf4cdefcc9e6e43f061d7aa34cb1ba8bf3bfc5d27e6a1edf902f8a1734bdb7a9f0f179823e3744d1fdac8b9e7ff241ce0b42c01bca2cb15beef54e776b2c:556f26a651629f7225d8ec483ccdcbe4",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 11,
+    "pageContent": "{\n  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=827846\n  \"recommendations\": [\"angular.ng-template\"]\n}\n",
+    "token_count_estimate": 33
+}

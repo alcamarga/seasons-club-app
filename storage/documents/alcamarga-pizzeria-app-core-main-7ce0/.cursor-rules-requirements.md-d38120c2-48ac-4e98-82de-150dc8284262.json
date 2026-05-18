@@ -1,0 +1,13 @@
+{
+    "id": "d38120c2-48ac-4e98-82de-150dc8284262",
+    "url": "github://.cursor-rules/requirements.md",
+    "title": ".cursor-rules/requirements.md",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": ".cursor-rules/requirements.md",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=d60616f7dfa77d2a0b399b0f61c05efe7d4489010fe5de8f16f60d2f5239701e27606d84d2dad9a794cb613696b809fd88744dc87d6532638bde4f9b301cd8d42ed51b4b2ebbc92054dbe61c187947dfad2b72ee9c789867875136ee5cbb86302e931154553c0a407e54ef2834c13f03bb909ebec7bde5f45fec424e1c4d8033757472c90f3060858478c6f26ebb4ef6e3e9fa4195bed453b1726c8a7721fcaf:b70d4444a8b6604e7a046bbd52900c23",
+    "published": "4/26/2026, 11:03:34 PM",
+    "wordCount": 102,
+    "pageContent": "> **Autor:** Camilo Martinez\n> **Documento:** Requerimientos de Producto\n\n# 📋 Requerimientos del Proyecto\n\n## 1. Visión General\n- El sistema debe permitir la gestión de pedidos en tiempo real para una Pizzería.\n- Debe ser ligero, rápido y fácil de usar en una cocina.\n\n## 2. Funcionalidades Core (MVP)\n- **Visualización:** Tabla de pedidos con estados (En Horno, Empacando, Entregado).\n- **Conectividad:** El Frontend debe reflejar cambios realizados en el Backend.\n- **Persistencia:** Los datos deben guardarse de forma segura.\n\n## 3. Regla de Oro\n- \"Milo, si una funcionalidad que sugieres no está en este archivo o no ayuda directamente a estos puntos, consúltala con Camilo antes de codear.\"\n\n---\n**Lead Developer:** Camilo",
+    "token_count_estimate": 201
+}

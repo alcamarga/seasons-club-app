@@ -1,0 +1,13 @@
+{
+    "id": "40cd55d0-73d8-477f-a504-b1b19a05d818",
+    "url": "github://backend/.venv/bin/pip3.12",
+    "title": "backend/.venv/bin/pip3.12",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "backend/.venv/bin/pip3.12",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=1d706fff38c58ee675cad788e9ebc1cfae9daeeeba69fdb0a997e9f7ba763b86157dfa13d4c63a5fa88407935dfd24c865f7883f2487936abd16fa3768a669dc81f021f2b653221a13ffc0312984fd16ed1daece8b95456a6e28f30b3d23ec4b51489c5ac9d08c8f2371f1c552ac624d53bf84e5e125dc15890783de4a74a4f3fdb04b1e27948633f9f08c2ca3270ce5393bace32723f36d5133a695cb3e8d9b:7b92a515b82f6124a3dae18ddb3f6c06",
+    "published": "4/26/2026, 11:03:35 PM",
+    "wordCount": 25,
+    "pageContent": "#!/home/camilo/pizzeria-app-core/backend/.venv/bin/python3\n# -*- coding: utf-8 -*-\nimport re\nimport sys\nfrom pip._internal.cli.main import main\nif __name__ == '__main__':\n    sys.argv[0] = re.sub(r'(-script\\.pyw|\\.exe)?$', '', sys.argv[0])\n    sys.exit(main())\n",
+    "token_count_estimate": 81
+}

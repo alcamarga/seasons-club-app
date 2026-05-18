@@ -1,0 +1,13 @@
+{
+    "id": "bc16f7be-a092-498e-b6d9-036c7560be1e",
+    "url": "github://frontend/src/app/services/user.service.ts",
+    "title": "frontend/src/app/services/user.service.ts",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/app/services/user.service.ts",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=b0e4ed7997fba966a7964a6f6506055e5bad6b14421869a4070cc0c9e8bf4dc1050f822c4d33febff08708fd2d06b1741cd7a68e8c997ea01a16a0e77ebff719806d4342c9cb64d52fb3e4590f4a22a912f3e3964959caeb51d933e6baaac47cb12c3914af8e9b547bfa0b24d55477ff717a706ecb30189e82a18a7a00ad20a91d709db4e7820d87d0e4b087b96fab9de7e8d88a447619e4333cab15f9708f7945c9c4dc9e45d4a00c0419ac32d10d65:c0b895d90183188f35247cb0ad108ea7",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 116,
+    "pageContent": "import { Injectable, inject } from '@angular/core';\nimport { HttpClient } from '@angular/common/http';\nimport { Observable } from 'rxjs';\nimport { environment } from '../../environments/environment';\n\nexport interface UserStaff {\n  id?: number;\n  nombre: string;\n  email: string;\n  rol: string;\n  password?: string;\n  fecha_registro?: string;\n}\n\n@Injectable({ providedIn: 'root' })\nexport class UserService {\n  private http = inject(HttpClient);\n  private apiUrl = `${environment.apiUrl}/usuarios`;\n\n  obtenerPersonal(): Observable<{ usuarios: UserStaff[] }> {\n    return this.http.get<{ usuarios: UserStaff[] }>(this.apiUrl);\n  }\n\n  crearPersonal(usuario: UserStaff): Observable<any> {\n    return this.http.post(this.apiUrl, usuario);\n  }\n\n  actualizarPersonal(id: number, usuario: UserStaff): Observable<any> {\n    return this.http.put(`${this.apiUrl}/${id}`, usuario);\n  }\n\n  eliminarPersonal(id: number): Observable<any> {\n    return this.http.delete(`${this.apiUrl}/${id}`);\n  }\n}\n",
+    "token_count_estimate": 216
+}

@@ -1,0 +1,13 @@
+{
+    "id": "601a4817-6712-4c75-97a5-bc9429783a62",
+    "url": "github://frontend/src/app/models/pizza.model.ts",
+    "title": "frontend/src/app/models/pizza.model.ts",
+    "docAuthor": "alcamarga",
+    "description": "No description found.",
+    "docSource": "frontend/src/app/models/pizza.model.ts",
+    "chunkSource": "github://https://github.com/alcamarga/pizzeria-app-core?payload=ce4d07efb658f88054ac584af49fdb4302b6ef75445f5f97fda831eb4ddfeb83932915f62c076f2160575cdf58cc8a9858ed49a47a37f36440f11f08a79c40b532070ca102309844eda5671dc848abf1064c5f4c9295d6e5d9598b8f598a1b01039f0be9f0a375bb221053959f94f43e6f51cb1cb916524e448487395f7b7d4247d09fb7ba0abedc201f5988d9fd8fcf5cdf65e6b41a23fdb09560ad2b3a27f2fea886aa19a67137f0ce0543d69fef50:447b6b69ae2c1012a248adefe463d852",
+    "published": "4/26/2026, 11:03:36 PM",
+    "wordCount": 49,
+    "pageContent": "// Modelos para el catálogo de productos y sus precios.\n// Autor: Camilo Martinez | Fecha: 23/03/2026 | Versión: 4.2\n\nexport interface Pizza {\n  id: number;\n  nombre: string;\n  descripcion: string;\n  categoria: string;\n  precio_1: number;\n  precio_2?: number;\n  precio_3?: number;\n  imagen?: string;\n  activo: boolean;\n}\n",
+    "token_count_estimate": 96
+}
