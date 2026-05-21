@@ -1,16 +1,95 @@
 /* You can add global styles to this file, and also import other style files */
 
-body, html {
-  height: 100%;
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/assets/images/pizzeria-app-core.jpg');
-  background-size: cover;
-  background-attachment: fixed;
-  background-position: center;
-  color: #ffffff; /* Text color set to white for better visibility */
+:root {
+  --bg-deep: #070509;
+  --neon-magenta: #ff007f;
+  --neon-cyan: #00f0ff;
+  --neon-purple: #8b5cf6;
+  --glass-bg: rgba(18, 14, 24, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --glass-shadow: rgba(0, 0, 0, 0.6);
+  --text-primary: #f8fafc;
+  --text-muted: #94a3b8;
+  --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+body {
+  background-color: var(--bg-deep) !important;
+  background-image: 
+    radial-gradient(circle at 5% 10%, rgba(139, 92, 246, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 95% 85%, rgba(255, 0, 127, 0.1) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.04) 0%, transparent 60%) !important;
+  background-attachment: fixed;
+  color: var(--text-primary);
+  font-family: 'Outfit', 'Inter', -apple-system, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 var(--glass-shadow);
+  transition: var(--transition-smooth);
+}
+
+.glass-panel-interactive {
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.glass-panel-interactive:hover {
+  border-color: rgba(255, 0, 127, 0.3);
+  box-shadow: 
+    0 8px 32px 0 rgba(139, 92, 246, 0.15),
+    inset 0 0 12px rgba(255, 0, 127, 0.05);
+  transform: translateY(-2px);
+}
+
+.glass-panel-interactive:active {
+  transform: translateY(1px);
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 0, 127, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 0, 127, 0.6);
+}
+
+
+.watermark-logo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('/assets/seasons-logo.png'); /* Asegúrate de que esté en /public */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0.2;
+  z-index: -999; /* Lo enviamos al fondo absoluto */
+  pointer-events: none;
+}
 .menu-wrapper {
   min-height: 100vh;
   color: #ffffff; /* Ensure text in the menu is white */
@@ -33,3 +112,10 @@ body, html {
 .menu-footer {
   color: #ffffff; /* Ensure text in the footer is white */
 }
+
+.app-main-content {
+  padding: 0 16px 16px 16px;
+  min-height: calc(100vh - 90px);
+  box-sizing: border-box;
+}
+

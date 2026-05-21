@@ -1,0 +1,29 @@
+.btn-inventario {
+  background: #1a1a1a;
+  color: #deff9a;
+  border: 1px solid #deff9a;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.modal-inventario {
+  position: fixed;
+  top: 10%;
+  right: 5%;
+  width: 300px;
+  background: #000;
+  border: 2px solid #deff9a;
+  padding: 20px;
+  border-radius: 15px;
+  z-index: 1000;
+  box-shadow: 0 0 20px rgba(222, 255, 154, 0.2);
+}
+
+.item-producto {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #333;
+}

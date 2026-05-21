@@ -1,0 +1,402 @@
+/*
+  -------------------------------------------------------------
+  🌌 SEASONS CLUB APP - SYSTEM POS
+  -------------------------------------------------------------
+  @file        mesas.component.scss
+  @description Estilos CSS con efectos neón y diseño de columnas POS.
+  @author      Camilo Martinez Galarza <Developer>
+  @created     2026-05-20 (Actualizado: Estilos Branding Logo)
+  @version     1.0.1
+  -------------------------------------------------------------
+*/
+:host {
+  display: block;
+  background-color: transparent !important;
+}
+.contenedor-principal {
+  background-color: transparent !important;
+  min-height: 100vh;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  font-family: sans-serif;
+}
+
+.encabezado {
+  text-align: center;
+  margin: 24px 0;
+  width: 100%;
+  max-width: 560px;
+}
+
+.logo-club {
+  height: 150px;
+  object-fit: contain;
+  margin-bottom: 16px;
+  filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.4));
+}
+
+.titulo-modulo {
+  font-size: 1.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: linear-gradient(to right, #c084fc, #f472b6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.linea-decorativa {
+  width: 96px;
+  height: 4px;
+  background: linear-gradient(to right, #a855f7, #ec4899);
+  border-radius: 9999px;
+  margin: 8px auto 0 auto;
+  opacity: 0.75;
+}
+
+.texto-carga {
+  text-align: center;
+  font-size: 1.25rem;
+  color: #c084fc;
+  font-weight: 600;
+  margin: 48px 0;
+}
+
+.grid-mesas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 800px;
+  margin-top: 20px;
+  padding: 10px;
+}
+
+.mesa-circulo {
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  border: 4px solid;
+  background-color: #1f2937;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 10px;
+  box-sizing: border-box;
+
+  &.libre {
+    border-color: #10b981;
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+    &:hover {
+      background-color: #10b981;
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.6);
+      transform: scale(1.05);
+    }
+  }
+
+  &.ocupada {
+    border-color: #ef4444;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+    &:hover {
+      background-color: #ef4444;
+      box-shadow: 0 0 25px rgba(239, 68, 68, 0.6);
+      transform: scale(1.05);
+    }
+  }
+}
+
+.mesa-texto-mini {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #9ca3af;
+}
+
+.mesa-numero {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin: 2px 0;
+}
+
+.mesa-texto-estado {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+/* 🕶️ ESTILOS DEL MODAL INTERACTIVO POS 🕶️ */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-pos {
+  background-color: #111827;
+  border: 2px solid #a855f7;
+  box-shadow: 0 0 30px rgba(168, 85, 247, 0.4);
+  border-radius: 16px;
+  width: 90%;
+  max-width: 750px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: emerger 0.25s ease-out;
+}
+
+@keyframes emerger {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal-header {
+  background-color: #1f2937;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #374151;
+
+  /* 🌌 ¡Aquí está el estilo de tu toque de clase, Camilo! */
+  .logo-branding-mini {
+    height: 32px;
+    object-fit: contain;
+    margin-right: 12px;
+    filter: drop-shadow(0 0 5px rgba(244, 114, 182, 0.5));
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 800;
+  }
+
+  .badge-estado {
+    margin-left: 16px;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    
+    &.libre { background-color: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981; }
+    &.ocupada { background-color: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+  }
+
+  .btn-cerrar-x {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: #9ca3af;
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+    &:hover { color: white; }
+  }
+}
+
+.modal-body {
+  padding: 24px;
+  background-color: #111827;
+}
+
+/* Diseño Flujo Libre */
+.flujo-libre {
+  text-align: center;
+  padding: 20px 0;
+  
+  .instruccion {
+    color: #9ca3af;
+    font-size: 1.1rem;
+    margin-bottom: 24px;
+  }
+}
+
+/* Diseño Flujo Ocupada (Pantalla Dividida Lina POS) */
+.flujo-ocupada {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.seccion-ticket {
+  background-color: #1f2937;
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #374151;
+  display: flex;
+  flex-direction: column;
+
+  h3 { margin-top: 0; font-size: 1.1rem; color: #c084fc; border-bottom: 1px solid #374151; padding-bottom: 8px; }
+}
+
+.lista-productos {
+  flex-grow: 1;
+  margin-bottom: 16px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.item-producto {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  padding: 6px 0;
+  border-bottom: 1px dashed #374151;
+
+  .cant { color: #a855f7; font-weight: bold; margin-right: 8px; }
+  .nom { color: #e5e7eb; flex-grow: 1; }
+  .val { color: white; font-weight: 600; }
+}
+
+.total-ticket {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 2px solid #374151;
+  padding-top: 12px;
+  font-weight: 800;
+  font-size: 1rem;
+  color: #f472b6;
+
+  .total-valor { font-size: 1.3rem; }
+}
+
+.seccion-acciones-rapidas {
+  display: flex;
+  flex-direction: column;
+
+  h3 { margin-top: 0; font-size: 1.1rem; color: #f472b6; border-bottom: 1px solid #374151; padding-bottom: 8px; }
+  .nota-pos { color: #9ca3af; font-size: 0.9rem; margin-bottom: 16px; }
+}
+
+/* Botones de Acción Estilo POS */
+.btn-accion-pos {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  &.btn-abrir {
+    background: linear-gradient(to right, #10b981, #059669);
+    color: white;
+    &:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 0 15px rgba(16, 185, 129, 0.4); }
+  }
+
+  &.btn-liberar {
+    background: linear-gradient(to right, #ef4444, #dc2626);
+    color: white;
+    margin-top: auto;
+    &:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
+  }
+}
+
+.btn-submenu-pos {
+  width: 100%;
+  padding: 12px;
+  background-color: #374151;
+  border: 1px solid #4b5563;
+  color: #e5e7eb;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+  margin-bottom: 12px;
+
+  &:hover { background-color: #4b5563; color: white; border-color: #c084fc; }
+}
+
+/* 🍾 NUEVAS CAJITAS ESTILO LINA POS (Añadido al final de tu archivo) */
+.grid-catalogo {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.card-producto {
+  background: #2d3748;
+  border: 2px solid #4a5568;
+  border-radius: 12px;
+  padding: 12px 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: white;
+  min-height: 70px;
+  
+  &:hover {
+    background: #4a5568;
+    border-color: #10b981;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+  }
+
+  .card-nombre {
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 4px;
+    line-height: 1.1;
+  }
+
+  .card-precio {
+    font-size: 0.75rem;
+    color: #10b981;
+    font-weight: bold;
+  }
+}
+
+/* 🔴 Botón de Cierre Compacto (Seasons Club Style) */
+.btn-liberar-compacto {
+  background: linear-gradient(to right, #ef4444, #dc2626);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 0.85rem;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 15px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  transition: all 0.2s ease;
+  
+  &:hover:not(:disabled) { 
+    background: #dc2626;
+    transform: translateY(-2px); 
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+  }
+  
+  &:disabled { 
+    opacity: 0.5; 
+    cursor: not-allowed; 
+  }
+}

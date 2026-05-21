@@ -1,0 +1,49 @@
+.contenedor-inventario {
+    background: #0d0d0d; /* Negro profundo, como el fondo de tus mesas */
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 24px;
+    margin: 30px auto;
+    max-width: 900px; /* Se ajusta para no verse gigante */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  }
+  
+  .titulo-inventario {
+    color: #deff9a; /* Tu color neón corporativo */
+    font-size: 22px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  /* En src/app/components/inventario/inventario.component.css */
+
+/* Regla para el logo neón gigante */
+.logo-inventario {
+    /* Limitamos la altura a 35px para que sea discreto */
+    height: 35px;
+    
+    /* El ancho se ajusta automáticamente para no deformarlo */
+    width: auto; 
+    
+    /* Asegura que no se agrande más de lo debido */
+    max-width: 100%;
+    
+    /* Opcional: Un pequeño margen para que no se pegue al texto */
+    margin-left: 10px;
+  }
+  
+  .lista-productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+  }
+  
+  .item-producto {
+    background: #1a1a1a;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 3px solid #deff9a;
+  }

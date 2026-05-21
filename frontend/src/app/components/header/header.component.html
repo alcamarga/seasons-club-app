@@ -1,12 +1,51 @@
-<!-- Assuming existing header structure; we add the admin button -->
-<header class="app-header">
-  <div class="logo">
-    <span>🍕</span> Pizzería Core
+<app-glass-panel class="header-glass-wrapper">
+  <div class="app-header-container">
+    
+    <!-- 1. Sección Logo / Isotipo Dinámico (Propuesta A) -->
+    <div class="logo-area" [routerLink]="['/']">
+      <div class="logo-isotipo-glow">
+        <span class="logo-letter">S</span>
+        <div class="glow-ring"></div>
+      </div>
+      <div class="logo-branding">
+        <span class="brand-title">SEASONS</span>
+        <span class="brand-subtitle">C L U B</span>
+      </div>
+    </div>
+
+    <!-- 2. Información de Sesión (Usuario y Hora) -->
+    <div class="session-info-area">
+      <!-- Reloj digital en vivo para turnos nocturnos -->
+      <div class="live-clock">
+        <span class="clock-icon">🕒</span>
+        <span class="clock-time">{{ fechaHoraActual }}</span>
+      </div>
+
+      <div class="vertical-divider"></div>
+
+      <!-- Datos de Operador -->
+      <ng-container *ngIf="usuarioActual$ | async as user; else noSesion">
+        <div class="operator-profile">
+          <div class="operator-avatar">
+            {{ user.email.charAt(0).toUpperCase() }}
+          </div>
+          <div class="operator-details">
+            <span class="operator-name">{{ user.email.split('@')[0] }}</span>
+            <span class="operator-role">{{ user.rol === 'admin' ? 'Administrador' : 'Mesero' }}</span>
+          </div>
+        </div>
+
+        <button class="btn-logout" (click)="cerrarSesion()" title="Cerrar Sesión">
+          🚪
+        </button>
+      </ng-container>
+
+      <ng-template #noSesion>
+        <button class="btn-login" (click)="irALogin()">
+          🔑 Ingresar
+        </button>
+      </ng-template>
+    </div>
+
   </div>
-  <nav class="header-nav">
-    <!-- Existing buttons (login, etc.) -->
-    <button class="btn btn-outline-light" (click)="irALogin()">Iniciar Sesión</button>
-    <!-- Admin button -->
-    <button class="btn btn-admin" [routerLink]="['/admin/dashboard']">Administrador</button>
-  </nav>
-</header>
+</app-glass-panel>

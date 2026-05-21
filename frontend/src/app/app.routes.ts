@@ -1,33 +1,23 @@
 import { Routes } from '@angular/router';
+import { MesasComponent } from './components/mesas/mesas.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegistroComponent } from './components/registro/registro.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { MenuComponent } from './components/menu/menu.component';
-import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
-import { ResumenPedidoComponent } from './components/resumen-pedido/resumen-pedido.component';
 import { MisPedidosComponent } from './components/mis-pedidos/mis-pedidos.component';
-import { GestionPedidosComponent } from './components/admin-dashboard/gestion-pedidos/gestion-pedidos.component';
+import { ResumenPedidoComponent } from './components/resumen-pedido/resumen-pedido.component';
 import { AdminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
-  // 1. Esta es la entrada principal ahora (Pública)
-  { path: '', component: MenuComponent, pathMatch: 'full' }, 
-  
-  // 2. Otras rutas públicas
-  { path: 'menu', component: MenuComponent },
+  // 1. La entrada principal del bar ahora es el mapa de mesas táctil
+  { path: '', component: MesasComponent, pathMatch: 'full' },
+
+  // 2. Otras rutas públicas del bar
   { path: 'login', component: LoginComponent },
   { path: 'registro', component: RegistroComponent },
-  
-  // 3. Ruta protegida de dashboard de admin
-  { path: 'admin/dashboard', component: AdminDashboardComponent, canActivate: [AdminGuard] },
-  
-  // 4. Ruta protegida (requiere login) - dashboard de usuario
-  { path: 'dashboard', component: DashboardComponent },
+
+  // 3. Rutas de pedidos que adaptaremos para las botellas y cócteles
   { path: 'resumen', component: ResumenPedidoComponent },
   { path: 'mis-pedidos', component: MisPedidosComponent },
-  { path: 'admin/pedidos', component: GestionPedidosComponent, canActivate: [AdminGuard] },
 
-  
-  // 5. Comodín por si escriben cualquier cosa
+  // 5. Comodín: si escriben cualquier cosa loca en la URL, los manda a las mesas
   { path: '**', redirectTo: '' }
 ];

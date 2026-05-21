@@ -1,1 +1,49 @@
+# Ignore Git/Aider metadata
 .aider*
+.kilocode/
+
+# Node / Angular
+**/node_modules/
+**/dist/
+**/.angular/cache/
+**/tmp/
+**/out-tsc/
+
+# Python / Backend
+**/.venv/
+**/venv/
+**/env/
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+.Python
+**/pip-log.txt
+**/pip-delete-this-directory.txt
+
+# Environment Secrets / Configs
+**/.env
+**/*.env
+**/secrets.json
+**/config.local.json
+
+# IDEs & Editors
+**/.vscode/
+**/.idea/
+**/*.suo
+**/*.user
+**/*.sln
+**/*.swp
+**/*~
+
+# System / OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Azure & Cloud Deployment files
+**/.azure/
+**/publish/
+**/bin/
+**/obj/
+**/appsettings.Development.json

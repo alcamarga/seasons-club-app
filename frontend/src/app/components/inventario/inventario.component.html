@@ -1,0 +1,14 @@
+<div class="contenedor-inventario">
+    <h2 class="titulo-inventario">🍸 Inventario de Seasons Club</h2><img src="assets/Seasons Club Colores y Blanco- Sin Fondo_Mesa de trabajo 1.png" alt="Logo Seasons Club" class="logo-inventario">
+    
+    <div class="lista-productos">
+      <div *ngFor="let p of productos" class="item-producto">
+        <span style="color: #fff;">{{ p.nombre }}</span>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="color: #deff9a; font-weight: bold;">{{ p.stock_actual }}</span>
+          <button (click)="ajustarStock(p, -1)" class="btn-sm">-</button>
+          <button (click)="ajustarStock(p, 1)" class="btn-sm">+</button>
+        </div>
+      </div>
+    </div>
+  </div>

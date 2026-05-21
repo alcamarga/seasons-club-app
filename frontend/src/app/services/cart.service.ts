@@ -4,11 +4,11 @@
 import { Injectable, computed, effect, signal, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Pizza } from '../models/pizza.model';
+import { Producto } from '../models/producto.model';
 import { environment } from '../../environments/environment';
 
 export interface ArticuloCarrito {
-  pizzaId: number;
+  productoId: number;
   tamanoId: number; // Mantener por compatibilidad futura
   cantidad: number;
   precioUnitario: number;
@@ -62,20 +62,20 @@ export class CartService {
   /** Añade un producto al carrito.
    * Si ya existe una fila con el mismo pizzaId y tamaño, incrementa la cantidad.
    */
-  agregarAlCarrito(pizza: Pizza, tamanoLabel: string, precioExacto: number): void {
+  agregarAlCarrito(producto: Producto, tamanoLabel: string, precioExacto: number): void {
     this._items.update(actual => {
-      const indice = actual.findIndex(a => a.pizzaId === pizza.id && a.tamano === tamanoLabel);
+      const indice = actual.findIndex(a => a.productoId === producto.id && a.tamano === tamanoLabel);
       if (indice !== -1) {
         const articulo = actual[indice];
         const actualizado = { ...articulo, cantidad: articulo.cantidad + 1 };
         return [...actual.slice(0, indice), actualizado, ...actual.slice(indice + 1)];
       }
       const nuevo: ArticuloCarrito = {
-        pizzaId: pizza.id,
+        productoId: producto.id,
         tamanoId: 0,
         cantidad: 1,
         precioUnitario: precioExacto,
-        nombre: pizza.nombre,
+        nombre: producto.nombre,
         tamano: tamanoLabel
       };
       return [...actual, nuevo];
@@ -122,7 +122,7 @@ export class CartService {
       total: total,
       fecha_hora: fechaActual,
       articulos: this._items().map(item => ({
-        pizza_id: item.pizzaId,
+        producto_id: item.productoId,
         nombre: item.nombre,
         tamano: item.tamano,
         cantidad: item.cantidad,
