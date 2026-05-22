@@ -82,12 +82,12 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-image: url('/assets/seasons-logo.png'); /* Asegúrate de que esté en /public */
+  background-image: url('assets/seasons-logo.png');
   background-repeat: no-repeat;
   background-position: center;
-  background-size: contain;
-  opacity: 0.2;
-  z-index: -999; /* Lo enviamos al fondo absoluto */
+  background-size: 40vw; /* Tamaño ergonómico y estético en el centro */
+  opacity: 0.05;
+  z-index: -1;
   pointer-events: none;
 }
 .menu-wrapper {

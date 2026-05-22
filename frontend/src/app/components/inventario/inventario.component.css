@@ -1,49 +1,337 @@
 .contenedor-inventario {
-    background: #0d0d0d; /* Negro profundo, como el fondo de tus mesas */
-    border: 1px solid #333;
-    border-radius: 12px;
-    padding: 24px;
-    margin: 30px auto;
-    max-width: 900px; /* Se ajusta para no verse gigante */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  }
-  
-  .titulo-inventario {
-    color: #deff9a; /* Tu color neón corporativo */
-    font-size: 22px;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-  /* En src/app/components/inventario/inventario.component.css */
+  max-width: 1200px;
+  margin: 16px auto;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
 
-/* Regla para el logo neón gigante */
+/* --- CABECERA DE INVENTARIO --- */
+.header-titulo-inventario {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+::ng-deep .header-titulo-inventario.glass-panel {
+  border-radius: 12px !important;
+  padding: 12px 24px !important;
+}
+
 .logo-inventario {
-    /* Limitamos la altura a 35px para que sea discreto */
-    height: 35px;
-    
-    /* El ancho se ajusta automáticamente para no deformarlo */
-    width: auto; 
-    
-    /* Asegura que no se agrande más de lo debido */
-    max-width: 100%;
-    
-    /* Opcional: Un pequeño margen para que no se pegue al texto */
-    margin-left: 10px;
+  height: 30px;
+  width: auto;
+  margin-right: 15px;
+  /* Separación exacta de 15px */
+  display: block;
+  filter: drop-shadow(0 0 6px rgba(0, 240, 255, 0.15));
+}
+
+.titulo-inventario {
+  color: var(--neon-cyan);
+  font-family: 'Outfit', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 0;
+  text-shadow: 0 0 4px rgba(0, 240, 255, 0.2);
+}
+
+/* --- CUADRÍCULA DE PRODUCTOS (CSS GRID) --- */
+.lista-productos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.tarjeta-producto-panel {
+  display: block;
+}
+
+::ng-deep .tarjeta-producto-panel .glass-panel {
+  padding: 14px !important;
+  border-radius: 14px !important;
+}
+
+.card-producto-tactil {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* --- IMAGEN CON CONTENEDOR NOCTURNO --- */
+.imagen-wrapper {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: var(--transition-smooth);
+}
+
+.imagen-producto {
+  max-height: 85%;
+  max-width: 85%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+  transition: var(--transition-smooth);
+}
+
+.tarjeta-producto-panel:hover .imagen-producto {
+  transform: scale(1.05) rotate(2deg);
+}
+
+/* --- ETIQUETAS DE CATEGORÍA --- */
+.categoria-tag {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+}
+
+.cat-botellas {
+  background: linear-gradient(135deg, #d946ef, #8b5cf6);
+}
+
+.cat-cervezas {
+  background: linear-gradient(135deg, #06b6d4, #2563eb);
+}
+
+.cat-cocteles {
+  background: linear-gradient(135deg, #10b981, #047857);
+}
+
+.cat-insumos {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.cat-licores {
+  background: linear-gradient(135deg, #e53e3e, #f87171);
+}
+
+.cat-bebidas {
+  background: linear-gradient(135deg, #805ad5, #9f7aea);
+}
+
+/* --- DETALLES Y VALORES --- */
+.detalles-wrapper {
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.producto-nombre {
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 10px 0;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.producto-valores {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.valor-precio,
+.valor-stock {
+  display: flex;
+  flex-direction: column;
+}
+
+.valor-stock {
+  align-items: flex-end;
+}
+
+.label {
+  font-size: 8px;
+  color: var(--text-muted);
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+}
+
+.precio-destacado {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--neon-cyan);
+  text-shadow: 0 0 4px rgba(0, 240, 255, 0.2);
+}
+
+.insumo-tag-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: #f59e0b;
+  letter-spacing: 0.5px;
+}
+
+.vertical-divider-card {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* --- SEMÁFORO DE STOCK --- */
+.stock-badge {
+  font-size: 13px;
+  font-weight: 800;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
+.stock-alto {
+  color: #10b981;
+  text-shadow: 0 0 4px rgba(16, 185, 129, 0.2);
+}
+
+.stock-medio {
+  color: #f59e0b;
+  text-shadow: 0 0 4px rgba(245, 158, 11, 0.2);
+}
+
+.stock-bajo {
+  color: #ef4444;
+  text-shadow: 0 0 4px rgba(239, 68, 68, 0.2);
+}
+
+/* --- OVERRIDES COMPONENTE COMPATIBLES CON INSUMOS --- */
+
+/* Amber border glow for Raw Materials / Insumos */
+.insumo-card ::ng-deep .glass-panel {
+  border-color: rgba(245, 158, 11, 0.3) !important;
+  box-shadow:
+    0 8px 32px 0 rgba(245, 158, 11, 0.05),
+    inset 0 0 10px rgba(245, 158, 11, 0.02) !important;
+}
+
+.insumo-card:hover ::ng-deep .glass-panel-interactive:hover {
+  border-color: rgba(245, 158, 11, 0.5) !important;
+  box-shadow:
+    0 8px 32px 0 rgba(245, 158, 11, 0.15),
+    inset 0 0 12px rgba(245, 158, 11, 0.05) !important;
+}
+
+/* Responsive Grid Adaptation */
+@media (max-width: 600px) {
+  .lista-productos-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
   }
-  
-  .lista-productos {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 15px;
+
+  .imagen-wrapper {
+    height: 100px;
   }
-  
-  .item-producto {
-    background: #1a1a1a;
-    padding: 15px;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-left: 3px solid #deff9a;
-  }
+}
+
+/* --- OVERLAY PARA CAMBIO DE IMAGEN EN HOVER --- */
+.imagen-overlay-editar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(7, 5, 9, 0.7);
+  /* Deep cosmic semi-transparente */
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+}
+
+.imagen-wrapper:hover .imagen-overlay-editar {
+  opacity: 1;
+}
+
+.edit-icon {
+  color: var(--text-primary);
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
+}
+
+/* --- CONTENEDOR Y BOTONES DE ACCIÓN (EDITAR / ELIMINAR) --- */
+.acciones-card-wrapper {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.btn-accion-card {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  transition: var(--transition-smooth);
+  outline: none;
+}
+
+.btn-editar {
+  border-color: rgba(0, 240, 255, 0.25);
+  color: var(--neon-cyan);
+}
+
+.btn-editar:hover {
+  background: rgba(0, 240, 255, 0.12);
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-editar:active {
+  transform: translateY(1px);
+}
+
+.btn-eliminar {
+  border-color: rgba(239, 68, 68, 0.25);
+  color: #ef4444;
+}
+
+.btn-eliminar:hover {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: #ef4444;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-eliminar:active {
+  transform: translateY(1px);
+}

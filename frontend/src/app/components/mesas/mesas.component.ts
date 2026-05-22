@@ -1,7 +1,21 @@
+/**
+ * -------------------------------------------------------------
+ * 🌌 SEASONS CLUB APP - FRONTEND SERVICES
+ * -------------------------------------------------------------
+ * @file        mesa.service.ts
+ * @description Proveedor de servicios HTTP para conectar las mesas con el backend.
+ * @author      Camilo Martinez Galarza <Developer>
+ * @created     2026-05-19
+ * @version     1.1.0
+ * -------------------------------------------------------------
+ */
+
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { InventarioService } from '../../services/inventario.service';
 import { MesaService, Mesa } from '../../services/mesa.service';
 import { InventarioComponent } from '../inventario/inventario.component';
+import { Producto } from '../../models/producto.model';
 
 @Component({
   selector: 'app-mesas',
@@ -11,160 +25,147 @@ import { InventarioComponent } from '../inventario/inventario.component';
   styleUrls: ['./mesas.component.scss']
 })
 export class MesasComponent implements OnInit {
-  
-  // 🎛️ Controladores del Modal Estilo Lina POS
   mostrarModal = false;
   mesaSeleccionada: Mesa | null = null;
   cargandoAccionMesa = false;
-  cargando = false; // Añadido porque lo usas en cargarMesas
-  mesas: Mesa[] = []; // Añadido porque lo usas en cargarMesas
+  cargando = false;
+  mesas: Mesa[] = [];
 
-  // 🍹 Datos del consumo activo de la mesa
   productosReales: any[] = [];
   totalCuentaReal = 0;
-
-  // 🍾 Controladores para el menú táctil de adición de tragos
   mostrandoMenuBebidas = false;
   menuBarra: any[] = [];
 
-  constructor(private mesaSrv: MesaService) {}
+  constructor(private mesaSrv: MesaService, private inventarioService: InventarioService) { }
 
   ngOnInit(): void {
     this.cargarMesas();
     this.cargarMenuBarra();
   }
 
-  // 🟢 Cargar el mapa de mesas desde el backend
   cargarMesas(): void {
     this.cargando = true;
     this.mesaSrv.obtenerMesas().subscribe({
-      next: (data) => {
-        this.mesas = data;
-        this.cargando = false;
-      },
-      error: (err) => {
-        console.error('❌ Error al cargar mesas:', err);
-        this.cargando = false;
-      }
+      next: (data: any) => { this.mesas = data; this.cargando = false; },
+      error: (err: any) => { console.error('Error mesas:', err); this.cargando = false; }
     });
   }
 
-  // 🍾 Cargar el catálogo completo de bebidas
+  // En mesas.component.ts
   cargarMenuBarra(): void {
-    this.mesaSrv.obtenerProductosBarra().subscribe({
-      next: (productos) => {
-        this.menuBarra = productos;
-      },
-      error: (err) => {
-        console.error('❌ Error al precargar productos de barra:', err);
+    this.inventarioService.obtenerProductos().subscribe({
+      next: (productos: Producto[]) => {
+        this.menuBarra = productos.map(p => {
+          // --- AQUÍ ESTÁ EL TRUCO ---
+          console.log('Nombre del archivo en BD:', p.imagenUrl);
+          return {
+            ...p,
+            precio: p.precioVenta || 0
+          };
+        });
       }
     });
   }
-
-  // 🛎️ Evento al dar clic a una mesa
   onMesaClick(m: Mesa): void {
     this.mesaSeleccionada = m;
     this.mostrarModal = true;
-    this.productosReales = [];
-    this.totalCuentaReal = 0;
-    this.mostrandoMenuBebidas = false;
-
-    if (m.estado === 'OCUPADA') {
-      this.cargarConsumoReal(m.id);
-    }
+    this.cargarConsumoReal(m.id);
   }
 
-  // 📝 Consultar la cuenta en tiempo real
+  // ✅ CORREGIDO: Ahora siempre actualiza, incluso si localStorage está vacío
   cargarConsumoReal(id: number): void {
-    this.mesaSrv.obtenerConsumo(id).subscribe({
+    this.mesaSrv.obtenerConsumoLocal(id).subscribe({
       next: (res) => {
-        if (res.tiene_consumo && res.pedido) {
-          this.productosReales = res.pedido.articulos || [];
-          this.totalCuentaReal = res.pedido.total || 0;
-        }
+        // Si el objeto pedido existe, lo usamos, si no, inicializamos vacío
+        const pedido = res?.pedido || { articulos: [], total: 0 };
+        this.productosReales = pedido.articulos || [];
+        this.totalCuentaReal = pedido.total || 0;
       },
       error: (err) => {
-        console.error('❌ Error al traer consumo de la BD:', err);
+        console.error('Error consumo:', err);
+        this.productosReales = [];
+        this.totalCuentaReal = 0;
       }
     });
   }
 
-  // 🚀 Inyectar un trago
+  // En mesas.component.ts
   inyectarTrago(prod: any): void {
     if (!this.mesaSeleccionada) return;
+
+    // Aquí forzamos la captura del precio. 
+    // Si 'prod.precio' viene vacío, buscamos en 'prod.precio_base' o asignamos 0.
+    const precioExtraido = parseFloat(prod.precio) || parseFloat(prod.precio_base) || 0;
 
     const payload = {
       producto_id: prod.id,
       nombre: prod.nombre,
-      precio: prod.precio_base || prod.precio,
+      precio: precioExtraido, // <-- Aseguramos que siempre sea un número
       cantidad: 1
     };
 
-    this.mesaSrv.añadirProductoAMesa(this.mesaSeleccionada.id, payload).subscribe({
-      next: (res) => {
-        this.cargarConsumoReal(this.mesaSeleccionada!.id);
-      },
-      error: (err) => {
-        console.error('❌ Error al inyectar trago:', err);
-      }
-    });
+    this.mesaSrv.agregarProductoLocal(this.mesaSeleccionada.id, payload);
+    this.cargarConsumoReal(this.mesaSeleccionada.id);
   }
 
-  // 🎛️ Modificar cantidad
   cambiarCantidadTrago(productoId: number, operacion: 'sumar' | 'restar'): void {
     if (!this.mesaSeleccionada) return;
-    this.mesaSrv.alterarCantidadProducto(this.mesaSeleccionada.id, productoId, operacion).subscribe({
-      next: () => this.cargarConsumoReal(this.mesaSeleccionada!.id),
-      error: (err) => console.error('❌ Error al modificar cantidad:', err)
-    });
+    const key = `mesa_consumo_${this.mesaSeleccionada.id}`;
+    const raw = localStorage.getItem(key);
+    if (raw) {
+      let consumo = JSON.parse(raw);
+      const prod = consumo.pedido.articulos.find((p: any) => p.producto_id === productoId);
+      if (prod) {
+        if (operacion === 'sumar') prod.cantidad++;
+        else prod.cantidad = Math.max(0, prod.cantidad - 1);
+
+        consumo.pedido.articulos = consumo.pedido.articulos.filter((p: any) => p.cantidad > 0);
+        consumo.pedido.total = consumo.pedido.articulos.reduce((sum: number, p: any) => sum + (p.precio * p.cantidad), 0);
+        localStorage.setItem(key, JSON.stringify(consumo));
+        this.cargarConsumoReal(this.mesaSeleccionada.id);
+      }
+    }
   }
 
-  // 💵 Cambiar precio
   cambiarPrecioTrago(productoId: number, precioActual: number): void {
     if (!this.mesaSeleccionada) return;
     const nuevoPrecioStr = prompt(`Digite el nuevo precio:`, precioActual.toString());
-    if (nuevoPrecioStr === null || nuevoPrecioStr.trim() === '') return;
+    if (nuevoPrecioStr === null || isNaN(parseFloat(nuevoPrecioStr))) return;
+
     const nuevoPrecio = parseFloat(nuevoPrecioStr);
-    
-    this.mesaSrv.alterarPrecioProducto(this.mesaSeleccionada.id, productoId, nuevoPrecio).subscribe({
-      next: () => this.cargarConsumoReal(this.mesaSeleccionada!.id),
-      error: (err) => console.error('❌ Error al cambiar precio:', err)
-    });
+    const key = `mesa_consumo_${this.mesaSeleccionada.id}`;
+    const raw = localStorage.getItem(key);
+    if (raw) {
+      let consumo = JSON.parse(raw);
+      const prod = consumo.pedido.articulos.find((p: any) => p.producto_id === productoId);
+      if (prod) {
+        prod.precio = nuevoPrecio;
+        consumo.pedido.total = consumo.pedido.articulos.reduce((sum: number, p: any) => sum + (p.precio * p.cantidad), 0);
+        localStorage.setItem(key, JSON.stringify(consumo));
+        this.cargarConsumoReal(this.mesaSeleccionada.id);
+      }
+    }
   }
 
-  // 🚀 Abrir comanda
   abrirComandaMesa(): void {
     if (!this.mesaSeleccionada) return;
     this.cargandoAccionMesa = true;
     this.mesaSrv.actualizarEstado(this.mesaSeleccionada.id, 'OCUPADA').subscribe({
       next: () => {
-        if (this.mesaSeleccionada) {
-          this.mesaSeleccionada.estado = 'OCUPADA';
-          this.cargarConsumoReal(this.mesaSeleccionada.id);
-        }
-        this.cargandoAccionMesa = false;
-      },
-      error: (err) => {
-        console.error('❌ Error al abrir comanda:', err);
+        if (this.mesaSeleccionada) this.mesaSeleccionada.estado = 'OCUPADA';
         this.cargandoAccionMesa = false;
       }
     });
   }
 
-  // 💳 Liberar mesa
   liberarMesa(): void {
     if (!this.mesaSeleccionada) return;
     if (confirm(`¿Cerrar cuenta Mesa #${this.mesaSeleccionada.numero_mesa}?`)) {
-      this.cargandoAccionMesa = true;
+      localStorage.removeItem(`mesa_consumo_${this.mesaSeleccionada.id}`); // Limpiar local
       this.mesaSrv.actualizarEstado(this.mesaSeleccionada.id, 'LIBRE').subscribe({
         next: () => {
           this.mostrarModal = false;
           this.cargarMesas();
-          this.cargandoAccionMesa = false;
-        },
-        error: (err) => {
-          console.error('❌ Error al cerrar caja:', err);
-          this.cargandoAccionMesa = false;
         }
       });
     }
@@ -173,6 +174,5 @@ export class MesasComponent implements OnInit {
   cerrarModal(): void {
     this.mostrarModal = false;
     this.mesaSeleccionada = null;
-    this.mostrandoMenuBebidas = false;
   }
 }

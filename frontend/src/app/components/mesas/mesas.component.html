@@ -1,7 +1,8 @@
 <div class="contenedor-principal">
-  
+
   <div class="encabezado">
-    <img src="assets/Seasons Club Colores y Blanco- Sin Fondo_Mesa de trabajo 1.png" alt="Seasons Club Logo" class="logo-club">
+    <img src="assets/Seasons Club Colores y Blanco- Sin Fondo_Mesa de trabajo 1.png" alt="Seasons Club Logo"
+      class="logo-club">
     <h1 class="titulo-modulo">Módulo de Gestión de Mesas</h1>
     <div class="linea-decorativa"></div>
   </div>
@@ -11,7 +12,8 @@
   </div>
 
   <div *ngIf="!cargando" class="grid-mesas">
-    <button *ngFor="let m of mesas" (click)="onMesaClick(m)" [ngClass]="{ 'libre': m.estado === 'LIBRE', 'ocupada': m.estado === 'OCUPADA' }" class="mesa-circulo">
+    <button *ngFor="let m of mesas" (click)="onMesaClick(m)"
+      [ngClass]="{ 'libre': m.estado === 'LIBRE', 'ocupada': m.estado === 'OCUPADA' }" class="mesa-circulo">
       <span class="mesa-texto-mini">Mesa</span>
       <span class="mesa-numero">#{{ m.numero_mesa }}</span>
       <span class="mesa-texto-estado">{{ m.estado }}</span>
@@ -20,72 +22,79 @@
 
   <div *ngIf="mostrarModal" class="modal-overlay" (click)="cerrarModal()">
     <div class="modal-pos" (click)="$event.stopPropagation()">
-      
+
       <div class="modal-header">
-        <img src="assets/Seasons Club Colores y Blanco- Sin Fondo_Mesa de trabajo 1.png" alt="Seasons Logo" class="logo-branding-mini">
+        <img src="assets/Seasons Club Colores y Blanco- Sin Fondo_Mesa de trabajo 1.png" alt="Seasons Logo"
+          class="logo-branding-mini">
         <h2>Mesa #{{ mesaSeleccionada?.numero_mesa }}</h2>
-        <span class="badge-estado" [ngClass]="{ 'libre': mesaSeleccionada?.estado === 'LIBRE', 'ocupada': mesaSeleccionada?.estado === 'OCUPADA' }">
+        <span class="badge-estado"
+          [ngClass]="{ 'libre': mesaSeleccionada?.estado === 'LIBRE', 'ocupada': mesaSeleccionada?.estado === 'OCUPADA' }">
           {{ mesaSeleccionada?.estado }}
         </span>
         <button class="btn-cerrar-x" (click)="cerrarModal()">&times;</button>
       </div>
 
       <div class="modal-body">
-        
+
         <div *ngIf="mesaSeleccionada?.estado === 'LIBRE'" class="flujo-libre">
-          <p class="instruccion">La mesa está vacía. Inicia una nueva orden para habilitar el consumo en la barra.</p>
+          <p class="instruccion">La mesa está vacía. Inicia una nueva orden para habilitar el consumo.</p>
           <button class="btn-accion-pos btn-abrir" (click)="abrirComandaMesa()" [disabled]="cargandoAccionMesa">
-            {{ cargandoAccionMesa ? 'Abriendo...' : '🚀 ABRIR COMANDA / INICIAR CONSUMO' }}
+            {{ cargandoAccionMesa ? 'Abriendo...' : '🚀 ABRIR COMANDA' }}
           </button>
         </div>
 
         <div *ngIf="mesaSeleccionada?.estado === 'OCUPADA'" class="flujo-ocupada">
-          
+
           <div class="seccion-ticket">
             <h3>📝 Cuenta Acumulada</h3>
-            
-            <div *ngIf="productosReales.length > 0" class="lista-productos">
-              <div *ngFor="let p of productosReales" class="item-producto" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+
+            <div class="lista-productos">
+              <div *ngFor="let p of productosReales" class="item-producto"
+                style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid #eee; padding: 5px;">
                 <div style="display: flex; align-items: center; gap: 8px;">
-                  <span class="cant" style="font-weight: bold; color: #f472b6;">{{ p.cantidad }}x</span>
-                  <span class="nom">{{ p.nombre }}</span>
+                  <span style="font-weight: bold; color: #f472b6;">{{ p.cantidad }}x</span>
+                  <span>{{ p.nombre }}</span>
                 </div>
-                
-                <div style="display: flex; align-items: center; gap: 6px;">
-                  <button (click)="cambiarCantidadTrago(p.producto_id, 'restar')" style="background-color: #ef4444; color: white; border: none; padding: 2px 8px; border-radius: 4px; cursor: pointer; font-weight: bold;">-</button>
-                  <button (click)="cambiarCantidadTrago(p.producto_id, 'sumar')" style="background-color: #10b981; color: white; border: none; padding: 2px 6px; border-radius: 4px; cursor: pointer; font-weight: bold;">+</button>
-                  
-                  <a (click)="cambiarPrecioTrago(p.producto_id, p.precio)" 
-                     style="margin-left: 12px; min-width: 70px; text-align: right; color: #10b981; cursor: pointer; text-decoration: underline; font-weight: bold; display: inline-block;" 
-                     title="Clic para modificar precio de Admin">
-                    ${{ (p.cantidad * p.precio) | number }}
-                  </a>
+
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <button (click)="cambiarCantidadTrago(p.producto_id, 'restar')"
+                    style="background: #ef4444; color: white; border: none; padding: 2px 8px; border-radius: 4px;">-</button>
+                  <button (click)="cambiarCantidadTrago(p.producto_id, 'sumar')"
+                    style="background: #10b981; color: white; border: none; padding: 2px 8px; border-radius: 4px;">+</button>
+
+                  <button (click)="cambiarPrecioTrago(p.producto_id, (p.precio || 0))"
+                    style="background: none; border: none; color: #3b82f6; cursor: pointer; font-weight: bold; text-decoration: underline;">
+                    ${{ (p.cantidad * (p.precio || 0)) | number }}
+                  </button>
                 </div>
               </div>
             </div>
 
-            <div class="total-ticket">
-              <span>TOTAL ACUMULADO:</span>
-              <span class="total-valor">${{ totalCuentaReal | number }}</span>
+            <div class="total-ticket" style="margin-top: 15px; font-size: 1.2em; font-weight: bold; text-align: right;">
+              <span>TOTAL: </span>
+              <span class="total-valor">${{ (totalCuentaReal || 0) | number }}</span>
             </div>
           </div>
 
           <div class="seccion-catalogo-expandida">
             <h3>🍾 Catálogo de Licores</h3>
+
             <div class="grid-catalogo">
-              <button *ngFor="let prod of menuBarra" class="card-producto" (click)="inyectarTrago(prod)">
-                <div class="card-nombre">{{ prod.nombre }}</div>
-                <div class="card-precio">${{ prod.precio | number }}</div>
+              <button *ngFor="let prod of menuBarra" class="card-producto" (click)="inyectarTrago(prod)"
+                [style.backgroundImage]="(prod.imagenUrl && prod.imagenUrl !== '' && !prod.imagenUrl.includes('undefined')) ? 'url(' + prod.imagenUrl + ')' : 'none'"
+                [style.backgroundColor]="(prod.imagenUrl && prod.imagenUrl !== '' && !prod.imagenUrl.includes('undefined')) ? 'transparent' : '#2d3748'">
+
+                <div class="card-overlay">
+                  <div class="card-nombre">{{ prod.nombre }}</div>
+                  <div class="card-precio">${{ (prod.precioVenta || 0) | number }}</div>
+                </div>
               </button>
             </div>
 
-            <button class="btn-liberar-compacto" 
-            (click)="liberarMesa()" 
-            [disabled]="cargandoAccionMesa">
-            💳 CERRAR CUENTA / LIBERAR MESA
+            <button class="btn-liberar-compacto" (click)="liberarMesa()" [disabled]="cargandoAccionMesa">
+              💳 CERRAR CUENTA Y LIBERAR MESA
             </button>
           </div>
-          
         </div>
       </div>
     </div>

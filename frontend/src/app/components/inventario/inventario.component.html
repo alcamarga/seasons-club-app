@@ -1,14 +1,76 @@
 <div class="contenedor-inventario">
-    <h2 class="titulo-inventario">🍸 Inventario de Seasons Club</h2><img src="assets/Seasons Club Colores y Blanco- Sin Fondo_Mesa de trabajo 1.png" alt="Logo Seasons Club" class="logo-inventario">
-    
-    <div class="lista-productos">
-      <div *ngFor="let p of productos" class="item-producto">
-        <span style="color: #fff;">{{ p.nombre }}</span>
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <span style="color: #deff9a; font-weight: bold;">{{ p.stock_actual }}</span>
-          <button (click)="ajustarStock(p, -1)" class="btn-sm">-</button>
-          <button (click)="ajustarStock(p, 1)" class="btn-sm">+</button>
+
+  <button class="btn-agregar" (click)="agregarProducto()">➕ Agregar Producto</button>
+
+  <div class="header-titulo-inventario glass-panel">
+    <img src="assets/Seasons Club Colores y Blanco- Sin Fondo_Mesa de trabajo 1.png" alt="Logo Seasons Club"
+      class="logo-inventario">
+    <h2 class="titulo-inventario">INVENTARIO DE SEASONS CLUB</h2>
+  </div>
+
+  <div class="lista-productos-grid">
+    <app-glass-panel *ngFor="let p of productos" [interactive]="true" [class.insumo-card]="p.esInsumo"
+      class="tarjeta-producto-panel">
+      <div class="card-producto-tactil">
+
+        <div class="imagen-wrapper" (click)="fileInput.click()" title="Haga clic para cambiar la foto del producto">
+          <img [src]="p.imagenUrl" [alt]="p.nombre" class="imagen-producto"
+            onerror="this.src='assets/Seasons Club Colores y Blanco- Sin Fondo_Mesa de trabajo 1.png'">
+
+          <span class="categoria-tag" [ngClass]="'cat-' + p.categoria.toLowerCase()">
+            {{ p.categoria }}
+          </span>
+
+          <div class="imagen-overlay-editar">
+            <span class="edit-icon">📷 Cambiar foto</span>
+          </div>
+
+          <input type="file" #fileInput (change)="onFileSelected($event, p.id)" accept="image/*" style="display: none">
+        </div>
+
+        <div class="detalles-wrapper">
+          <h3 class="producto-nombre" [title]="p.nombre">{{ p.nombre }}</h3>
+
+          <div class="producto-valores">
+            <div class="valor-precio">
+              <span class="label">PRECIO</span>
+              <span class="precio-destacado" *ngIf="!p.esInsumo; else esInsumoText">
+                {{ p.precioVenta | currency:'COP':'symbol-narrow':'1.0-0' }}
+              </span>
+              <ng-template #esInsumoText>
+                <span class="insumo-tag-label">MATERIA PRIMA</span>
+              </ng-template>
+            </div>
+
+            <div class="vertical-divider-card"></div>
+
+            <div class="valor-stock">
+              <span class="label">STOCK</span>
+              <span class="stock-badge" [ngClass]="{
+                'stock-alto': p.stock >= 50,
+                'stock-medio': p.stock < 50 && p.stock >= 15,
+                'stock-bajo': p.stock < 15
+              }">
+                {{ p.stock }}
+              </span>
+            </div>
+          </div>
+
+          <div class="acciones-card-wrapper">
+            <button class="btn-accion-card btn-editar" (click)="$event.stopPropagation(); editarProducto(p)"
+              title="Editar Producto">
+              ✏️ Editar
+            </button>
+            <button class="btn-accion-card btn-eliminar" (click)="$event.stopPropagation(); eliminarProducto(p)"
+              title="Eliminar Producto">
+              🗑️ Eliminar
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </app-glass-panel>
   </div>
+</div>
+
+<app-inventario-edit-modal *ngIf="productoSeleccionado" [producto]="productoSeleccionado" (save)="onModalSave($event)"
+  (close)="cerrarModal()"></app-inventario-edit-modal>

@@ -13,6 +13,7 @@
   display: block;
   background-color: transparent !important;
 }
+
 .contenedor-principal {
   background-color: transparent !important;
   min-height: 100vh;
@@ -93,6 +94,7 @@
   &.libre {
     border-color: #10b981;
     box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+
     &:hover {
       background-color: #10b981;
       box-shadow: 0 0 25px rgba(16, 185, 129, 0.6);
@@ -103,6 +105,7 @@
   &.ocupada {
     border-color: #ef4444;
     box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+
     &:hover {
       background-color: #ef4444;
       box-shadow: 0 0 25px rgba(239, 68, 68, 0.6);
@@ -160,8 +163,15 @@
 }
 
 @keyframes emerger {
-  from { transform: scale(0.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .modal-header {
@@ -192,9 +202,18 @@
     font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
-    
-    &.libre { background-color: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981; }
-    &.ocupada { background-color: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    &.libre {
+      background-color: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      border: 1px solid #10b981;
+    }
+
+    &.ocupada {
+      background-color: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border: 1px solid #ef4444;
+    }
   }
 
   .btn-cerrar-x {
@@ -205,7 +224,10 @@
     font-size: 2rem;
     cursor: pointer;
     line-height: 1;
-    &:hover { color: white; }
+
+    &:hover {
+      color: white;
+    }
   }
 }
 
@@ -218,7 +240,7 @@
 .flujo-libre {
   text-align: center;
   padding: 20px 0;
-  
+
   .instruccion {
     color: #9ca3af;
     font-size: 1.1rem;
@@ -241,7 +263,13 @@
   display: flex;
   flex-direction: column;
 
-  h3 { margin-top: 0; font-size: 1.1rem; color: #c084fc; border-bottom: 1px solid #374151; padding-bottom: 8px; }
+  h3 {
+    margin-top: 0;
+    font-size: 1.1rem;
+    color: #c084fc;
+    border-bottom: 1px solid #374151;
+    padding-bottom: 8px;
+  }
 }
 
 .lista-productos {
@@ -258,9 +286,21 @@
   padding: 6px 0;
   border-bottom: 1px dashed #374151;
 
-  .cant { color: #a855f7; font-weight: bold; margin-right: 8px; }
-  .nom { color: #e5e7eb; flex-grow: 1; }
-  .val { color: white; font-weight: 600; }
+  .cant {
+    color: #a855f7;
+    font-weight: bold;
+    margin-right: 8px;
+  }
+
+  .nom {
+    color: #e5e7eb;
+    flex-grow: 1;
+  }
+
+  .val {
+    color: white;
+    font-weight: 600;
+  }
 }
 
 .total-ticket {
@@ -273,15 +313,28 @@
   font-size: 1rem;
   color: #f472b6;
 
-  .total-valor { font-size: 1.3rem; }
+  .total-valor {
+    font-size: 1.3rem;
+  }
 }
 
 .seccion-acciones-rapidas {
   display: flex;
   flex-direction: column;
 
-  h3 { margin-top: 0; font-size: 1.1rem; color: #f472b6; border-bottom: 1px solid #374151; padding-bottom: 8px; }
-  .nota-pos { color: #9ca3af; font-size: 0.9rem; margin-bottom: 16px; }
+  h3 {
+    margin-top: 0;
+    font-size: 1.1rem;
+    color: #f472b6;
+    border-bottom: 1px solid #374151;
+    padding-bottom: 8px;
+  }
+
+  .nota-pos {
+    color: #9ca3af;
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+  }
 }
 
 /* Botones de Acción Estilo POS */
@@ -294,21 +347,32 @@
   font-weight: 800;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 
-  &:disabled { opacity: 0.5; cursor: not-allowed; }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 
   &.btn-abrir {
     background: linear-gradient(to right, #10b981, #059669);
     color: white;
-    &:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 0 15px rgba(16, 185, 129, 0.4); }
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+    }
   }
 
   &.btn-liberar {
     background: linear-gradient(to right, #ef4444, #dc2626);
     color: white;
     margin-top: auto;
-    &:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+    }
   }
 }
 
@@ -326,7 +390,11 @@
   transition: all 0.2s;
   margin-bottom: 12px;
 
-  &:hover { background-color: #4b5563; color: white; border-color: #c084fc; }
+  &:hover {
+    background-color: #4b5563;
+    color: white;
+    border-color: #c084fc;
+  }
 }
 
 /* 🍾 NUEVAS CAJITAS ESTILO LINA POS (Añadido al final de tu archivo) */
@@ -348,10 +416,12 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  z-index: 10;
+  pointer-events: auto;
   transition: all 0.2s ease;
   color: white;
   min-height: 70px;
-  
+
   &:hover {
     background: #4a5568;
     border-color: #10b981;
@@ -386,17 +456,85 @@
   cursor: pointer;
   width: 100%;
   margin-top: 15px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   transition: all 0.2s ease;
-  
-  &:hover:not(:disabled) { 
+
+  &:hover:not(:disabled) {
     background: #dc2626;
-    transform: translateY(-2px); 
+    transform: translateY(-2px);
     box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
   }
-  
-  &:disabled { 
-    opacity: 0.5; 
-    cursor: not-allowed; 
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+/* 🍾 CAJITAS CATÁLOGO CON IMAGEN DE FONDO (MARCA DE AGUA) */
+.grid-catalogo {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.card-producto {
+  position: relative;
+  border: 2px solid #4a5568;
+  border-radius: 12px;
+  padding: 0; // Padding 0 para que la imagen ocupe todo
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  overflow: hidden; // Importante para no salirse de los bordes redondeados
+  transition: all 0.2s ease;
+  min-height: 85px;
+
+  // Propiedades de la imagen de fondo
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #1f2937; // Color base por si la imagen tarda en cargar
+
+  .card-overlay {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.65); // Oscurece la imagen para que el texto destaque
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.3s;
+    padding: 5px;
+  }
+
+  &:hover {
+    border-color: #10b981;
+    transform: translateY(-2px);
+
+    .card-overlay {
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    // Se aclara un poco al pasar el mouse
+  }
+
+  .card-nombre {
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.1;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    margin-bottom: 4px;
+  }
+
+  .card-precio {
+    font-size: 0.8rem;
+    color: #34d399; // Verde neón para el precio
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
   }
 }

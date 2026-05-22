@@ -8,6 +8,8 @@ Ecosistema informático de punto de venta (POS) y control transaccional diseñad
 * **Gestión por Recetas y Descuento de Barra:** Descuento inteligente de insumos. Una orden de cóctel deduce las onzas de licor correspondientes del inventario global, mientras que las botellas y bebidas directas se restan como unidades enteras.
 * **Módulo de Cierre de Caja y Rentabilidad:** Panel administrativo automatizado para el cálculo de ingresos brutos de la jornada, costos de adquisición de licores y cálculo exacto de ganancias netas por día o rango de fechas.
 * **Métricas de Ventas por Mesero:** Registro preciso de comisiones basado en las comandas creadas y cerradas por cada ID de empleado.
+* **Imágenes en Base64:** Las fotos de productos se guardan como cadenas Base64 en `localStorage`, eliminando dependencias de archivos estáticos y evitando errores 404.
+* **Componentes Modulares y Categorías Dinámicas:** El modal de edición está dividido en TS, HTML y CSS; las categorías se gestionan con `datalist` y se pueden añadir sin modificar código.
 
 ## 👥 Roles del Sistema (Uso 100% Interno)
 
@@ -81,3 +83,11 @@ El ecosistema transaccional de Seasons Club está construido con tecnologías mo
 * **Backend:** Flask (Python) con arquitectura RESTful estructurada.
 * **Base de Datos:** PostgreSQL para persistencia transaccional e histórica robusta.
 * **Infraestructura:** Docker y despliegue continuo automatizado.
+
+## 🏗️ Arquitectura
+
+- **Frontend Angular 18+**: Componentes independientes y standalone, gestión de estado mediante servicios; `MesaService` maneja consumo de mesas completamente en `localStorage`, garantizando operación offline.
+- **Persistencia Local**: Todo el estado de mesas, productos y categorías se almacena en `localStorage` usando claves estructuradas (`mesa_consumo_{id}`, `productos`, `categorias`), eliminando necesidad de llamadas al backend para estas operaciones.
+- **Imágenes en Base64**: Las imágenes de productos se convierten a Base64 en el cliente y se guardan junto al objeto producto, simplificando la entrega y evitando rutas de archivos.
+- **Modularidad de Código**: Cada funcionalidad (inventario, mesas, reportes) está encapsulada en su propio módulo y servicio, facilitando pruebas unitarias y reutilización.
+- **Seguridad**: Cumplimiento de las reglas de `mandatory-secure-web-skills`, sin exposición de datos sensibles a través de HTTP innecesario.

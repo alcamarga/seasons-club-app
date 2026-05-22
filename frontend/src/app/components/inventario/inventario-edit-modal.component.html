@@ -1,0 +1,37 @@
+<div class="modal-backdrop" (click)="onCancel()"></div>
+<app-glass-panel class="modal-content" [interactive]="true">
+    <h2 class="modal-titulo">Editar Producto</h2>
+
+    <form [formGroup]="form" (ngSubmit)="onSave()" class="modal-form">
+        <label>Nombre
+            <input type="text" formControlName="nombre" />
+        </label>
+
+        <label>Categoría
+            <input type="text" formControlName="categoria" list="categoriasList"
+                placeholder="Escribe o selecciona..." />
+            <datalist id="categoriasList">
+                <option *ngFor="let cat of categorias" [value]="cat"></option>
+            </datalist>
+        </label>
+
+        <label>Imagen del Producto
+            <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+        </label>
+        <img *ngIf="imagenTemporal || producto.imagenUrl" [src]="imagenTemporal || producto.imagenUrl"
+            class="preview-img" />
+
+        <label>Precio Venta (COP)
+            <input type="number" formControlName="precioVenta" min="0" />
+        </label>
+
+        <label>Stock
+            <input type="number" formControlName="stock" min="0" />
+        </label>
+
+        <div class="modal-actions">
+            <button type="button" class="btn-cancelar" (click)="onCancel()">Cancelar</button>
+            <button type="submit" class="btn-guardar" [disabled]="form.invalid">Guardar</button>
+        </div>
+    </form>
+</app-glass-panel>
