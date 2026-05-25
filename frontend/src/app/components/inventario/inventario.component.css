@@ -335,3 +335,45 @@
 .btn-eliminar:active {
   transform: translateY(1px);
 }
+
+#dashboard-financiero {
+  display: flex !important;
+  justify-content: space-around !important;
+  padding: 30px !important;
+  background-color: #000000 !important;
+  border-radius: 16px !important;
+  margin: 20px 0 !important;
+  border: 1px solid #333 !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8) !important;
+  width: 100% !important;
+}
+
+.resumen-item {
+  text-align: center;
+  flex: 1;
+}
+
+.resumen-item h3 {
+  color: #ffffff !important;
+  font-size: 1.2rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1.5px !important;
+  margin-bottom: 15px !important;
+}
+
+.resumen-item p {
+  font-size: 3rem !important;
+  font-weight: 800 !important;
+  margin: 0 !important;
+}
+
+/* Colores Neón Específicos */
+.valor-inversion {
+  color: #ff9800 !important;
+  text-shadow: 0 0 15px #ff9800, 0 0 25px #ff9800 !important;
+}
+
+.valor-utilidad {
+  color: #4caf50 !important;
+  text-shadow: 0 0 15px #4caf50, 0 0 25px #4caf50 !important;
+}

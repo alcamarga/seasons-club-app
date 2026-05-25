@@ -11,9 +11,17 @@
 """
 
 from flask import Blueprint, jsonify, request
-from models.database import db
+from database import db
 from models.mesa import Mesa
 from models.pedido import Pedido
+from models.venta import Venta
+from models.corte_caja import CorteCaja
+from models.historial_ventas import HistorialVentas
+from services.reporte_service import (
+    calcular_reporte_jornada,
+    calcular_desglose_iva,
+    normalizar_metodo_pago,
+)
 
 mesa_bp = Blueprint('mesa_bp', __name__)
 
@@ -208,8 +216,9 @@ def obtener_productos_barra():
         return jsonify({"status": "error", "message": "No se pudo cargar el menú de la barra"}), 500
 
 
-# ⚡ NUEVO POST: Inyectar un trago o producto a la comanda activa de la mesa
+# ⚡ POST: Inyectar producto a la comanda (rutas ASCII y con ñ por compatibilidad)
 @mesa_bp.route('/mesas/<int:id>/añadir', methods=['POST'])
+@mesa_bp.route('/mesas/<int:id>/agregar', methods=['POST'])
 def añadir_producto_a_mesa(id):
     datos = request.get_json() or {}
     producto_id = datos.get('producto_id')
@@ -272,3 +281,144 @@ def añadir_producto_a_mesa(id):
         db.session.rollback()
         print(f"❌ Error al añadir producto a la mesa {id}: {e}")
         return jsonify({"status": "error", "message": "Error interno al cargar el consumo"}), 500
+
+
+# 📊 POST: Crear una factura, guardar venta y liberar mesa
+@mesa_bp.route('/facturas', methods=['POST'])
+def crear_factura():
+    datos = request.get_json() or {}
+    mesa_id = datos.get('mesa_id')
+    metodo_pago = normalizar_metodo_pago(datos.get('metodo_pago', 'Efectivo'))
+    pedido_data = datos.get('pedido', {})
+    total = float(pedido_data.get('total', 0) or 0)
+    articulos = pedido_data.get('articulos', [])
+
+    if not mesa_id:
+        return jsonify({"status": "error", "message": "mesa_id es requerido"}), 400
+    if total <= 0:
+        return jsonify({"status": "error", "message": "El total de la factura debe ser mayor a cero"}), 400
+
+    try:
+        import json
+        mesa = Mesa.query.get(mesa_id)
+        if not mesa:
+            return jsonify({"status": "error", "message": "Mesa no encontrada"}), 404
+
+        subtotal, iva = calcular_desglose_iva(total)
+
+        nueva_venta = Venta(
+            mesa_id=mesa_id,
+            total_venta=total,
+            metodo_pago=metodo_pago
+        )
+        db.session.add(nueva_venta)
+        db.session.flush()
+
+        historial = HistorialVentas(
+            mesa_id=mesa_id,
+            numero_mesa=mesa.numero_mesa,
+            venta_id=nueva_venta.id,
+            total=total,
+            subtotal=subtotal,
+            iva=iva,
+            metodo_pago=metodo_pago,
+            articulos_json=json.dumps(articulos)
+        )
+        db.session.add(historial)
+
+        pedido = Pedido.query.filter_by(mesa_id=mesa_id, estado='pendiente').first()
+        if pedido:
+            pedido.estado = 'facturado'
+
+        mesa.estado = 'LIBRE'
+
+        db.session.commit()
+        return jsonify({
+            "status": "success",
+            "message": "Factura guardada y venta registrada",
+            "venta_id": nueva_venta.id,
+            "historial_id": historial.id
+        }), 201
+
+    except Exception as e:
+        db.session.rollback()
+        print(f"❌ Error al facturar: {e}")
+        return jsonify({"status": "error", "message": "Error al procesar factura"}), 500
+
+# 📈 GET: Reporte diario (Para el cierre de caja)
+@mesa_bp.route('/reporte/diario', methods=['GET'])
+def obtener_reporte_diario():
+    try:
+        reporte = calcular_reporte_jornada()
+        return jsonify(reporte), 200
+    except Exception as e:
+        print(f"❌ Error al generar reporte diario: {e}")
+        return jsonify({"status": "error", "message": "No se pudo generar el reporte diario"}), 500
+
+
+# 🔒 POST: Cierre de caja — registra el corte de jornada
+@mesa_bp.route('/reporte/cierre', methods=['POST'])
+def realizar_cierre_caja():
+    try:
+        reporte = calcular_reporte_jornada()
+
+        if reporte['cantidad_ventas'] == 0:
+            return jsonify({
+                "status": "error",
+                "message": "No hay ventas en la jornada actual para cerrar"
+            }), 400
+
+        nuevo_corte = CorteCaja(
+            total_ventas=reporte['total'],
+            efectivo=reporte['efectivo'],
+            transferencia=reporte['transferencia'],
+            cantidad_ventas=reporte['cantidad_ventas']
+        )
+        db.session.add(nuevo_corte)
+        db.session.commit()
+
+        return jsonify({
+            "status": "success",
+            "message": "Cierre de caja registrado correctamente",
+            "corte": nuevo_corte.to_dict(),
+            "reporte_cerrado": reporte
+        }), 201
+
+    except Exception as e:
+        db.session.rollback()
+        print(f"❌ Error al realizar cierre de caja: {e}")
+        return jsonify({"status": "error", "message": "Error al registrar el cierre de caja"}), 500
+
+
+# 📜 GET: Historial de cierres de caja registrados
+@mesa_bp.route('/reporte/cierres', methods=['GET'])
+def obtener_historial_cierres():
+    try:
+        cortes = CorteCaja.query.order_by(CorteCaja.fecha_corte.desc()).limit(100).all()
+        resultado = []
+        for corte in cortes:
+            data = corte.to_dict()
+            subtotal, iva = calcular_desglose_iva(corte.total_ventas)
+            data['total'] = round(float(corte.total_ventas), 2)
+            data['subtotal'] = subtotal
+            data['iva'] = iva
+            resultado.append(data)
+        return jsonify(resultado), 200
+    except Exception as e:
+        print(f"❌ Error al consultar historial de cierres: {e}")
+        return jsonify({"status": "error", "message": "No se pudo cargar el historial de cierres"}), 500
+
+
+# 📜 GET: Historial de ventas por mesa
+@mesa_bp.route('/historial-ventas', methods=['GET'])
+def obtener_historial_ventas():
+    mesa_id = request.args.get('mesa_id', type=int)
+    try:
+        query = HistorialVentas.query.order_by(HistorialVentas.fecha.desc())
+        if mesa_id:
+            query = query.filter_by(mesa_id=mesa_id)
+        historial = query.limit(100).all()
+        return jsonify([h.to_dict() for h in historial]), 200
+    except Exception as e:
+        print(f"❌ Error al consultar historial de ventas: {e}")
+        return jsonify({"status": "error", "message": "No se pudo cargar el historial de ventas"}), 500

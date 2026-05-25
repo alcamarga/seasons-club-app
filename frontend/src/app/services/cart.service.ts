@@ -8,8 +8,9 @@ import { Producto } from '../models/producto.model';
 import { environment } from '../../environments/environment';
 
 export interface ArticuloCarrito {
+  mesaId: number;
   productoId: number;
-  tamanoId: number; // Mantener por compatibilidad futura
+  tamanoId: number;
   cantidad: number;
   precioUnitario: number;
   nombre: string;
@@ -20,34 +21,16 @@ export interface ArticuloCarrito {
 export class CartService {
   private http = inject(HttpClient);
   private apiUrl = environment.apiUrl;
-  // Señal interna que almacena los artículos del carrito
   private _items = signal<ArticuloCarrito[]>(this.cargarDesdeStorage());
 
-  // Exposición solo lectura de la señal
   public readonly items = this._items.asReadonly();
 
-  // Total de artículos (suma de cantidades)
-  public readonly totalArticulos = computed(() =>
-    this._items().reduce((acc, a) => acc + a.cantidad, 0)
-  );
-
-  // Precio total del carrito (sin IVA = subtotal base)
-  public readonly totalCarrito = computed(() =>
-    this._items().reduce((acc, a) => acc + a.precioUnitario * a.cantidad, 0)
-  );
-
-  // IVA (19% sobre el subtotal)
-  public readonly ivaCarrito = computed(() =>
-    Math.round(this.totalCarrito() * 0.19)
-  );
-
-  // Total final con IVA incluido
-  public readonly totalConIva = computed(() =>
-    this.totalCarrito() + this.ivaCarrito()
-  );
+  public readonly totalArticulos = computed(() => this._items().reduce((acc, a) => acc + a.cantidad, 0));
+  public readonly totalCarrito = computed(() => this._items().reduce((acc, a) => acc + a.precioUnitario * a.cantidad, 0));
+  public readonly ivaCarrito = computed(() => Math.round(this.totalCarrito() * 0.19));
+  public readonly totalConIva = computed(() => this.totalCarrito() + this.ivaCarrito());
 
   constructor() {
-    // Sincronizar cambios con localStorage
     effect(() => {
       const datos = this._items();
       localStorage.setItem('carrito', JSON.stringify(datos));
@@ -59,18 +42,16 @@ export class CartService {
     return json ? JSON.parse(json) : [];
   }
 
-  /** Añade un producto al carrito.
-   * Si ya existe una fila con el mismo pizzaId y tamaño, incrementa la cantidad.
-   */
-  agregarAlCarrito(producto: Producto, tamanoLabel: string, precioExacto: number): void {
+  agregarAlCarrito(producto: Producto, tamanoLabel: string, precioExacto: number, mesaId: number): void {
     this._items.update(actual => {
-      const indice = actual.findIndex(a => a.productoId === producto.id && a.tamano === tamanoLabel);
+      const indice = actual.findIndex(a => a.productoId === producto.id && a.tamano === tamanoLabel && a.mesaId === mesaId);
       if (indice !== -1) {
         const articulo = actual[indice];
         const actualizado = { ...articulo, cantidad: articulo.cantidad + 1 };
         return [...actual.slice(0, indice), actualizado, ...actual.slice(indice + 1)];
       }
       const nuevo: ArticuloCarrito = {
+        mesaId: mesaId,
         productoId: producto.id,
         tamanoId: 0,
         cantidad: 1,
@@ -82,54 +63,28 @@ export class CartService {
     });
   }
 
-  /** Elimina un artículo por su índice en la lista. */
-  quitarArticulo(indice: number): void {
-    this._items.update(actual => actual.filter((_, i) => i !== indice));
-  }
+  quitarArticulo(indice: number): void { this._items.update(actual => actual.filter((_, i) => i !== indice)); }
+  aumentarCantidad(indice: number): void { this._items.update(actual => actual.map((item, i) => i === indice ? { ...item, cantidad: item.cantidad + 1 } : item)); }
+  disminuirCantidad(indice: number): void { this._items.update(actual => actual.map((item, i) => i === indice ? { ...item, cantidad: item.cantidad - 1 } : item).filter(item => item.cantidad > 0)); }
+  vaciarCarrito(): void { this._items.set([]); }
 
-  /** Incrementa la cantidad de un artículo. */
-  aumentarCantidad(indice: number): void {
-    this._items.update(actual =>
-      actual.map((item, i) => i === indice ? { ...item, cantidad: item.cantidad + 1 } : item)
-    );
-  }
-
-  /** Decrementa la cantidad y elimina el artículo si llega a 0. */
-  disminuirCantidad(indice: number): void {
-    this._items.update(actual =>
-      actual
-        .map((item, i) => i === indice ? { ...item, cantidad: item.cantidad - 1 } : item)
-        .filter(item => item.cantidad > 0)
-    );
-  }
-
-  /** Vacía todo el carrito. */
-  vaciarCarrito(): void {
-    this._items.set([]);
-  }
-
-  /** Envía el pedido al backend. */
   confirmarPedido(usuarioId: number): Observable<any> {
-    const subtotal = this.totalCarrito();
-    const iva = subtotal * 0.19; // 19% IVA
-    const total = subtotal + iva;
-    const fechaActual = new Date().toISOString().slice(0, 19).replace('T', ' ');
-
     const payload = {
       usuario_id: usuarioId,
-      subtotal: subtotal,
-      iva: iva,
-      total: total,
-      fecha_hora: fechaActual,
-      articulos: this._items().map(item => ({
-        producto_id: item.productoId,
-        nombre: item.nombre,
-        tamano: item.tamano,
-        cantidad: item.cantidad,
-        precio: item.precioUnitario
-      }))
+      subtotal: this.totalCarrito(),
+      iva: this.ivaCarrito(),
+      total: this.totalConIva(),
+      fecha_hora: new Date().toISOString().slice(0, 19).replace('T', ' '),
+      articulos: this._items().map(item => ({ producto_id: item.productoId, nombre: item.nombre, tamano: item.tamano, cantidad: item.cantidad, precio: item.precioUnitario }))
     };
-
     return this.http.post(`${this.apiUrl}/pedidos`, payload);
+  }
+
+  // NUEVAS FUNCIONES
+  unirMesas(mesaOrigen: number, mesaDestino: number): void {
+    this._items.update(actual => actual.map(item => item.mesaId === mesaOrigen ? { ...item, mesaId: mesaDestino } : item));
+  }
+  moverItemAMesa(indiceItem: number, nuevaMesaId: number): void {
+    this._items.update(actual => actual.map((item, i) => i === indiceItem ? { ...item, mesaId: nuevaMesaId } : item));
   }
 }

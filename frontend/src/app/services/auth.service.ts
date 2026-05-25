@@ -1,9 +1,6 @@
 // Servicio de autenticación JWT con persistencia en localStorage.
-// Autor: Camilo Martinez | Fecha: 23/03/2026 | Versión: 4.1
-
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
 import {
   Usuario,
@@ -16,15 +13,16 @@ import { environment } from '../../environments/environment';
 
 const CLAVE_TOKEN: string = 'access_token';
 const CLAVE_USUARIO: string = 'usuario';
-const URL_API_AUTENTICACION: string = `${environment.apiUrl}/auth`;
+
+// Ajustamos la URL base. Si tu backend es http://localhost:5000, 
+// environment.apiUrl debe ser exactamente esa dirección.
+const API_URL: string = environment.apiUrl;
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private http = inject(HttpClient);
-  private router = inject(Router);
 
-  // Estado reactivo de la sesión | Reactive session state
-  private _sesion$: BehaviorSubject<SesionActiva | null> =
+  public _sesion$: BehaviorSubject<SesionActiva | null> =
     new BehaviorSubject<SesionActiva | null>(this.cargarSesionGuardada());
 
   readonly sesionActiva$: Observable<SesionActiva | null> = this._sesion$.asObservable();
@@ -34,90 +32,80 @@ export class AuthService {
   }
 
   obtenerUsuarioActual(): Usuario | null {
-    const usuario = this._sesion$.getValue()?.usuario ?? null;
-    if (usuario) {
-      console.log('[AuthService] Usuario actual:', usuario.email, 'Rol:', usuario.rol);
-    } else {
-      console.warn('[AuthService] No hay usuario en sesión actual');
-    }
-    return usuario;
+    return this._sesion$.getValue()?.usuario ?? null;
   }
 
-  obtenerTokenAcceso(): string | null {
-    const token = localStorage.getItem(CLAVE_TOKEN);
-    if (!token) console.warn('[AuthService] No se encontró token en localStorage');
-    return token;
-  }
+  // --- MÉTODOS DE AUTENTICACIÓN ---
 
   iniciarSesion(credenciales: LoginCargaUtil): Observable<RespuestaAutenticacion> {
-    return this.http.post<RespuestaAutenticacion>(`${URL_API_AUTENTICACION}/login`, credenciales).pipe(
-      tap((respuesta: RespuestaAutenticacion) => this.registrarSesionLocal(respuesta))
+    // Si tu backend tiene ruta /api/login, usa: `${API_URL}/api/login`
+    // Si tu backend es directo, usa: `${API_URL}/login`
+    return this.http.post<RespuestaAutenticacion>(`${API_URL}/login`, credenciales).pipe(
+      tap((resp) => this.registrarSesionLocal(resp))
     );
   }
 
   registrarUsuario(datos: RegistroCargaUtil): Observable<RespuestaAutenticacion> {
-    return this.http.post<RespuestaAutenticacion>(`${URL_API_AUTENTICACION}/registro`, datos).pipe(
-      tap((respuesta: RespuestaAutenticacion) => this.registrarSesionLocal(respuesta))
+    return this.http.post<RespuestaAutenticacion>(`${API_URL}/registro`, datos).pipe(
+      tap((resp) => this.registrarSesionLocal(resp))
     );
   }
 
-  limpiarSesion(): void {
+  cerrarSesion(): void {
+    this.http.post(`${API_URL}/logout`, {}).subscribe({
+      complete: () => this.limpiarSesion(),
+      error: () => this.limpiarSesion()
+    });
+  }
+
+  public limpiarSesion(): void {
     localStorage.removeItem(CLAVE_TOKEN);
     localStorage.removeItem(CLAVE_USUARIO);
     localStorage.removeItem('user_role');
+    localStorage.removeItem('role_user');
+    localStorage.removeItem('email_user');
     this._sesion$.next(null);
-    console.log('[AuthService] Sesión limpiada localmente y localStorage depurado');
-  }
-
-  cerrarSesion(): void {
-    this.limpiarSesion();
-    location.reload();
-  }
-
-  // Método para manejar fallos críticos de autenticación (401)
-  expulsarUsuario(): void {
-    console.error('[AuthService] Expulsando usuario por falta de autenticación');
-    this.limpiarSesion();
-    this.router.navigate(['/login']);
   }
 
   private registrarSesionLocal(respuesta: RespuestaAutenticacion): void {
-    // Sincronización Atómica de Carga: Token y Rol primero
-    console.log('[AuthService] Guardando Token en storage:', respuesta.access_token.substring(0, 20) + '...');
+    const usuario = respuesta.usuario;
     localStorage.setItem(CLAVE_TOKEN, respuesta.access_token);
-    localStorage.setItem(CLAVE_USUARIO, JSON.stringify(respuesta.usuario));
-    if (respuesta.usuario.rol) {
-      localStorage.setItem('user_role', respuesta.usuario.rol.toLowerCase());
+    localStorage.setItem(CLAVE_USUARIO, JSON.stringify(usuario));
+    if (usuario.rol) {
+      const rol = usuario.rol.toLowerCase();
+      localStorage.setItem('user_role', rol);
+      localStorage.setItem('role_user', rol);
     }
-    
-    // Forzar guardado inmediato en BehaviorSubject
-    const nuevaSesion: SesionActiva = {
-      usuario: respuesta.usuario,
-      accessToken: respuesta.access_token
-    };
-    this._sesion$.next(nuevaSesion);
-    
-    console.log('[AuthService] Sesión registrada y persistida:', nuevaSesion.usuario.email, 'Rol:', nuevaSesion.usuario.rol);
+    if (usuario.email) {
+      localStorage.setItem('email_user', usuario.email);
+    }
+    this._sesion$.next({ usuario, accessToken: respuesta.access_token });
   }
 
   private cargarSesionGuardada(): SesionActiva | null {
-    const token: string | null = localStorage.getItem(CLAVE_TOKEN);
-    const usuarioCrudo: string | null = localStorage.getItem(CLAVE_USUARIO);
-
+    const token = localStorage.getItem(CLAVE_TOKEN);
+    const usuarioCrudo = localStorage.getItem(CLAVE_USUARIO);
     if (!token || !usuarioCrudo) return null;
-
     try {
-      const usuario: Usuario = JSON.parse(usuarioCrudo) as Usuario;
-      return { usuario, accessToken: token };
+      return { usuario: JSON.parse(usuarioCrudo), accessToken: token };
     } catch {
-      this.limpiarSesion();
       return null;
     }
   }
 
-  // Verifica si el usuario actual tiene rol de administrador
+  private obtenerRolActual(): string | null {
+    return (
+      this.obtenerUsuarioActual()?.rol?.toLowerCase() ??
+      localStorage.getItem('role_user')?.toLowerCase() ??
+      null
+    );
+  }
+
   isAdmin(): boolean {
-    const usuario = this.obtenerUsuarioActual();
-    return !!(usuario && usuario.rol === 'admin');
+    return this.obtenerRolActual() === 'admin';
+  }
+
+  isMesero(): boolean {
+    return this.obtenerRolActual() === 'mesero';
   }
 }

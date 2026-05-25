@@ -2,4 +2,6 @@
 export const environment = {
   produccion: false,
   apiUrl: 'http://localhost:5000/api',
+  /** Base del servidor Flask para imágenes en /static/uploads */
+  serverUrl: 'http://localhost:5000',
 };

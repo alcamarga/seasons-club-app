@@ -1,0 +1,50 @@
+.cierre-container {
+  text-align: left;
+}
+
+.zona-reporte-impresion {
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #444;
+}
+
+.zona-reporte-impresion table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  font-size: 0.9rem;
+}
+
+.zona-reporte-impresion th,
+.zona-reporte-impresion td {
+  padding: 8px;
+  border-bottom: 1px solid #333;
+  text-align: left;
+}
+
+.btn-imprimir-historial {
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.bloque-jornada-actual {
+  margin-bottom: 8px;
+}
+
+@media screen {
+  .bloque-jornada-actual {
+    display: block;
+  }
+}
+
+.solo-impresion {
+  display: none;
+}

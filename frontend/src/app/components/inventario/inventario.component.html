@@ -3,7 +3,7 @@
   <button class="btn-agregar" (click)="agregarProducto()">➕ Agregar Producto</button>
 
   <div class="header-titulo-inventario glass-panel">
-    <img src="assets/Seasons Club Colores y Blanco- Sin Fondo_Mesa de trabajo 1.png" alt="Logo Seasons Club"
+    <img src="assets/seasons-logo2.png" alt="Logo Seasons Club"
       class="logo-inventario">
     <h2 class="titulo-inventario">INVENTARIO DE SEASONS CLUB</h2>
   </div>
@@ -14,8 +14,8 @@
       <div class="card-producto-tactil">
 
         <div class="imagen-wrapper" (click)="fileInput.click()" title="Haga clic para cambiar la foto del producto">
-          <img [src]="p.imagenUrl" [alt]="p.nombre" class="imagen-producto"
-            onerror="this.src='assets/Seasons Club Colores y Blanco- Sin Fondo_Mesa de trabajo 1.png'">
+          <img [src]="inventarioService.resolverUrlImagen(p.imagenUrl)" [alt]="p.nombre" class="imagen-producto"
+            onerror="this.src='assets/seasons-logo2.png'">
 
           <span class="categoria-tag" [ngClass]="'cat-' + p.categoria.toLowerCase()">
             {{ p.categoria }}
@@ -70,7 +70,17 @@
       </div>
     </app-glass-panel>
   </div>
+  <div id="dashboard-financiero">
+    <div class="resumen-item">
+      <h3>INVERSIÓN EN INVENTARIO</h3>
+      <p class="valor-inversion">{{ totalInversion | currency:'COP':'symbol':'1.0-0' }}</p>
+    </div>
+    <div class="resumen-item">
+      <h3>UTILIDAD POTENCIAL</h3>
+      <p class="valor-utilidad">{{ totalUtilidad | currency:'COP':'symbol':'1.0-0' }}</p>
+    </div>
+  </div>
 </div>
 
-<app-inventario-edit-modal *ngIf="productoSeleccionado" [producto]="productoSeleccionado" (save)="onModalSave($event)"
-  (close)="cerrarModal()"></app-inventario-edit-modal>
+<app-inventario-edit-modal *ngIf="productoSeleccionado" [producto]="productoSeleccionado"
+  (save)="onModalSave($event)" (close)="cerrarModal()"></app-inventario-edit-modal>

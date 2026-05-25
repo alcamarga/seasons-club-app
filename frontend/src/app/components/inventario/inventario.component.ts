@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { InventarioService } from '../../services/inventario.service';
 import { Producto } from '../../models/producto.model';
 import { GlassPanelComponent } from '../glass-panel/glass-panel.component';
-import { InventarioEditModalComponent } from './inventario-edit-modal.component';
+import { InventarioEditModalComponent, GuardarProductoEvento } from './inventario-edit-modal.component';
 
 @Component({
   selector: 'app-inventario',
@@ -14,98 +14,89 @@ import { InventarioEditModalComponent } from './inventario-edit-modal.component'
   styleUrls: ['./inventario.component.css']
 })
 export class InventarioComponent implements OnInit {
-  /** Lista de productos mostrada en la cuadrícula */
+  totalInversion: number = 0;
+  totalUtilidad: number = 0;
   productos: Producto[] = [];
-
-  /** Producto que se está editando; null cuando el modal está cerrado */
   productoSeleccionado: Producto | null = null;
 
-  constructor(private inventarioService: InventarioService) {}
+  constructor(public inventarioService: InventarioService) { }
 
-  ngOnInit(): void {
-    this.cargarProductos();
-  }
+  ngOnInit(): void { this.cargarProductos(); }
 
-
-  /** Abre el modal para crear un nuevo producto */
-  agregarProducto(): void {
-    this.productoSeleccionado = {
-      id: 0,
-      nombre: '',
-      categoria: '',
-      precioVenta: 0,
-      stock: 0,
-      imagenUrl: '',
-      esInsumo: false
-    };
+  calcularTotales(): void {
+    this.totalInversion = this.productos.reduce((sum, p) => sum + (p.precioCompra * p.stock), 0);
+    const totalVenta = this.productos.reduce((sum, p) => sum + (p.precioVenta * p.stock), 0);
+    this.totalUtilidad = totalVenta - this.totalInversion;
   }
 
   cargarProductos(): void {
     this.inventarioService.obtenerProductos().subscribe({
-      next: (data) => (this.productos = data),
-      error: (err) => console.error('Error al cargar los productos:', err)
+      next: (data) => {
+        this.productos = data;
+        this.calcularTotales();
+        this.inventarioService.avisarCatalogoActualizado();
+      },
+      error: () => {
+        alert('No se pudo cargar el inventario desde el servidor.');
+      },
     });
   }
 
-  /** Abre el modal de edición para el producto indicado */
-  editarProducto(producto: Producto): void {
-    // Clonar para evitar mutaciones prematuras en la lista
-    this.productoSeleccionado = { ...producto };
+  agregarProducto(): void {
+    this.productoSeleccionado = { id: 0, nombre: '', categoria: '', precioCompra: 0, precioVenta: 0, stock: 0, imagenUrl: '', esInsumo: false };
   }
 
-  /** Cierra el modal sin guardar cambios */
+  editarProducto(producto: Producto): void { this.productoSeleccionado = { ...producto }; }
+
+  // Función necesaria para que el HTML deje de dar error
   cerrarModal(): void {
     this.productoSeleccionado = null;
   }
 
-  /** Maneja el evento de guardado del modal */
-  onModalSave(updated: Producto): void {
-    if (!updated) return;
-    if (!updated.id || updated.id === 0) {
-      // Nuevo producto
-      this.inventarioService.agregarProducto(updated);
-    } else {
-      this.inventarioService.actualizarProducto(updated);
-    }
-    this.cargarProductos();
-    this.productoSeleccionado = null;
+  onModalSave(evento: GuardarProductoEvento): void {
+    const updated = evento.producto;
+    const obs = updated.id === 0
+      ? this.inventarioService.agregarProducto(updated)
+      : this.inventarioService.actualizarProducto(updated);
+
+    obs.subscribe({
+      next: (guardado) => {
+        const finalizar = () => {
+          this.cargarProductos();
+          this.productoSeleccionado = null;
+        };
+        if (evento.archivo) {
+          this.inventarioService.subirImagenProducto(guardado.id, evento.archivo).subscribe({
+            next: () => finalizar(),
+            error: () => {
+              alert('Producto guardado, pero falló la subida de la imagen.');
+              finalizar();
+            },
+          });
+        } else {
+          finalizar();
+        }
+      },
+      error: () => {
+        alert('No se pudo guardar el producto. Revisa la consola y el backend.');
+      },
+    });
   }
 
-
-  /** Elimina un producto (implementación de demostración) */
-  eliminarProducto(producto: Producto): void {
-    if (confirm(`¿Eliminar "${producto.nombre}"?`)) {
-      // Demo: eliminar localmente; el servicio podría manejar persistencia
-      this.productos = this.productos.filter(p => p.id !== producto.id);
-    }
-  }
-
-  /** Captura una imagen y la asigna temporalmente al producto */
   onFileSelected(event: any, productoId: number): void {
     const file = event?.target?.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      const url = reader.result as string;
-      // Actualizar en el arreglo local
-      const prod = this.productos.find(p => p.id === productoId);
-      if (prod) {
-        prod.imagenUrl = url;
-        // Persistir cambio en el servicio
-        this.inventarioService.actualizarProducto({
-          ...prod,
-          // manteniendo otros campos
-        });
-      }
-    };
-    reader.readAsDataURL(file);
+    if (!file || productoId <= 0) {
+      return;
+    }
+    this.inventarioService.subirImagenProducto(productoId, file).subscribe({
+      next: () => this.cargarProductos(),
+      error: () => alert('No se pudo subir la imagen del producto.'),
+    });
   }
 
-  /** Ajusta el stock de un producto (utilidad auxiliar) */
-  ajustarStock(producto: Producto, cantidad: number): void {
-    this.inventarioService.actualizarStock(producto.id, cantidad).subscribe({
-      next: () => this.cargarProductos(),
-      error: (err) => console.error('Error al ajustar el stock:', err)
-    });
+  eliminarProducto(producto: Producto): void {
+    if (confirm('¿Eliminar?')) {
+      this.inventarioService.eliminarProducto(producto.id).subscribe(() => this.cargarProductos());
+    }
   }
 }

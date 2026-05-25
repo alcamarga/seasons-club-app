@@ -1,0 +1,17 @@
+.ticket-container {
+    width: 58mm;
+    /* Ajusta a 80mm si tu impresora es más ancha */
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    margin: 0 auto;
+}
+
+.header,
+.footer {
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}

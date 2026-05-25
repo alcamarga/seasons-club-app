@@ -1,5 +1,11 @@
+@if (esAdmin) {
+  <app-sidebar [isOpen]="isSidebarOpen" (close)="isSidebarOpen = false"></app-sidebar>
+}
+
 <div class="watermark-logo"></div>
-<app-header></app-header>
-<main class="app-main-content">
+
+<app-header (menuToggle)="abrirSidebar()"></app-header>
+
+<main id="main-content" class="app-main-content">
   <router-outlet></router-outlet>
 </main>

@@ -1,0 +1,67 @@
+<div class="usuarios-contenedor">
+  <div class="usuarios-encabezado">
+    <h2>Control de Usuarios</h2>
+    <button type="button" class="btn-primario" (click)="abrirNuevo()">+ Nuevo usuario</button>
+  </div>
+
+  @if (errorMensaje) {
+    <p class="usuarios-error">{{ errorMensaje }}</p>
+  }
+
+  @if (cargando && personal().length === 0) {
+    <p class="usuarios-carga">Cargando personal...</p>
+  }
+
+  <div class="usuarios-tabla-wrap">
+    <table class="usuarios-tabla">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Rol</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (u of personal(); track u.id) {
+          <tr>
+            <td>{{ u.id }}</td>
+            <td>{{ u.nombre }}</td>
+            <td>{{ u.email }}</td>
+            <td><span class="badge-rol">{{ u.rol }}</span></td>
+            <td class="celda-acciones">
+              <button type="button" class="btn-secundario" (click)="abrirEditar(u)">Editar</button>
+              <button type="button" class="btn-secundario" (click)="cambiarContrasena(u)">Contraseña</button>
+              <button type="button" class="btn-peligro" (click)="eliminar(u)">Eliminar</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  @if (mostrarFormulario) {
+    <div class="usuarios-modal-overlay" (click)="cerrarFormulario()">
+      <div class="usuarios-modal" (click)="$event.stopPropagation()">
+        <h3>{{ editandoId === null ? 'Nuevo usuario' : 'Editar usuario' }}</h3>
+        <label>Nombre</label>
+        <input type="text" [(ngModel)]="formulario.nombre" name="nombre" />
+        <label>Email</label>
+        <input type="email" [(ngModel)]="formulario.email" name="email" />
+        <label>Rol</label>
+        <select [(ngModel)]="formulario.rol" name="rol">
+          @for (r of rolesDisponibles; track r) {
+            <option [value]="r">{{ r }}</option>
+          }
+        </select>
+        <label>{{ editandoId === null ? 'Contraseña' : 'Nueva contraseña (opcional)' }}</label>
+        <input type="password" [(ngModel)]="formulario.password" name="password" />
+        <div class="usuarios-modal-acciones">
+          <button type="button" class="btn-primario" (click)="guardar()" [disabled]="cargando">Guardar</button>
+          <button type="button" class="btn-secundario" (click)="cerrarFormulario()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

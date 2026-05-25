@@ -1,0 +1,121 @@
+<div class="cierre-container report-container" style="color: white; font-family: sans-serif; text-align: center;">
+
+    <div *ngIf="error" class="no-print" style="background: #7f1d1d; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+        {{ error }}
+    </div>
+
+    <div *ngIf="cargando" class="no-print">
+        <p style="color: #888;">Consultando datos del servidor...</p>
+    </div>
+
+    <div *ngIf="reporte && !cargando" class="no-print">
+        <h3 style="margin-bottom: 16px;">Jornada actual</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+            <div style="background: #333; padding: 10px; border-radius: 5px;">
+                <small>Total Ventas</small>
+                <h2 style="margin: 5px 0;">${{ reporte.total | number:'1.0-0' }}</h2>
+            </div>
+            <div style="background: #333; padding: 10px; border-radius: 5px;">
+                <small>Efectivo</small>
+                <h2 style="margin: 5px 0;">${{ reporte.efectivo | number:'1.0-0' }}</h2>
+            </div>
+            <div style="background: #333; padding: 10px; border-radius: 5px;">
+                <small>Transferencia</small>
+                <h2 style="margin: 5px 0;">${{ reporte.transferencia | number:'1.0-0' }}</h2>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+            <div style="background: #222; padding: 8px; border-radius: 5px;">
+                <small>Subtotal</small>
+                <p style="margin: 4px 0;">${{ reporte.subtotal | number:'1.0-0' }}</p>
+            </div>
+            <div style="background: #222; padding: 8px; border-radius: 5px;">
+                <small>IVA (19%)</small>
+                <p style="margin: 4px 0;">${{ reporte.iva | number:'1.0-0' }}</p>
+            </div>
+            <div style="background: #222; padding: 8px; border-radius: 5px;">
+                <small># Facturas</small>
+                <p style="margin: 4px 0;">{{ reporte.cantidad_ventas }}</p>
+            </div>
+        </div>
+
+        <div class="no-print" style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px;">
+            <button (click)="imprimirReporteActual()" [disabled]="!reporte.cantidad_ventas"
+                style="background: #6366f1; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                Imprimir Jornada Actual
+            </button>
+            <button (click)="realizarCierre()" [disabled]="cerrando || !reporte.cantidad_ventas"
+                style="background: #10b981; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                {{ cerrando ? 'Cerrando...' : 'Cerrar Caja' }}
+            </button>
+            <button (click)="cargarReporte()" [disabled]="cargando"
+                style="background: #374151; color: white; border: none; padding: 10px 16px; border-radius: 5px; cursor: pointer;">
+                Actualizar
+            </button>
+        </div>
+    </div>
+
+    <div class="zona-reporte-impresion report-container">
+        <div class="encabezado-reporte-impresion">
+            <h2>Seasons Club — Cierre de Caja</h2>
+            <p *ngIf="reporte">Jornada actual · {{ reporte.cantidad_ventas }} ventas</p>
+        </div>
+
+        <div *ngIf="reporte" class="bloque-jornada-actual">
+            <table>
+                <thead>
+                    <tr><th>Concepto</th><th>Valor</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Subtotal</td><td>${{ reporte.subtotal | number:'1.0-0' }}</td></tr>
+                    <tr><td>IVA (19%)</td><td>${{ reporte.iva | number:'1.0-0' }}</td></tr>
+                    <tr><td><strong>Total</strong></td><td><strong>${{ reporte.total | number:'1.0-0' }}</strong></td></tr>
+                    <tr><td>Efectivo</td><td>${{ reporte.efectivo | number:'1.0-0' }}</td></tr>
+                    <tr><td>Transferencia</td><td>${{ reporte.transferencia | number:'1.0-0' }}</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 style="margin-top: 24px; text-align: left;">Historial de cierres</h3>
+        <p *ngIf="cargandoHistorial" class="no-print">Cargando historial...</p>
+        <p *ngIf="!cargandoHistorial && historialCierres.length === 0">No hay cierres registrados.</p>
+
+        <div *ngIf="historialCierres.length > 0" class="tabla-historial-cierres">
+            <button type="button" class="no-print btn-imprimir-historial" (click)="imprimirHistorialCierres()">
+                Imprimir Historial de Cierres
+            </button>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th># Ventas</th>
+                        <th>Subtotal</th>
+                        <th>IVA</th>
+                        <th>Total</th>
+                        <th>Efectivo</th>
+                        <th>Transferencia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let c of historialCierres">
+                        <td>{{ formatearFecha(c.fecha_corte) }}</td>
+                        <td>{{ c.cantidad_ventas }}</td>
+                        <td>${{ c.subtotal | number:'1.0-0' }}</td>
+                        <td>${{ c.iva | number:'1.0-0' }}</td>
+                        <td>${{ c.total | number:'1.0-0' }}</td>
+                        <td>${{ c.efectivo | number:'1.0-0' }}</td>
+                        <td>${{ c.transferencia | number:'1.0-0' }}</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4"><strong>Total histórico</strong></td>
+                        <td colspan="3"><strong>${{ totalHistorial() | number:'1.0-0' }}</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+</div>

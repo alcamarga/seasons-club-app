@@ -1,31 +1,31 @@
 ================================================================================
-🌌 SEASONS CLUB - LOG DE DESARROLLO & MEMORIA DEL PROYECTO
+SEASONS CLUB — PROJECT MEMORY (resumen rápido)
 ================================================================================
 
+NOTA: La memoria técnica completa y actualizada está en project_memory.md
+      Léela antes de retomar el desarrollo.
+
 --------------------------------------------------------------------------------
-📅 Registro del 21 de Mayo de 2026 - Sprint: UI/UX & Base del Frontend
+ESTADO ACTUAL (última sesión)
 --------------------------------------------------------------------------------
+- Cierre de caja por JORNADA OPERATIVA (tabla corte_caja), no por fecha calendario
+- Historial de ventas (historial_ventas) + vista Angular HistorialVentasComponent
+- Ticket con IVA: subtotal = total/1.19, iva = total - subtotal
+- Reporte diario: SUM en SQL, filtro Venta.fecha > ultimo_corte
+- POST /api/reporte/cierre registra el corte; reporte vuelve a $0
 
-📌 Resumen del Avance:
-Hoy se configuró la base estética del frontend de Seasons Club, estableciendo las pautas visuales y funcionales para los turnos nocturnos, además de crear el primer componente estructural reutilizable.
+--------------------------------------------------------------------------------
+DECISIÓN CLAVE
+--------------------------------------------------------------------------------
+Jornada = desde último CorteCaja hasta el próximo "Cerrar Caja".
+Si no cierran caja, las ventas siguen sumando aunque pase medianoche.
 
-1. 🎨 Configuración de styles.css Global
-   - Se definió el sistema de tokens de diseño en `:root` con la paleta nocturna de alto rendimiento "Deep Cosmic".
-   - Fondo Base: `#070509` (Negro Cósmico).
-   - Acento Primario: `#ff007f` (Rosa/Magenta Eléctrico) para llamadas a la acción de alta importancia (ej. botón de Cobrar/Pago).
-   - Acento Secundario: `#00f0ff` (Cian Neón) para filtros y selecciones de producto.
-   - Fondo de contenedores: `rgba(18, 14, 24, 0.65)` (Capa base para efectos traslúcidos).
-   - Se implementó un fondo Mesh Gradient dinámico usando `radial-gradient` que simula la iluminación ambiental de una discoteca (luces neón púrpura, magenta y cian) sin impactar el rendimiento de carga.
-   - Se añadieron estilos globales para scrollbars en tonos rosa/magenta traslúcido para un acabado estético unificado.
-   - Se crearon las clases `.glass-panel` y `.glass-panel-interactive` para facilitar el diseño esmerilado con desenfoque de fondo (`backdrop-filter: blur(16px)`).
+--------------------------------------------------------------------------------
+PENDIENTES PRINCIPALES
+--------------------------------------------------------------------------------
+1. Unificar localStorage con API de pedidos en backend
+2. Migraciones Alembic
+3. Capturas en docs/screenshots/
+4. Corte automático opcional (hora fija Colombia)
 
-2. 📦 Creación del Componente GlassPanel (Standalone)
-   - Componente modular de Angular 18+ creado bajo la ruta: `src/app/components/glass-panel/`.
-   - Utiliza `<ng-content></ng-content>` permitiendo encapsular cualquier contenido HTML o componente secundario manteniendo el estilo de vidrio esmerilado de manera homogénea.
-   - Incorpora la directiva `@Input() interactive: boolean = false` para activar estados dinámicos (hover/active) con micro-animaciones (transform de elevación de 2px y sombra brillante magenta) ideal para botones y tarjetas del mapa de mesas interactivo.
-   - Incorpora `@Input() class: string = ''` para admitir clases personalizadas de margen/relleno de forma flexible.
-
-3. 👁️ Estrategia UI/UX para Personal de Discoteca (Legibilidad Nocturna)
-   - **Baja Emisión de Luz:** Fondo oscuro predominante para evitar la fatiga ocular de bartenders y meseros tras 8-10 horas de trabajo continuo en ambientes de penumbra.
-   - **Zonas Táctiles Amplias (Fitts's Law):** Los elementos del POS están diseñados para ser presionados rápidamente sin errores.
-   - **Ubicación del Logo:** Para evitar distraer al personal durante el ingreso veloz de comandas, el logo de Seasons Club se mantendrá en formato Isotipo ultra-compacto en el Header de navegación o visible en su versión completa en la pantalla de bloqueo de sesión, retirándose de las zonas táctiles interactivas de toma de pedido.
+Ver project_memory.md para detalle completo.

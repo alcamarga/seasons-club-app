@@ -1,19 +1,21 @@
 <app-glass-panel class="header-glass-wrapper">
   <div class="app-header-container">
 
-    <!-- 1. Sección Logo (Propuesta A con Isotipo e Imagen) -->
-    <div class="logo-area" [routerLink]="['/']">
-      <img src="assets/Seasons Club Colores y Blanco- Sin Fondo_Mesa de trabajo 1.png" alt="Seasons Club Isotipo"
-        class="header-isotipo-img">
+    <div class="logo-area" (click)="toggleMenu()" [class.menu-admin]="esAdmin">
+      <img src="/assets/seasons-logo2.png" alt="Seasons Club" class="header-isotipo-img">
     </div>
 
-    <!-- 2. Información Informativa (Reloj Digital) -->
     <div class="info-area">
-      <!-- Reloj digital en vivo para turnos nocturnos -->
       <div class="live-clock">
         <span class="clock-icon">🕒</span>
         <span class="clock-time">{{ fechaHoraActual }}</span>
       </div>
+    </div>
+
+    <div class="actions-area">
+      <button class="btn-logout" (click)="cerrarSesion()">
+        <span class="logout-icon">🚪</span> Salir
+      </button>
     </div>
 
   </div>

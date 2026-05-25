@@ -1,7 +1,7 @@
 <div class="contenedor-principal">
 
   <div class="encabezado">
-    <img src="assets/Seasons Club Colores y Blanco- Sin Fondo_Mesa de trabajo 1.png" alt="Seasons Club Logo"
+    <img src="assets/seasons-logo2.png" alt="Seasons Club Logo"
       class="logo-club">
     <h1 class="titulo-modulo">Módulo de Gestión de Mesas</h1>
     <div class="linea-decorativa"></div>
@@ -22,9 +22,8 @@
 
   <div *ngIf="mostrarModal" class="modal-overlay" (click)="cerrarModal()">
     <div class="modal-pos" (click)="$event.stopPropagation()">
-
       <div class="modal-header">
-        <img src="assets/Seasons Club Colores y Blanco- Sin Fondo_Mesa de trabajo 1.png" alt="Seasons Logo"
+        <img src="assets/seasons-logo2.png" alt="Seasons Club Logo"
           class="logo-branding-mini">
         <h2>Mesa #{{ mesaSeleccionada?.numero_mesa }}</h2>
         <span class="badge-estado"
@@ -35,7 +34,6 @@
       </div>
 
       <div class="modal-body">
-
         <div *ngIf="mesaSeleccionada?.estado === 'LIBRE'" class="flujo-libre">
           <p class="instruccion">La mesa está vacía. Inicia una nueva orden para habilitar el consumo.</p>
           <button class="btn-accion-pos btn-abrir" (click)="abrirComandaMesa()" [disabled]="cargandoAccionMesa">
@@ -44,10 +42,8 @@
         </div>
 
         <div *ngIf="mesaSeleccionada?.estado === 'OCUPADA'" class="flujo-ocupada">
-
           <div class="seccion-ticket">
             <h3>📝 Cuenta Acumulada</h3>
-
             <div class="lista-productos">
               <div *ngFor="let p of productosReales" class="item-producto"
                 style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid #eee; padding: 5px;">
@@ -55,13 +51,11 @@
                   <span style="font-weight: bold; color: #f472b6;">{{ p.cantidad }}x</span>
                   <span>{{ p.nombre }}</span>
                 </div>
-
                 <div style="display: flex; align-items: center; gap: 8px;">
                   <button (click)="cambiarCantidadTrago(p.producto_id, 'restar')"
                     style="background: #ef4444; color: white; border: none; padding: 2px 8px; border-radius: 4px;">-</button>
                   <button (click)="cambiarCantidadTrago(p.producto_id, 'sumar')"
                     style="background: #10b981; color: white; border: none; padding: 2px 8px; border-radius: 4px;">+</button>
-
                   <button (click)="cambiarPrecioTrago(p.producto_id, (p.precio || 0))"
                     style="background: none; border: none; color: #3b82f6; cursor: pointer; font-weight: bold; text-decoration: underline;">
                     ${{ (p.cantidad * (p.precio || 0)) | number }}
@@ -69,7 +63,6 @@
                 </div>
               </div>
             </div>
-
             <div class="total-ticket" style="margin-top: 15px; font-size: 1.2em; font-weight: bold; text-align: right;">
               <span>TOTAL: </span>
               <span class="total-valor">${{ (totalCuentaReal || 0) | number }}</span>
@@ -78,26 +71,34 @@
 
           <div class="seccion-catalogo-expandida">
             <h3>🍾 Catálogo de Licores</h3>
-
             <div class="grid-catalogo">
               <button *ngFor="let prod of menuBarra" class="card-producto" (click)="inyectarTrago(prod)"
-                [style.backgroundImage]="(prod.imagenUrl && prod.imagenUrl !== '' && !prod.imagenUrl.includes('undefined')) ? 'url(' + prod.imagenUrl + ')' : 'none'"
-                [style.backgroundColor]="(prod.imagenUrl && prod.imagenUrl !== '' && !prod.imagenUrl.includes('undefined')) ? 'transparent' : '#2d3748'">
-
+                [style.backgroundImage]="urlFondoCatalogo(prod)"
+                [style.backgroundColor]="urlFondoCatalogo(prod) === 'none' ? '#2d3748' : 'transparent'">
                 <div class="card-overlay">
                   <div class="card-nombre">{{ prod.nombre }}</div>
                   <div class="card-precio">${{ (prod.precioVenta || 0) | number }}</div>
                 </div>
               </button>
             </div>
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+              <button class="btn-pago-efectivo" (click)="cobrarYFacturarMesa('Efectivo')"
+                [disabled]="cargandoAccionMesa">
+                💰 Pagar en Efectivo
+              </button>
 
-            <button class="btn-liberar-compacto" (click)="liberarMesa()" [disabled]="cargandoAccionMesa">
-              💳 CERRAR CUENTA Y LIBERAR MESA
-            </button>
+              <button class="btn-pago-transf" (click)="cobrarYFacturarMesa('Transferencia')"
+                [disabled]="cargandoAccionMesa">
+                📱 Pagar Transferencia
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <div id="area-impresion" style="display: none;">
+    <app-factura-print [factura]="facturaParaImprimir"></app-factura-print>
+  </div>
 </div>
-<app-inventario></app-inventario>

@@ -1,35 +1,50 @@
 {
   "project_name": "Seasons-Club App",
-  "version": "1.0.0",
-  "status": "Planning & Initial Migration",
+  "version": "1.1.0",
+  "status": "Stable — Production Ready (internal POS)",
   "architecture": {
-    "frontend": "Angular",
-    "backend": "Flask (Python)",
-    "database": "PostgreSQL"
-  },
-  "business_rules": {
-    "type": "100% Internal POS system",
-    "public_access": false,
-    "core_entity": "Tables (20 total slots with reactive accounts)",
-    "inventory_mode": "Hybrid (Recipe ounces subtraction for cocktails + Direct subtraction for whole bottles)"
+    "frontend": "Angular 21 (standalone components, RxJS)",
+    "backend": "Flask 3 (blueprints, SQLAlchemy)",
+    "database": "PostgreSQL",
+    "authentication": "JWT (24h) + bcrypt via password_utils.hash_password",
+    "api_base": "/api"
   },
   "roles_definition": {
-    "ADMIN": "Inventory setup, overall sales logs, net profitability dashboard, closing day reporting",
-    "BARMAN": "Preparation screen dispatcher, instant bar stock overview",
-    "MESERO": "Table map view, order intake interface, pre-invoice dynamic triggering"
+    "admin": "Mesas, inventario, historial ventas, cierre de caja, control de usuarios (CRUD /api/usuarios)",
+    "mesero": "Solo módulo de mesas (/mesas)"
   },
-  "current_sprint": {
-    "objective": "Database model migration from PizzaOS to Seasons-Club table-centric model",
-    "tasks_completed": [
-      "Cloned codebase from pizzaos-core project architecture",
-      "Cleaned old git history tracking files",
-      "Setup fresh repository baseline",
-      "Re-styled development standards documents"
-    ],
-    "pending_next_steps": [
-      "Create SQL/SQLAlchemy migration models for 'Mesas' entity",
-      "Adapt 'Pedidos' database schema to handle mesa_id and mesero_id instead of delivery fields",
-      "Inject cost_price and retail_price to 'Insumos' table for profit margins calculation"
-    ]
+  "security": {
+    "guards": ["authGuard (sesión JWT)", "adminGuard (rol admin)"],
+    "interceptor": "auth.interceptor — Bearer token en peticiones API",
+    "password_storage": "bcrypt único en crear/editar/reset de usuarios"
+  },
+  "realtime_mesas": {
+    "polling_interval_ms": 3000,
+    "endpoint_consumo": "GET /api/mesas/:id/consumo",
+    "endpoint_agregar": "POST /api/mesas/:id/agregar",
+    "behavior": "Polling pausado durante mutaciones POST; clearInterval al cerrar modal"
+  },
+  "printing": {
+    "ticket_factura": "Ventana emergente HTML en MesasComponent",
+    "reports": "ImpresionReporteUtil + modo-impresion-reporte en styles.css",
+    "containers": ["#main-content", ".report-container", ".zona-reporte-impresion"]
+  },
+  "core_capabilities": [
+    "Mapa de 20 mesas con comandas en PostgreSQL",
+    "Facturación con IVA 19% y ticket impreso",
+    "Cierre de caja por jornada (corte_caja) e historial de cierres",
+    "Historial de ventas filtrable por mesa",
+    "Inventario y catálogo de barra",
+    "RBAC Admin/Mesero con rutas y sidebar condicionados",
+    "Control de usuarios admin|mesero"
+  ],
+  "pending_tasks": [
+    "Migraciones Alembic",
+    "Pantalla barman (rol futuro)",
+    "Métricas por mesero en pedidos"
+  ],
+  "dev_credentials": {
+    "admin": { "email": "admin@seasonsclub.com", "password": "admin1" },
+    "mesero": { "email": "mesero@seasonsclub.com", "password": "mesero1" }
   }
 }

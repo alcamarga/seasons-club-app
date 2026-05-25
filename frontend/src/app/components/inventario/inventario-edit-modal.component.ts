@@ -1,8 +1,13 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GlassPanelComponent } from '../glass-panel/glass-panel.component';
 import { Producto } from '../../models/producto.model';
+
+export interface GuardarProductoEvento {
+  producto: Producto;
+  archivo?: File;
+}
 
 @Component({
   selector: 'app-inventario-edit-modal',
@@ -11,21 +16,19 @@ import { Producto } from '../../models/producto.model';
   templateUrl: './inventario-edit-modal.component.html',
   styleUrls: ['./inventario-edit-modal.component.css']
 })
-export class InventarioEditModalComponent implements OnInit {
+export class InventarioEditModalComponent implements OnInit, OnDestroy {
   @Input() producto!: Producto;
-  @Output() save = new EventEmitter<Producto>();
+  @Output() save = new EventEmitter<GuardarProductoEvento>();
   @Output() close = new EventEmitter<void>();
 
   form!: FormGroup;
   imagenTemporal: string | null = null;
-
-  // Lista de categorías que el sistema sugiere
+  archivoPendiente: File | null = null;
   categorias: string[] = ['Licores', 'Cerveza', 'Coctel', 'Insumo', 'Bebidas', 'Snacks'];
 
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    // Si la categoría del producto no está en nuestra lista predeterminada, la agregamos
     if (this.producto.categoria && !this.categorias.includes(this.producto.categoria)) {
       this.categorias.push(this.producto.categoria);
     }
@@ -33,19 +36,26 @@ export class InventarioEditModalComponent implements OnInit {
     this.form = this.fb.group({
       nombre: [this.producto.nombre, [Validators.required, Validators.maxLength(100)]],
       categoria: [this.producto.categoria || '', [Validators.required]],
+      precioCompra: [this.producto.precioCompra ?? 0, [Validators.required, Validators.min(0)]],
       precioVenta: [this.producto.precioVenta, [Validators.required, Validators.min(0)]],
       stock: [this.producto.stock, [Validators.required, Validators.min(0)]]
     });
   }
 
+  ngOnDestroy(): void {
+    if (this.imagenTemporal?.startsWith('blob:')) {
+      URL.revokeObjectURL(this.imagenTemporal);
+    }
+  }
+
   onFileSelected(event: any): void {
     const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.imagenTemporal = e.target.result;
-      };
-      reader.readAsDataURL(file);
+      this.archivoPendiente = file;
+      if (this.imagenTemporal?.startsWith('blob:')) {
+        URL.revokeObjectURL(this.imagenTemporal);
+      }
+      this.imagenTemporal = URL.createObjectURL(file);
     }
   }
 
@@ -54,16 +64,19 @@ export class InventarioEditModalComponent implements OnInit {
       const updated: Producto = {
         ...this.producto,
         ...this.form.value,
-        imagenUrl: this.imagenTemporal || this.producto.imagenUrl
+        // No enviar base64 al backend; la imagen se sube con POST /imagen
+        imagenUrl: this.producto.imagenUrl || ''
       };
 
-      // Si el usuario escribió una categoría nueva, la agregamos a la lista global de sugerencias
       const nuevaCat = this.form.value.categoria;
       if (!this.categorias.includes(nuevaCat)) {
         this.categorias.push(nuevaCat);
       }
 
-      this.save.emit(updated);
+      this.save.emit({
+        producto: updated,
+        archivo: this.archivoPendiente || undefined,
+      });
     }
   }
 

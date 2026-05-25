@@ -21,7 +21,11 @@
         <img *ngIf="imagenTemporal || producto.imagenUrl" [src]="imagenTemporal || producto.imagenUrl"
             class="preview-img" />
 
-        <label>Precio Venta (COP)
+        <label>Precio de Compra (COP)
+            <input type="number" formControlName="precioCompra" min="0" />
+        </label>
+
+        <label>Precio de Venta (COP)
             <input type="number" formControlName="precioVenta" min="0" />
         </label>
 

@@ -1,0 +1,156 @@
+.historial-container {
+  color: #fff;
+  font-family: sans-serif;
+  text-align: left;
+}
+
+.zona-reporte-impresion {
+  background: rgba(0, 0, 0, 0.85);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #444;
+}
+
+.solo-impresion {
+  display: none;
+}
+
+@media print {
+  .solo-impresion {
+    display: inline !important;
+  }
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  justify-content: center;
+
+  label {
+    font-size: 0.9rem;
+    color: #ccc;
+  }
+
+  select {
+    background: #222;
+    color: #fff;
+    border: 1px solid #555;
+    border-radius: 5px;
+    padding: 8px 12px;
+    min-width: 160px;
+  }
+}
+
+.btn-primario,
+.btn-secundario,
+.btn-detalle {
+  border: none;
+  border-radius: 5px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-primario {
+  background: #6366f1;
+  color: #fff;
+}
+
+.btn-secundario {
+  background: #374151;
+  color: #fff;
+}
+
+.btn-detalle {
+  background: #1f2937;
+  color: #a5b4fc;
+  font-size: 0.85rem;
+  padding: 4px 10px;
+}
+
+.alerta-error {
+  background: #7f1d1d;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.estado-carga,
+.estado-vacio {
+  text-align: center;
+  color: #888;
+  padding: 20px 0;
+}
+
+.tabla-wrapper {
+  overflow-x: auto;
+}
+
+.tabla-historial {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+
+  th,
+  td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #333;
+    text-align: left;
+  }
+
+  th {
+    color: #aaa;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+  }
+
+  .col-total {
+    font-weight: bold;
+    color: #10b981;
+  }
+}
+
+.fila-venta:hover {
+  background: #1a1a1a;
+}
+
+.fila-detalle td {
+  background: #111;
+  padding-top: 0;
+}
+
+.detalle-articulos {
+  padding: 8px 4px 12px;
+
+  ul {
+    margin: 8px 0 0;
+    padding-left: 18px;
+    color: #ddd;
+  }
+
+  .sin-datos {
+    margin: 8px 0 0;
+    color: #888;
+  }
+}
+
+.badge-pago {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  background: #333;
+
+  &.efectivo {
+    background: #065f46;
+  }
+
+  &.transferencia {
+    background: #1e3a8a;
+  }
+}

@@ -1,37 +1,59 @@
+import logging
 import os
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request, send_from_directory
+from werkzeug.utils import secure_filename
 from flask_cors import CORS
 from config import Config
-from models.database import db
+from database import db
+from usuario import Usuario
+from password_utils import hash_password
 
-# 1. IMPORTAR MODELOS (Ya sincronizados con la discoteca)
-from models.usuario import Usuario
+# 1. IMPORTAR MODELOS
 from models.insumo import Insumo
 from models.producto import Producto
 from models.receta import Receta
-from models.mesa import Mesa  # <-- Importamos tu modelo de mesas listo
+from models.mesa import Mesa
+from models.venta import Venta
+from models.corte_caja import CorteCaja
+from models.historial_ventas import HistorialVentas
+from models.user import User
 
 # 2. IMPORTAR RUTAS
-from routes.pedido_routes import pedidos_blueprint
 from routes.admin_routes import admin_bp
-from routes.auth_routes import auth_bp
+from auth import auth_bp
 from routes.mesa_routes import mesa_bp
 from routes.producto_routes import producto_blueprint
 
 app = Flask(__name__)
 app.config.from_object(Config)
 
-# Configuración de CORS abierta para validación en local y Azure
-CORS(app, resources={r"/api/*": {"origins": "*"}})
+# --- CONFIGURACIÓN DE CARPETAS DE SUBIDA ---
+UPLOAD_FOLDER = 'static/uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+
+# CONFIGURACIÓN CORS REFORZADA
+CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
+
+@app.before_request
+def handle_preflight():
+    if request.method == "OPTIONS":
+        return '', 200
 
 db.init_app(app)
 
-# Registramos los blueprints con los prefijos corregidos
-app.register_blueprint(pedidos_blueprint, url_prefix='/api')
+# Registramos los blueprints con el prefijo /api
 app.register_blueprint(admin_bp, url_prefix='/api')
-app.register_blueprint(auth_bp, url_prefix='/api/auth')
+app.register_blueprint(auth_bp, url_prefix='/api')
 app.register_blueprint(mesa_bp, url_prefix='/api')
 app.register_blueprint(producto_blueprint, url_prefix='/api')
+
+# --- RUTA PARA SERVIR LAS IMÁGENES ---
+@app.route('/static/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 @app.route('/')
 def index():
@@ -40,82 +62,73 @@ def index():
 @app.route('/api/seed', methods=['GET'])
 def trigger_seed():
     try:
-        from werkzeug.security import generate_password_hash
-        print("🚀 Iniciando Seed desde endpoint...")
-        
-        # 1. Crear tablas si no existen en la base de datos
+        from password_utils import hash_password
         db.create_all()
         
-        # 2. Crear Admin de la discoteca si no existe
         admin_email = 'admin@seasonsclub.com'
         if not Usuario.query.filter_by(email=admin_email).first():
             admin = Usuario(
                 nombre='Admin Seasons',
                 email=admin_email,
-                contrasena_hash=generate_password_hash('admin123'),
+                contrasena_hash=hash_password('admin1'),
                 rol='admin'
             )
             db.session.add(admin)
             
-        # 3. Productos básicos para barra/discoteca de prueba
         if not Producto.query.filter_by(nombre='Coctel de la Casa').first():
             p1 = Producto(
-                nombre='Coctel de la Casa', 
-                descripcion='Bebida premium neón', 
-                categoria='Cocteles', 
-                precio_base=35000, 
-                precio_pequena=35000
+                nombre='Coctel de la Casa',
+                descripcion='Bebida premium neón',
+                categoria='Cocteles',
+                precio_base=35000,
+                precio_pequena=35000,
+                precio_venta=35000,
+                precio_compra=15000,
+                stock=50,
             )
             db.session.add(p1)
             
-        # 4. Poblar las 20 mesas si la base de datos está vacía
         if Mesa.query.count() == 0:
             for i in range(1, 21):
                 db.session.add(Mesa(numero_mesa=i, estado='LIBRE'))
             
         db.session.commit()
-        return jsonify({"status": "success", "message": "¡Base de datos de Seasons Club inicializada con éxito!"}), 200
+        return jsonify({"status": "success", "message": "¡Base de datos de Seasons Club inicializada!"}), 200
     except Exception as e:
         db.session.rollback()
         return jsonify({"status": "error", "message": str(e)}), 500
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.WARNING)
     with app.app_context():
-        # Crear todas las tablas que Flask "conoce" gracias a los imports
-        print("🛠️ [DB] Creando tablas en PostgreSQL...")
         db.create_all()
-        
-        from werkzeug.security import generate_password_hash
-        
-        # Lógica del Administrador de la discoteca
         admin_email = 'admin@seasonsclub.com'
         admin_existente = Usuario.query.filter_by(email=admin_email).first()
         
         if not admin_existente:
+            nuevo_hash = hash_password('admin1')
             nuevo_admin = Usuario(
                 nombre='Administrador',
                 email=admin_email,
-                contrasena_hash=generate_password_hash('admin123'),
+                contrasena_hash=nuevo_hash,
                 rol='admin'
             )
             db.session.add(nuevo_admin)
             db.session.commit()
-            print("✅ [DB] Usuario administrador creado: admin@seasonsclub.com / admin123")
-        else:
-            admin_existente.contrasena_hash = generate_password_hash('admin123')
-            db.session.commit()
-            print("✅ [DB] Usuario administrador verificado para Seasons Club.")
 
-        # Lógica automática para inicializar las 20 mesas en la base de datos física
-        mesas_en_bd = Mesa.query.count()
-        if mesas_en_bd == 0:
-            print("🎛️ [DB] Inicializando las 20 mesas de Seasons Club...")
-            for i in range(1, 21):
-                nueva_mesa = Mesa(numero_mesa=i, estado='LIBRE')
-                db.session.add(nueva_mesa)
+        mesero_email = 'mesero@seasonsclub.com'
+        if not Usuario.query.filter_by(email=mesero_email).first():
+            db.session.add(Usuario(
+                nombre='Mesero Demo',
+                email=mesero_email,
+                contrasena_hash=hash_password('mesero1'),
+                rol='mesero',
+            ))
             db.session.commit()
-            print("✅ [DB] ¡Las 20 mesas fueron guardadas exitosamente!")
-        else:
-            print(f"✅ [DB] Estructura de mesas verificada ({mesas_en_bd} encontradas).")
+            
+        if Mesa.query.count() == 0:
+            for i in range(1, 21):
+                db.session.add(Mesa(numero_mesa=i, estado='LIBRE'))
+            db.session.commit()
 
     app.run(debug=True, host='0.0.0.0', port=5000)

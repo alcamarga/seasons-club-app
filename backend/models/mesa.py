@@ -10,7 +10,7 @@
 -------------------------------------------------------------
 """
 
-from models.database import db
+from database import db
 
 class Mesa(db.Model):
     __tablename__ = 'mesas'

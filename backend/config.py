@@ -8,7 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 class Config:
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'postgresql://postgres:admin123@localhost:5432/pizzeria_core'
+    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:admin123@localhost:5432/seasons_club_db'
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SECRET_KEY = 'pizzas-secretas-123'
+    SECRET_KEY = 'seasons-club-clave-segura-2026'

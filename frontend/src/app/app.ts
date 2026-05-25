@@ -1,17 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { MesasComponent } from './components/mesas/mesas.component';
 import { HeaderComponent } from './components/header/header.component';
 import { RouterOutlet } from '@angular/router';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, RouterOutlet, MesasComponent, HeaderComponent],
+  imports: [CommonModule, RouterOutlet, HeaderComponent, SidebarComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class AppComponent {
-  title = 'pizzeria-frontend';
+  private auth = inject(AuthService);
+
+  title = 'Seasons-Club-frontend';
+  isSidebarOpen = false;
+
+  get esAdmin(): boolean {
+    return this.auth.isAdmin();
+  }
+
+  abrirSidebar(): void {
+    if (this.esAdmin) {
+      this.isSidebarOpen = true;
+    }
+  }
 }

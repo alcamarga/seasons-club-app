@@ -1,61 +1,234 @@
-from flask import Blueprint, jsonify, request as flask_request
-from models.database import db
-from models.usuario import Usuario
+from flask import Blueprint, jsonify, request as flask_request, current_app
+from database import db
+from usuario import Usuario
 from models.insumo import Insumo 
 from models.producto import Producto, SizeEnum
 from models.receta import Receta 
 from flask_cors import cross_origin
 import jwt as pyjwt
-from werkzeug.security import generate_password_hash
+from password_utils import hash_password
 
 admin_bp = Blueprint('admin', __name__)
-JWT_SECRET_USUARIOS = "pizzeria_secret_key_fixed_2026_super_safe"
+
+ROLES_PERMITIDOS = ('admin', 'mesero')
 
 # --- UTILIDADES ---
 def _verificar_token_admin():
     encabezado = flask_request.headers.get('Authorization', '')
+    if not encabezado.startswith('Bearer '):
+        return None, (jsonify({'error': 'Token requerido o inválido'}), 401)
     try:
         token = encabezado.split()[1]
-        payload = pyjwt.decode(token, JWT_SECRET_USUARIOS, algorithms=['HS256'])
+        payload = pyjwt.decode(
+            token,
+            current_app.config['SECRET_KEY'],
+            algorithms=['HS256'],
+        )
+        rol = (payload.get('role') or payload.get('rol') or '').lower()
+        if rol != 'admin':
+            return None, (jsonify({'error': 'Acceso solo para administradores'}), 403)
         return payload, None
-    except:
+    except Exception:
         return None, (jsonify({'error': 'Token requerido o inválido'}), 401)
+
+
+def _serializar_usuario(u: Usuario) -> dict:
+    return {
+        'id': u.id,
+        'nombre': u.nombre,
+        'email': u.email,
+        'rol': u.rol,
+    }
+
+
+def _validar_rol(rol: str):
+    if rol not in ROLES_PERMITIDOS:
+        return jsonify({'error': f'Rol inválido. Use: {", ".join(ROLES_PERMITIDOS)}'}), 400
+    return None
+
+
+def _asignar_contrasena_hash(usuario: Usuario, plain_password: str) -> tuple[dict | None, int | None]:
+    """Hashea con bcrypt antes de persistir. Evita Invalid salt en login."""
+    if not plain_password or len(str(plain_password)) < 6:
+        return {'error': 'La contraseña debe tener al menos 6 caracteres'}, 400
+    usuario.contrasena_hash = hash_password(str(plain_password))
+    return None, None
+
 
 # --- RUTAS DE USUARIOS / EMPLEADOS ---
 @admin_bp.route('/usuarios', methods=['GET', 'POST', 'OPTIONS'])
 @cross_origin()
 def gestionar_usuarios():
-    if flask_request.method == 'OPTIONS': return jsonify({}), 200
-    
-    # Comentamos la verificación de token temporalmente para facilitar tus pruebas
-    # payload, err = _verificar_token_admin()
-    # if err: return err
-    
+    if flask_request.method == 'OPTIONS':
+        return jsonify({}), 200
+
+    payload, err = _verificar_token_admin()
+    if err:
+        return err
+
     if flask_request.method == 'POST':
         try:
-            datos = flask_request.get_json()
+            datos = flask_request.get_json() or {}
+            nombre = (datos.get('nombre') or '').strip()
+            email = (datos.get('email') or '').strip().lower()
+            rol = (datos.get('rol') or 'mesero').lower()
+            pass_plana = datos.get('password') or datos.get('contrasena')
+
+            if not nombre or not email or not pass_plana:
+                return jsonify({'error': 'Nombre, email y contraseña son obligatorios'}), 400
+
+            err_rol = _validar_rol(rol)
+            if err_rol:
+                return err_rol
+
+            if Usuario.query.filter_by(email=email).first():
+                return jsonify({'error': 'El correo ya está registrado'}), 409
+
             nuevo = Usuario(
-                nombre=datos.get('nombre'), 
-                email=datos.get('email'), 
-                rol=datos.get('rol', 'cocinero')
+                nombre=nombre,
+                email=email,
+                rol=rol,
+                contrasena_hash=hash_password(str(pass_plana)),
             )
-            pass_plana = datos.get('password')
-            if pass_plana:
-                nuevo.contrasena_hash = generate_password_hash(pass_plana)
             db.session.add(nuevo)
             db.session.commit()
-            return jsonify({'mensaje': 'Empleado creado'}), 201
+            return jsonify({
+                'mensaje': 'Usuario creado',
+                'usuario': _serializar_usuario(nuevo),
+            }), 201
         except Exception as e:
             db.session.rollback()
             return jsonify({'error': str(e)}), 500
-            
+
     usuarios = Usuario.query.all()
-    return jsonify([{
-        'id': u.id, 
-        'nombre': u.nombre, 
-        'email': u.email, 
-        'rol': u.rol
-    } for u in usuarios])
+    return jsonify({'usuarios': [_serializar_usuario(u) for u in usuarios]}), 200
+
+
+@admin_bp.route('/usuarios/<int:usuario_id>', methods=['PUT', 'DELETE', 'OPTIONS'])
+@cross_origin()
+def gestionar_usuario_id(usuario_id):
+    if flask_request.method == 'OPTIONS':
+        return jsonify({}), 200
+
+    payload, err = _verificar_token_admin()
+    if err:
+        return err
+
+    usuario = Usuario.query.get(usuario_id)
+    if not usuario:
+        return jsonify({'error': 'Usuario no encontrado'}), 404
+
+    if flask_request.method == 'PUT':
+        try:
+            datos = flask_request.get_json() or {}
+            if 'nombre' in datos:
+                usuario.nombre = (datos.get('nombre') or '').strip()
+            if 'email' in datos:
+                email = (datos.get('email') or '').strip().lower()
+                otro = Usuario.query.filter(
+                    Usuario.email == email,
+                    Usuario.id != usuario_id,
+                ).first()
+                if otro:
+                    return jsonify({'error': 'El correo ya está en uso'}), 409
+                usuario.email = email
+            if 'rol' in datos:
+                rol = (datos.get('rol') or '').lower()
+                err_rol = _validar_rol(rol)
+                if err_rol:
+                    return err_rol
+                if usuario.rol == 'admin' and rol != 'admin':
+                    admins = Usuario.query.filter_by(rol='admin').count()
+                    if admins <= 1:
+                        return jsonify({'error': 'No se puede quitar el último administrador'}), 400
+                usuario.rol = rol
+            nueva_pass = datos.get('password') or datos.get('contrasena') or datos.get('nueva_contrasena')
+            if nueva_pass:
+                err_body, err_code = _asignar_contrasena_hash(usuario, nueva_pass)
+                if err_body:
+                    return jsonify(err_body), err_code
+            db.session.commit()
+            return jsonify({
+                'mensaje': 'Usuario actualizado',
+                'usuario': _serializar_usuario(usuario),
+            }), 200
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({'error': str(e)}), 500
+
+    if flask_request.method == 'DELETE':
+        try:
+            if usuario.rol == 'admin':
+                if Usuario.query.filter_by(rol='admin').count() <= 1:
+                    return jsonify({'error': 'No se puede eliminar el último administrador'}), 400
+            sub = payload.get('sub') or payload.get('id')
+            if sub and int(sub) == usuario.id:
+                return jsonify({'error': 'No puedes eliminar tu propia cuenta'}), 400
+            db.session.delete(usuario)
+            db.session.commit()
+            return jsonify({'mensaje': 'Usuario eliminado'}), 200
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({'error': str(e)}), 500
+
+
+@admin_bp.route('/usuarios/<int:usuario_id>/reset-password', methods=['POST', 'OPTIONS'])
+@cross_origin()
+def reset_password_usuario(usuario_id):
+    if flask_request.method == 'OPTIONS':
+        return jsonify({}), 200
+
+    _, err = _verificar_token_admin()
+    if err:
+        return err
+
+    usuario = Usuario.query.get(usuario_id)
+    if not usuario:
+        return jsonify({'error': 'Usuario no encontrado'}), 404
+
+    datos = flask_request.get_json() or {}
+    nueva = datos.get('nueva_contrasena') or datos.get('password') or datos.get('contrasena')
+    if not nueva or len(str(nueva)) < 6:
+        return jsonify({'error': 'La contraseña debe tener al menos 6 caracteres'}), 400
+
+    err_body, err_code = _asignar_contrasena_hash(usuario, str(nueva))
+    if err_body:
+        return jsonify(err_body), err_code
+
+    db.session.commit()
+    return jsonify({'mensaje': 'Contraseña actualizada'}), 200
+
+
+@admin_bp.route('/usuarios/<int:usuario_id>/rol', methods=['PATCH', 'OPTIONS'])
+@cross_origin()
+def cambiar_rol_usuario(usuario_id):
+    if flask_request.method == 'OPTIONS':
+        return jsonify({}), 200
+
+    _, err = _verificar_token_admin()
+    if err:
+        return err
+
+    usuario = Usuario.query.get(usuario_id)
+    if not usuario:
+        return jsonify({'error': 'Usuario no encontrado'}), 404
+
+    datos = flask_request.get_json() or {}
+    rol = (datos.get('rol') or '').lower()
+    err_rol = _validar_rol(rol)
+    if err_rol:
+        return err_rol
+
+    if usuario.rol == 'admin' and rol != 'admin':
+        if Usuario.query.filter_by(rol='admin').count() <= 1:
+            return jsonify({'error': 'No se puede quitar el último administrador'}), 400
+
+    usuario.rol = rol
+    db.session.commit()
+    return jsonify({
+        'mensaje': 'Rol actualizado',
+        'usuario': _serializar_usuario(usuario),
+    }), 200
 
 # --- RUTAS DE INSUMOS ---
 @admin_bp.route('/insumos', methods=['GET', 'POST', 'OPTIONS'])
@@ -331,4 +504,4 @@ def get_rentabilidad():
         }), 200
 
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': str(e)}), 500

@@ -1,6 +1,6 @@
 import json
 from flask import Blueprint, jsonify, request
-from models.database import db
+from database import db
 from models.pedido import Pedido
 from models.receta import Receta
 from models.insumo import Insumo

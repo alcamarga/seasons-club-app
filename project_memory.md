@@ -1,37 +1,154 @@
-# Project Memory
+# Project Memory — Seasons Club App
 
-## Resumen técnico de los cambios recientes
+> Memoria técnica del estado **estable y probado** del sistema POS interno. Versión de referencia: **1.1.0**.
 
-### Gestión de imágenes (Base64)
-- **Migración a Base64**: Todas las imágenes de los productos ahora se almacenan como cadenas Base64 en el campo `imagenUrl` del modelo `Producto`.  
-- **Ventajas**: elimina dependencias de archivos estáticos, previene errores 404 y permite una carga instantánea sin peticiones al servidor de recursos.
-- **Implementación**: `InventarioEditModalComponent` convierte la imagen seleccionada mediante `FileReader.readAsDataURL` y la guarda directamente en `producto.imagenUrl`.  
-- **Fallback**: si la URL falla, el `onerror` del `<img>` muestra el logo de Seasons Club.
+---
 
-### Componentes modulares
-- **Separación de responsabilidades**: el modal de edición ahora está dividido en tres archivos:
-  - `inventario-edit-modal.component.ts` (lógica)
-  - `inventario-edit-modal.component.html` (template)
-  - `inventario-edit-modal.component.css` (estilos).  
-- **Beneficios**: facilita pruebas unitarias, mejora la mantenibilidad y permite reutilizar el modal en otros contextos.
+## Resumen ejecutivo
 
-### Categorías dinámicas y autocompletado
-- **Lista extensible**: la lista de categorías (`categorias`) se define en el componente modal y se amplía automáticamente cuando el usuario introduce una nueva categoría.
-- **Autocomplete**: el campo de categoría usa `<input list="categoriasList">` con `<datalist>` para sugerencias en tiempo real.
-- **Escalabilidad**: al añadir nuevas categorías en la UI no se requiere modificar código; basta con que el usuario introduzca el valor y éste se persista en la lista global.
+Seasons Club App es un **POS interno** para operación de discoteca: mesas con comandas, facturación con IVA, inventario, cierre de caja por jornada, historial de ventas e impresión de reportes. El stack es **Angular 21 + Flask 3 + PostgreSQL**, con **autenticación JWT** y contraseñas **bcrypt**.
 
-### Lógica local de mesas
-- **Consumo totalmente local**: `MesaService` ahora provee `obtenerConsumoLocal` y `agregarProductoLocal` que usan `localStorage` para persistir el consumo de cada mesa.
-- **Optimización de inyección**: `MesasComponent.inyectarTrago` crea un payload, lo guarda localmente y refresca la UI sin llamadas HTTP.
-- **Gestión de cantidades y precios**: se implementó lógica de suma/resta de cantidades y actualización de precios directamente en `localStorage`.
+---
 
-### Mejoras de UI/UX
-- **Z‑index y pointer‑events** en `.card-producto` para asegurar la interactividad.
-- **Estilos refinados** en SCSS: animaciones, hover, diseño de tarjetas de catálogo y botones con micro‑animaciones.
-- **Botón “Agregar Producto”** en `inventario.component.html` que abre el modal con un objeto vacío.
+## Arquitectura final
 
-## Impacto
-- Reducción de fallos 404 y de dependencias externas.
-- Código más modular y fácil de mantener.
-- Experiencia de usuario más fluida y dinámica.
-- Preparación para futuras integraciones (p.ej., sincronización con back‑end) sin romper la arquitectura local actual.
+### Capas
+
+| Capa | Tecnología | Responsabilidad |
+|------|------------|-----------------|
+| Frontend | Angular 21 (standalone) | UI táctil, guards de rol, interceptores HTTP |
+| Backend | Flask 3, SQLAlchemy | API REST bajo `/api`, lógica de negocio |
+| Base de datos | PostgreSQL | Mesas, pedidos, ventas, cortes, usuarios, productos |
+| Auth | PyJWT + `password_utils` (bcrypt) | Login, token 24h, hash uniforme en usuarios |
+
+### Flujo de datos (mesas)
+
+```mermaid
+flowchart LR
+  subgraph UI[Angular Mesas]
+    Modal[Modal comanda]
+    Poll[Polling 3s]
+    POST[POST agregar producto]
+  end
+  subgraph API[Flask]
+    Consumo[GET /mesas/id/consumo]
+    Agregar[POST /mesas/id/agregar]
+    Factura[POST /facturas]
+  end
+  DB[(PostgreSQL pedido + venta)]
+  Modal --> POST --> Agregar --> DB
+  Poll --> Consumo --> DB
+  Modal --> Factura --> DB
+```
+
+- **Comandas activas** persisten en servidor (`pedido` estado `pendiente`).
+- **Polling cada 3 s** mientras el modal de mesa está abierto; `clearInterval` al cerrar.
+- **Mutaciones** (agregar, cantidad, precio) usan POST al backend; el polling se pausa durante la petición para evitar condiciones de carrera.
+- **Respaldo local:** `localStorage` (`mesa_consumo_{id}`) solo como fallback si falla la red.
+
+### Autenticación y roles
+
+| Rol | Acceso |
+|-----|--------|
+| **admin** | Mesas, inventario, historial de ventas, cierre de caja, control de usuarios |
+| **mesero** | Solo `/mesas` (mapa y comandas) |
+
+**Guards Angular:**
+
+- `authGuard` — sesión JWT activa (`access_token` + usuario en `AuthService`).
+- `adminGuard` — rol `admin`; si no es admin pero está logueado → redirige a `/mesas`.
+
+**UI:** sidebar y menú del header solo visibles para admin. Rutas admin protegidas con `[authGuard, adminGuard]`.
+
+**API usuarios** (`/api/usuarios`): CRUD protegido con JWT; solo admin. Contraseñas siempre con `hash_password()` (bcrypt).
+
+### Rutas frontend principales
+
+| Ruta | Componente | Guard |
+|------|------------|-------|
+| `/login` | Login | Público |
+| `/mesas` | Mesas | authGuard |
+| `/inventario` | Inventario | auth + admin |
+| `/historial-ventas` | HistorialVentas | auth + admin |
+| `/cierre-caja` | CierreCaja | auth + admin |
+| `/usuarios` | Usuarios | auth + admin |
+
+### Impresión
+
+| Tipo | Mecanismo |
+|------|-----------|
+| Ticket de factura | Ventana emergente HTML + `window.print()` (mesas) |
+| Historial de ventas / Cierre de caja | `ImpresionReporteUtil` + clase `body.modo-impresion-reporte` + `@media print` en `styles.css` |
+| Contenedores | `.report-container`, `#main-content`, `.zona-reporte-impresion` |
+
+Los estilos de impresión ocultan explícitamente header, sidebar, botones y `.no-print`; el contenido del reporte se fuerza visible con reglas dedicadas (sin ocultar `body *` global en modo reporte).
+
+### Jornada operativa (cierre de caja)
+
+- La jornada se delimita por el **último** registro en `corte_caja`, no por medianoche.
+- `GET /api/reporte/diario` — totales desde el último corte.
+- `POST /api/reporte/cierre` — snapshot y fin de jornada.
+- `GET /api/reporte/cierres` — historial de cierres previos (impresión y consulta).
+
+### IVA (Colombia 19%)
+
+`subtotal = total / 1.19`, `iva = total - subtotal` (precio de venta con IVA incluido).
+
+---
+
+## Archivos clave
+
+| Área | Archivo |
+|------|---------|
+| App Flask | `backend/app.py` |
+| Auth | `backend/auth.py`, `backend/password_utils.py` |
+| Mesas / ventas | `backend/routes/mesa_routes.py` |
+| Reportes | `backend/services/reporte_service.py` |
+| Usuarios admin | `backend/routes/admin_routes.py` |
+| Rutas + guards | `frontend/src/app/app.routes.ts`, `guards/auth.guard.ts`, `guards/admin.guard.ts` |
+| Mesas + polling | `frontend/src/app/components/mesas/mesas.component.ts` |
+| HTTP mesas | `frontend/src/app/services/mesa.service.ts` |
+| Auth cliente | `frontend/src/app/services/auth.service.ts` |
+| Impresión | `frontend/src/styles.css`, `utils/impresion-reporte.util.ts` |
+
+---
+
+## Credenciales de desarrollo (seed automático)
+
+| Rol | Email | Contraseña |
+|-----|-------|------------|
+| Admin | `admin@seasonsclub.com` | `admin1` |
+| Mesero | `mesero@seasonsclub.com` | `mesero1` |
+
+---
+
+## Configuración local
+
+- Backend: `backend/config.py` o `DATABASE_URL` — PostgreSQL `seasons_club_db`.
+- Frontend: `frontend/src/environments/environment.ts` — `apiUrl: http://localhost:5000/api`.
+- Proxy dev: `frontend/proxy.conf.json` reenvía `/api` y `/static` al puerto 5000.
+
+---
+
+## Roadmap (mejoras futuras, no bloqueantes)
+
+- Migraciones versionadas (Alembic).
+- Paginación en historial de ventas.
+- Export PDF/CSV de cierres.
+- Pantalla barman / métricas por mesero.
+- Docker Compose para despliegue unificado.
+
+---
+
+## Cómo retomar el proyecto
+
+1. PostgreSQL en ejecución con la BD configurada.
+2. `cd backend && source .venv/bin/activate && python app.py`
+3. `cd frontend && npm install && npm start`
+4. Login admin → verificar mesas, inventario, historial, cierre, usuarios.
+5. Login mesero → solo mesas; menú admin oculto.
+
+---
+
+**Autor:** Camilo Martinez Galarza  
+**Última actualización:** Mayo 2026 — sistema estable con RBAC, sincronización de mesas en servidor, impresión de reportes y documentación alineada.

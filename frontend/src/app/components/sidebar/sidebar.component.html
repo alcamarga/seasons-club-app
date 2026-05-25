@@ -1,0 +1,17 @@
+@if (esAdmin) {
+  <div class="overlay" [class.active]="isOpen" (click)="cerrar()"></div>
+
+  <nav class="sidebar" [class.active]="isOpen">
+    <div class="sidebar-header">
+      <h3>Administración</h3>
+      <button class="close-btn" (click)="cerrar()">×</button>
+    </div>
+    <ul class="nav-links">
+      <li><a routerLink="/mesas" (click)="cerrar()">🪑 Mesas</a></li>
+      <li><a routerLink="/inventario" (click)="cerrar()">📦 Inventario</a></li>
+      <li><a routerLink="/historial-ventas" (click)="cerrar()">📊 Historial de Ventas</a></li>
+      <li><a routerLink="/cierre-caja" (click)="cerrar()">💵 Cierres de Caja</a></li>
+      <li><a routerLink="/usuarios" (click)="cerrar()">👤 Control de Usuarios</a></li>
+    </ul>
+  </nav>
+}

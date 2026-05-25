@@ -23,31 +23,18 @@
   gap: 12px;
   cursor: pointer;
   user-select: none;
+  transition: transform 0.2s;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
 }
 
 .header-isotipo-img {
   max-height: 35px;
   width: auto;
   display: block;
-  transition: var(--transition-smooth);
   filter: drop-shadow(0 0 6px rgba(0, 240, 255, 0.15));
-
-  &:hover {
-    transform: scale(1.05);
-    filter: drop-shadow(0 0 12px rgba(255, 0, 127, 0.25));
-  }
-}
-
-.brand-text {
-  font-family: 'Outfit', sans-serif;
-  font-weight: 800;
-  font-size: 16px;
-  letter-spacing: 2.5px;
-  background: linear-gradient(90deg, #ffffff, #ece0ff);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.05);
 }
 
 /* --- INFO / CLOCK AREA --- */
@@ -67,14 +54,32 @@
   border: 1px solid rgba(255, 255, 255, 0.03);
 }
 
-.clock-icon {
-  font-size: 14px;
-}
-
 .clock-time {
   font-family: 'Courier New', monospace;
   font-weight: bold;
   font-size: 14px;
   color: var(--neon-cyan);
-  text-shadow: 0 0 5px rgba(0, 240, 255, 0.3);
+}
+
+/* --- ACTIONS AREA (Cerrar Sesión) --- */
+.actions-area {
+  display: flex;
+  align-items: center;
+}
+
+.btn-logout {
+  background: rgba(255, 77, 77, 0.1);
+  color: #ff4d4d;
+  border: 1px solid rgba(255, 77, 77, 0.3);
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #ff4d4d;
+    color: white;
+  }
 }

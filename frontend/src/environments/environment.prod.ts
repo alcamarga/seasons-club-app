@@ -2,4 +2,5 @@
 export const environment = {
   produccion: true,
   apiUrl: 'https://pizzaos-api-hxd3bbddgwcugnd2.canadaeast-01.azurewebsites.net/api',
+  serverUrl: 'https://pizzaos-api-hxd3bbddgwcugnd2.canadaeast-01.azurewebsites.net',
 };

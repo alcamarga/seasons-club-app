@@ -15,7 +15,7 @@
 
 body {
   background-color: var(--bg-deep) !important;
-  background-image: 
+  background-image:
     radial-gradient(circle at 5% 10%, rgba(139, 92, 246, 0.12) 0%, transparent 40%),
     radial-gradient(circle at 95% 85%, rgba(255, 0, 127, 0.1) 0%, transparent 45%),
     radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.04) 0%, transparent 60%) !important;
@@ -46,7 +46,7 @@ body {
 
 .glass-panel-interactive:hover {
   border-color: rgba(255, 0, 127, 0.3);
-  box-shadow: 
+  box-shadow:
     0 8px 32px 0 rgba(139, 92, 246, 0.15),
     inset 0 0 12px rgba(255, 0, 127, 0.05);
   transform: translateY(-2px);
@@ -85,32 +85,41 @@ body {
   background-image: url('assets/seasons-logo.png');
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 40vw; /* Tamaño ergonómico y estético en el centro */
+  background-size: 40vw;
+  /* Tamaño ergonómico y estético en el centro */
   opacity: 0.05;
   z-index: -1;
   pointer-events: none;
 }
+
 .menu-wrapper {
   min-height: 100vh;
-  color: #ffffff; /* Ensure text in the menu is white */
+  color: #ffffff;
+  /* Ensure text in the menu is white */
 }
 
 .navbar-menu {
-  background: rgba(0, 0, 0, 0.7); /* Darker overlay for the navbar */
-  color: #ffffff; /* Text color set to white */
+  background: rgba(0, 0, 0, 0.7);
+  /* Darker overlay for the navbar */
+  color: #ffffff;
+  /* Text color set to white */
 }
 
 .menu-header {
-  color: #ffffff; /* Ensure text in the menu header is white */
+  color: #ffffff;
+  /* Ensure text in the menu header is white */
 }
 
 .pizza-card {
-  background: rgba(0, 0, 0, 0.7); /* Darker overlay for the pizza cards */
-  color: #ffffff; /* Ensure text in the pizza cards is white */
+  background: rgba(0, 0, 0, 0.7);
+  /* Darker overlay for the pizza cards */
+  color: #ffffff;
+  /* Ensure text in the pizza cards is white */
 }
 
 .menu-footer {
-  color: #ffffff; /* Ensure text in the footer is white */
+  color: #ffffff;
+  /* Ensure text in the footer is white */
 }
 
 .app-main-content {
@@ -119,3 +128,150 @@ body {
   box-sizing: border-box;
 }
 
+@media print {
+
+  /* --- Ticket / factura en #area-impresion (no aplica a reportes admin) --- */
+  body:not(.modo-impresion-reporte) * {
+    visibility: hidden !important;
+  }
+
+  body:not(.modo-impresion-reporte) #area-impresion,
+  body:not(.modo-impresion-reporte) #area-impresion * {
+    visibility: visible !important;
+  }
+
+  body:not(.modo-impresion-reporte) #area-impresion {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: block !important;
+  }
+
+  body:not(.modo-impresion-reporte) > *:not(#area-impresion) {
+    display: none !important;
+  }
+
+  @page {
+    size: auto;
+    margin: 5mm;
+  }
+}
+
+/* --- Reportes: Historial de Ventas y Cierre de Caja --- */
+@media print {
+  body.modo-impresion-reporte header,
+  body.modo-impresion-reporte app-header,
+  body.modo-impresion-reporte app-sidebar,
+  body.modo-impresion-reporte aside,
+  body.modo-impresion-reporte nav,
+  body.modo-impresion-reporte .sidebar,
+  body.modo-impresion-reporte .watermark-logo,
+  body.modo-impresion-reporte .no-print,
+  body.modo-impresion-reporte button {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  body.modo-impresion-reporte,
+  body.modo-impresion-reporte app-root,
+  body.modo-impresion-reporte #main-content,
+  body.modo-impresion-reporte .app-main-content,
+  body.modo-impresion-reporte .report-container,
+  body.modo-impresion-reporte .zona-reporte-impresion,
+  body.modo-impresion-reporte .historial-container,
+  body.modo-impresion-reporte .cierre-container,
+  body.modo-impresion-reporte .encabezado-reporte-impresion,
+  body.modo-impresion-reporte .tabla-wrapper,
+  body.modo-impresion-reporte .tabla-historial-cierres {
+    visibility: visible !important;
+    display: block !important;
+  }
+
+  body.modo-impresion-reporte app-root *,
+  body.modo-impresion-reporte .zona-reporte-impresion *,
+  body.modo-impresion-reporte .report-container * {
+    visibility: visible !important;
+  }
+
+  body.modo-impresion-reporte .app-main-content {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+  }
+
+  body.modo-impresion-reporte .report-container,
+  body.modo-impresion-reporte .zona-reporte-impresion {
+    background: #fff !important;
+    color: #000 !important;
+    padding: 12px !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  body.modo-impresion-reporte .report-container h2,
+  body.modo-impresion-reporte .report-container h3,
+  body.modo-impresion-reporte .report-container p,
+  body.modo-impresion-reporte .report-container th,
+  body.modo-impresion-reporte .report-container td,
+  body.modo-impresion-reporte .report-container strong {
+    color: #000 !important;
+  }
+
+  body.modo-impresion-reporte table {
+    display: table !important;
+    width: 100% !important;
+    border-collapse: collapse !important;
+    visibility: visible !important;
+  }
+
+  body.modo-impresion-reporte thead {
+    display: table-header-group !important;
+    visibility: visible !important;
+  }
+
+  body.modo-impresion-reporte tbody {
+    display: table-row-group !important;
+    visibility: visible !important;
+  }
+
+  body.modo-impresion-reporte tfoot {
+    display: table-footer-group !important;
+    visibility: visible !important;
+  }
+
+  body.modo-impresion-reporte tr {
+    display: table-row !important;
+    visibility: visible !important;
+  }
+
+  body.modo-impresion-reporte th,
+  body.modo-impresion-reporte td {
+    display: table-cell !important;
+    visibility: visible !important;
+    border: 1px solid #333 !important;
+    padding: 6px 8px !important;
+    color: #000 !important;
+    background: transparent !important;
+  }
+
+  body.modo-impresion-reporte .solo-impresion {
+    display: inline !important;
+    visibility: visible !important;
+  }
+
+  body.modo-impresion-reporte .encabezado-reporte-impresion {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  body.modo-impresion-reporte.impresion-jornada .tabla-historial-cierres {
+    display: none !important;
+  }
+
+  body.modo-impresion-reporte.impresion-historial-cierres .bloque-jornada-actual {
+    display: none !important;
+  }
+}

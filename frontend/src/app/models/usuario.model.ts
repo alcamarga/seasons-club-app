@@ -1,7 +1,9 @@
 // Interfaces para el modelo Usuario y autenticación JWT.
-// Autor: Camilo Martinez | Fecha: 23/03/2026 | Versión: 4.1
+// Ajustado para: Seasons Club
+// Autor: Camilo Martinez | Fecha: 24/05/2026
 
-export type RolUsuario = 'cliente' | 'admin' | 'cocinero' | 'domiciliario' | 'mesero';
+// Definimos los roles reales que usaremos en el Club
+export type RolUsuario = 'admin' | 'mesero';
 
 export interface Usuario {
   id: number;
@@ -11,20 +13,20 @@ export interface Usuario {
   fecha_registro?: string;
 }
 
-// Datos necesarios para el formulario de registro | Data needed for registration form
+// Datos para registro: Ajustado a lo que pide tu tabla en Postgres
 export interface RegistroCargaUtil {
   nombre: string;
   email: string;
-  contrasena: string;
+  contrasena: string; // El backend luego lo convertirá a contrasena_hash
 }
 
-// Datos necesarios para el inicio de sesión | Data needed for login
+// Datos para inicio de sesión: Debe coincidir con lo que envías en el body de la petición
 export interface LoginCargaUtil {
-  email: string;
+  email: string; // Asegúrate de que esto coincida con el campo que espera app.py
   contrasena: string;
 }
 
-// Estructura de la respuesta del servidor al autenticar | Server response structure on authentication
+// Estructura de la respuesta del servidor al autenticar
 export interface RespuestaAutenticacion {
   access_token: string;
   usuario: Usuario;
@@ -32,7 +34,7 @@ export interface RespuestaAutenticacion {
   email: string;
 }
 
-// Representación de la sesión activa en el estado de la aplicación | Active session representation in app state
+// Sesión activa
 export interface SesionActiva {
   usuario: Usuario;
   accessToken: string;

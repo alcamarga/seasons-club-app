@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV /home/camilo/pizzeria-app-core/backend/.venv
+set -gx VIRTUAL_ENV /home/camilo/proyectos/seasons-club-app/backend/.venv
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/"bin $PATH

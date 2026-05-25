@@ -1,0 +1,24 @@
+<div class="ticket-container" *ngIf="factura">
+    <div class="header">
+        <p>SEASONS CLUB</p>
+        <p>NIT: 123.456.789-0</p>
+        <p>Fecha: {{ factura?.fecha | date:'short' }}</p>
+    </div>
+
+    <table *ngIf="factura?.pedido?.articulos">
+        <tr *ngFor="let item of factura.pedido.articulos">
+            <td>{{ item.nombre }}</td>
+            <td>{{ item.cantidad }} x {{ item.precio | currency }}</td>
+            <td>{{ (item.cantidad * item.precio) | currency }}</td>
+        </tr>
+    </table>
+
+    <div class="footer" *ngIf="factura?.pedido">
+        <hr>
+        <p>Subtotal: {{ factura.pedido.total | currency }}</p>
+        <p>IVA (19%): {{ (factura.pedido.total * 0.19) | currency }}</p>
+        <hr>
+        <p><strong>TOTAL: {{ (factura.pedido.total * 1.19) | currency }}</strong></p>
+        <p>¡Gracias por su visita!</p>
+    </div>
+</div>

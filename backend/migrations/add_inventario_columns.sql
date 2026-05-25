@@ -1,0 +1,2 @@
+-- Usar en su lugar: sync_producto_inventario.sql
+-- psql -U postgres -d seasons_club_db -f backend/migrations/sync_producto_inventario.sql

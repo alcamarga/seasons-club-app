@@ -3,7 +3,7 @@
 
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Usuario, RolUsuario } from '../models/usuario.model';
 
@@ -27,8 +27,10 @@ export class UserService {
   private apiUrl = `${environment.apiUrl}/usuarios`;
 
   /** Lista todos los usuarios (requiere token admin) */
-  obtenerPersonal(): Observable<RespuestaUsuarios> {
-    return this.http.get<RespuestaUsuarios>(this.apiUrl);
+  obtenerPersonal(): Observable<Usuario[]> {
+    return this.http.get<Usuario[] | RespuestaUsuarios>(this.apiUrl).pipe(
+      map((res) => (Array.isArray(res) ? res : res.usuarios))
+    );
   }
 
   /** Crea un nuevo empleado */

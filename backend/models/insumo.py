@@ -1,5 +1,5 @@
 # models/insumo.py
-from .database import db
+from database import db
 
 class Insumo(db.Model):
     __tablename__ = 'insumos'
@@ -20,4 +20,4 @@ class Insumo(db.Model):
             'precio': self.precio_unitario,          # <--- VITAL PARA ANGULAR
             'precio_unitario': self.precio_unitario, # Para consistencia
             'stock_minimo': self.stock_minimo
-        }
+        }

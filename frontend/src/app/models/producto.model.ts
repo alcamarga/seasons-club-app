@@ -6,8 +6,9 @@ export interface Producto {
   id: number;
   nombre: string;
   categoria: string;
-  precioVenta: number;
+  precioCompra: number;  // Nuevo: Costo para ti
+  precioVenta: number;   // Precio al público
   stock: number;
-  imagenUrl: string; // Ruta para la imagen del producto (ej: assets/productos/aguardiente.png)
-  esInsumo: boolean;  // true si es materia prima (limón, menta, etc.), false si es producto final listo para la venta
+  imagenUrl: string;
+  esInsumo: boolean;
 }

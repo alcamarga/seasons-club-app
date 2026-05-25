@@ -1,0 +1,98 @@
+<div class="historial-container report-container">
+
+  <div class="filtros no-print">
+    <label for="filtro-mesa">Filtrar por mesa</label>
+    <select id="filtro-mesa" [(ngModel)]="mesaFiltro" (change)="onFiltroChange()">
+      <option [ngValue]="null">Todas las mesas</option>
+      <option *ngFor="let m of mesas" [ngValue]="m.id">Mesa #{{ m.numero_mesa }}</option>
+    </select>
+    <button type="button" class="btn-secundario" (click)="limpiarFiltro()" [disabled]="!mesaFiltro">
+      Limpiar
+    </button>
+    <button type="button" class="btn-primario" (click)="cargarHistorial()" [disabled]="cargando">
+      {{ cargando ? 'Cargando...' : 'Actualizar' }}
+    </button>
+    <button type="button" class="btn-primario" (click)="imprimirHistorial()" [disabled]="!ventas.length">
+      Imprimir
+    </button>
+  </div>
+
+  <div *ngIf="error" class="alerta-error no-print">{{ error }}</div>
+
+  <div *ngIf="cargando" class="estado-carga no-print">
+    <p>Consultando historial de ventas...</p>
+  </div>
+
+  <div *ngIf="!cargando && !error && ventas.length === 0" class="estado-vacio no-print">
+    <p>No hay ventas registradas{{ mesaFiltro ? ' para esta mesa' : '' }}.</p>
+  </div>
+
+  <div *ngIf="!cargando && ventas.length > 0" class="zona-reporte-impresion report-container">
+    <div class="encabezado-reporte-impresion">
+      <h2>Seasons Club — Historial de Ventas</h2>
+      <p>{{ ventas.length }} registro(s) · Total: ${{ totalVentas() | number:'1.0-0' }}</p>
+    </div>
+
+    <div class="tabla-wrapper">
+      <table class="tabla-historial">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Mesa</th>
+            <th>Método</th>
+            <th>Subtotal</th>
+            <th>IVA</th>
+            <th>Total</th>
+            <th class="no-print"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let v of ventas">
+            <tr class="fila-venta">
+              <td>{{ formatearFecha(v.fecha) }}</td>
+              <td>#{{ v.numero_mesa }}</td>
+              <td>
+                <span class="badge-pago no-print" [class.efectivo]="v.metodo_pago === 'Efectivo'"
+                  [class.transferencia]="v.metodo_pago === 'Transferencia'">
+                  {{ v.metodo_pago }}
+                </span>
+                <span class="solo-impresion">{{ v.metodo_pago }}</span>
+              </td>
+              <td>${{ v.subtotal | number:'1.0-0' }}</td>
+              <td>${{ v.iva | number:'1.0-0' }}</td>
+              <td class="col-total">${{ v.total | number:'1.0-0' }}</td>
+              <td class="no-print">
+                <button type="button" class="btn-detalle" (click)="toggleDetalle(v.id)">
+                  {{ ventaExpandidaId === v.id ? 'Ocultar' : 'Ver' }}
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="ventaExpandidaId === v.id" class="fila-detalle no-print">
+              <td colspan="7">
+                <div class="detalle-articulos">
+                  <strong>Artículos facturados</strong>
+                  <ul *ngIf="v.articulos?.length; else sinArticulos">
+                    <li *ngFor="let a of v.articulos">
+                      {{ a.cantidad }}x {{ a.nombre }} — ${{ (a.precio * a.cantidad) | number:'1.0-0' }}
+                    </li>
+                  </ul>
+                  <ng-template #sinArticulos>
+                    <p class="sin-datos">Sin detalle de artículos.</p>
+                  </ng-template>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="5"><strong>Total general</strong></td>
+            <td class="col-total"><strong>${{ totalVentas() | number:'1.0-0' }}</strong></td>
+            <td class="no-print"></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+</div>

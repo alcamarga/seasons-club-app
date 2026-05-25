@@ -10,8 +10,13 @@
 -------------------------------------------------------------
 """
 
-from models.database import db
+from database import db
 from datetime import datetime
+from datetime import datetime
+import pytz
+
+def hora_bogota():
+    return datetime.now(pytz.timezone('America/Bogota'))
 
 class Pedido(db.Model):
     __tablename__ = 'pedido'
@@ -24,7 +29,7 @@ class Pedido(db.Model):
     # 📌 Llave foránea para identificar qué mesero o administrador generó la orden
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=True)
     
-    fecha = db.Column(db.DateTime, default=datetime.utcnow)
+    fecha = db.Column(db.DateTime, default=hora_bogota())
     total = db.Column(db.Numeric(10, 2), nullable=False, default=0.00)
     estado = db.Column(db.String(50), default='pendiente') # pendiente, pagado, cancelado
     articulos_json = db.Column(db.Text, nullable=True) # Lista de licores consumidos en formato plano
