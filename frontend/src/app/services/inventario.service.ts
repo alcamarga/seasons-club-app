@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Producto } from '../models/producto.model';
+import { Producto, ProductoDesdeApi } from '../models/producto.model';
+import { ordenarProductosPorCategoria } from '../utils/orden-productos.util';
 import { environment } from '../../environments/environment';
 
 /**
@@ -57,12 +58,12 @@ export class InventarioService {
   }
 
   private filtrarParaBarra(lista: Producto[]): Producto[] {
-    return lista.filter((p) => !p.esInsumo && p.precioVenta > 0);
+    return lista.filter((p) => !p.esInsumo && (p.precioVenta ?? 0) > 0);
   }
 
-  /** Lista sincrónica para el catálogo de mesas (sin HTTP). */
+  /** Lista sincrónica para el catálogo de mesas (sin HTTP), ordenada por categoría. */
   obtenerCatalogoBarraDesdeCache(): Producto[] {
-    return this.filtrarParaBarra(this.products);
+    return ordenarProductosPorCategoria(this.filtrarParaBarra(this.products));
   }
 
   /** Convierte rutas /static/uploads a URL servible por el navegador. */
@@ -84,13 +85,27 @@ export class InventarioService {
     return limpia;
   }
 
-  /** Evita enviar base64 enorme en JSON; la imagen va por POST /imagen. */
+  /** Payload explícito para POST/PUT: evita enviar campos calculados obsoletos (margen, costoUnitario viejo). */
   private prepararPayloadApi(producto: Producto): Record<string, unknown> {
-    const payload: Record<string, unknown> = { ...producto };
-    if (typeof payload['imagenUrl'] === 'string' && String(payload['imagenUrl']).startsWith('data:')) {
-      payload['imagenUrl'] = '';
+    const costo = Number(producto.precioCompra ?? producto.costoUnitario ?? 0);
+    const venta = Number(producto.precioVenta ?? producto.precio_venta ?? 0);
+    let imagenUrl = producto.imagenUrl ?? '';
+    if (typeof imagenUrl === 'string' && imagenUrl.startsWith('data:')) {
+      imagenUrl = '';
     }
-    return payload;
+
+    return {
+      nombre: producto.nombre,
+      categoria: producto.categoria,
+      stock: Number(producto.stock ?? 0),
+      esInsumo: Boolean(producto.esInsumo ?? false),
+      imagenUrl,
+      costo_unitario: costo,
+      precio_venta: venta,
+      precioCompra: costo,
+      precioVenta: venta,
+      costoUnitario: costo,
+    };
   }
 
   /** Initialise a set of mock products for development/testing. */
@@ -112,35 +127,72 @@ export class InventarioService {
   }
 
   /** Normaliza la respuesta del backend al contrato Producto de Angular. */
-  private normalizarProducto(raw: Partial<Producto>): Producto {
-    const item = raw as Partial<Producto> & { precio?: number };
+  private normalizarProducto(raw: ProductoDesdeApi): Producto {
+    const costo = Number(
+      raw.costoUnitario ?? raw.costo_unitario ?? raw.precioCompra ?? raw.precio_compra ?? 0
+    );
+    const venta = Number(raw.precioVenta ?? raw.precio_venta ?? raw.precio ?? 0);
+
+    const margenDineroBackend = raw.margen_dinero;
+    const margenDineroFrontend = raw.margenDinero;
+    const margenRaw =
+      margenDineroBackend != null ? margenDineroBackend : margenDineroFrontend;
+    let margenDinero = margenRaw != null ? Number(margenRaw) : venta - costo;
+
+    const margenPorcentajeBackend = raw.margen_porcentaje;
+    const margenPorcentajeFrontend = raw.margenPorcentaje;
+    const porcentajeRaw =
+      margenPorcentajeBackend != null ? margenPorcentajeBackend : margenPorcentajeFrontend;
+    let margenPorcentaje =
+      porcentajeRaw != null
+        ? Number(porcentajeRaw)
+        : venta > 0
+          ? ((venta - costo) / venta) * 100
+          : 0;
+
+    if (Number.isNaN(margenDinero)) {
+      margenDinero = venta - costo;
+    }
+    if (Number.isNaN(margenPorcentaje)) {
+      margenPorcentaje = venta > 0 ? ((venta - costo) / venta) * 100 : 0;
+    }
+    margenDinero = Math.round(margenDinero * 100) / 100;
+    margenPorcentaje = Math.round(margenPorcentaje * 100) / 100;
+
     return {
-      id: Number(item.id ?? 0),
-      nombre: String(item.nombre ?? ''),
-      categoria: String(item.categoria ?? 'General'),
-      precioCompra: Number(item.precioCompra ?? 0),
-      precioVenta: Number(item.precioVenta ?? item.precio ?? 0),
-      stock: Number(item.stock ?? 0),
-      imagenUrl: this.resolverUrlImagen(String(item.imagenUrl ?? '')),
-      esInsumo: Boolean(item.esInsumo ?? false),
+      id: Number(raw.id ?? 0),
+      nombre: String(raw.nombre ?? ''),
+      categoria: String(raw.categoria ?? 'General'),
+      precioCompra: costo,
+      precioVenta: venta,
+      costoUnitario: costo,
+      margenDinero,
+      margenPorcentaje,
+      stock: Number(raw.stock ?? 0),
+      imagenUrl: this.resolverUrlImagen(String(raw.imagenUrl ?? '')),
+      esInsumo: Boolean(raw.esInsumo ?? false),
     };
   }
 
   /** Productos vendibles en barra. Usa caché si ya se cargó el inventario. */
   obtenerProductosParaBarra(): Observable<Producto[]> {
     if (this.products.length > 0) {
-      return of(this.filtrarParaBarra(this.products));
+      return of(this.obtenerCatalogoBarraDesdeCache());
     }
-    return this.obtenerProductos().pipe(map((lista) => this.filtrarParaBarra(lista)));
+    return this.obtenerProductos().pipe(map(() => this.obtenerCatalogoBarraDesdeCache()));
   }
 
   subirImagenProducto(productoId: number, archivo: File): Observable<Producto> {
     const formData = new FormData();
     formData.append('imagen', archivo);
     return this.http
-      .post<{ imagenUrl: string; producto: Producto }>(`${this.apiUrl}/${productoId}/imagen`, formData)
+      .post<{ imagenUrl: string; producto?: ProductoDesdeApi }>(`${this.apiUrl}/${productoId}/imagen`, formData)
       .pipe(
-        map((resp) => this.normalizarProducto(resp.producto ?? { id: productoId, imagenUrl: resp.imagenUrl } as Producto)),
+        map((resp) =>
+          this.normalizarProducto(
+            resp.producto ?? { id: productoId, imagenUrl: resp.imagenUrl }
+          )
+        ),
         tap((actualizado) => {
           const idx = this.products.findIndex((p) => p.id === productoId);
           if (idx !== -1) {
@@ -154,10 +206,10 @@ export class InventarioService {
 
   /** Public API: observable list of products from backend. */
   obtenerProductos(): Observable<Producto[]> {
-    return this.http.get<Producto[]>(this.apiUrl, { headers: this.jsonHeaders }).pipe(
+    return this.http.get<ProductoDesdeApi[]>(this.apiUrl, { headers: this.jsonHeaders }).pipe(
       map((data) => (Array.isArray(data) ? data : []).map((p) => this.normalizarProducto(p))),
       tap((data) => {
-        this.products = data;
+        this.products = ordenarProductosPorCategoria(data);
         this.persist();
       }),
       catchError(() => of([]))
@@ -174,10 +226,11 @@ export class InventarioService {
     const payload = this.prepararPayloadApi(producto);
     delete payload['id'];
 
-    return this.http.post<Producto>(this.apiUrl, payload, { headers: this.jsonHeaders }).pipe(
+    return this.http.post<ProductoDesdeApi>(this.apiUrl, payload, { headers: this.jsonHeaders }).pipe(
       map((resp) => this.normalizarProducto(resp)),
       tap((creado) => {
         this.products.push(creado);
+        this.products = ordenarProductosPorCategoria(this.products);
         this.persist();
         this.notificarCambioCatalogo();
       })
@@ -188,13 +241,14 @@ export class InventarioService {
   actualizarProducto(producto: Producto): Observable<Producto> {
     this.validateProducto(producto, true);
     const payload = this.prepararPayloadApi(producto);
-    return this.http.put<Producto>(`${this.apiUrl}/${producto.id}`, payload, { headers: this.jsonHeaders }).pipe(
+    return this.http.put<ProductoDesdeApi>(`${this.apiUrl}/${producto.id}`, payload, { headers: this.jsonHeaders }).pipe(
       map((resp) => this.normalizarProducto(resp)),
       tap((actualizado) => {
         const idx = this.products.findIndex((p) => p.id === producto.id);
         if (idx !== -1) {
           this.products[idx] = { ...actualizado };
         }
+        this.products = ordenarProductosPorCategoria(this.products);
         this.persist();
         this.notificarCambioCatalogo();
       })
@@ -217,9 +271,12 @@ export class InventarioService {
     return producto ? this.resolverUrlImagen(producto.imagenUrl) : 'assets/seasons-logo2.png';
   }
 
-  actualizarStock(id: number, delta: number): Observable<{ nuevo_stock?: number; producto?: Producto }> {
+  actualizarStock(
+    id: number,
+    delta: number
+  ): Observable<{ nuevo_stock?: number; producto?: ProductoDesdeApi }> {
     return this.http
-      .patch<{ nuevo_stock?: number; producto?: Producto }>(
+      .patch<{ nuevo_stock?: number; producto?: ProductoDesdeApi }>(
         `${this.apiUrl}/${id}/stock`,
         { delta },
         { headers: this.jsonHeaders }
@@ -236,7 +293,7 @@ export class InventarioService {
   }
 
   fetchProductos(): Observable<Producto[]> {
-    return this.http.get<Producto[]>(this.apiUrl, { headers: this.jsonHeaders }).pipe(
+    return this.http.get<ProductoDesdeApi[]>(this.apiUrl, { headers: this.jsonHeaders }).pipe(
       map((data) => (Array.isArray(data) ? data : []).map((p) => this.normalizarProducto(p))),
       catchError(() => of(this.products))
     );
@@ -246,7 +303,7 @@ export class InventarioService {
     if (requireId && (!producto.id || producto.id <= 0)) throw new Error('ID inválido.');
     if (!producto.nombre || producto.nombre.trim().length === 0) throw new Error('Nombre obligatorio.');
     if (!producto.categoria || producto.categoria.trim().length === 0) throw new Error('Categoría obligatoria.');
-    if (producto.precioVenta < 0) throw new Error('Precio no puede ser negativo.');
+    if ((producto.precioVenta ?? 0) < 0) throw new Error('Precio no puede ser negativo.');
     if (producto.stock < 0) throw new Error('Stock no puede ser negativo.');
     if (!producto.imagenUrl) producto.imagenUrl = '';
   }

@@ -34,12 +34,17 @@ def gestionar_productos():
             if not data.get('nombre'):
                 return jsonify({"error": "El nombre es obligatorio"}), 400
 
-            # Usamos el constructor básico y luego el método de mapeo
+            Producto.parse_costo_unitario(data)
+            Producto.parse_precio_venta(data)
+
             nuevo_prod = Producto(nombre=data['nombre'], precio_base=0)
             nuevo_prod.aplicar_payload_inventario(data)
             db.session.add(nuevo_prod)
             db.session.commit()
             return jsonify(nuevo_prod.serializar()), 201
+        except ValueError as e:
+            db.session.rollback()
+            return jsonify({"error": str(e)}), 400
         except Exception as e:
             db.session.rollback()
             return _respuesta_error(e, 400)
@@ -60,10 +65,17 @@ def gestionar_producto_por_id(id: int):
             if not data.get('nombre'):
                 return jsonify({"error": "El nombre es obligatorio"}), 400
 
-            # Mapeo usando tu función existente
-            producto.aplicar_payload_inventario({**data, 'id': id})
+            Producto.parse_costo_unitario(data)
+            Producto.parse_precio_venta(data)
+
+            producto.aplicar_payload_inventario(data)
+            db.session.add(producto)
             db.session.commit()
+            db.session.refresh(producto)
             return jsonify(producto.serializar()), 200
+        except ValueError as e:
+            db.session.rollback()
+            return jsonify({"error": str(e)}), 400
         except Exception as e:
             db.session.rollback()
             return _respuesta_error(e, 400)

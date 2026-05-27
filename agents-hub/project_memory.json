@@ -34,7 +34,7 @@
     "Facturación con IVA 19% y ticket impreso",
     "Cierre de caja por jornada (corte_caja) e historial de cierres",
     "Historial de ventas filtrable por mesa",
-    "Inventario y catálogo de barra",
+    "Inventario y catálogo de barra con rentabilidad (costo_unitario, margen_dinero, margen_porcentaje)",
     "RBAC Admin/Mesero con rutas y sidebar condicionados",
     "Control de usuarios admin|mesero"
   ],

@@ -61,11 +61,18 @@ export class InventarioEditModalComponent implements OnInit, OnDestroy {
 
   onSave(): void {
     if (this.form.valid) {
+      const precioCompra = Number(this.form.value.precioCompra ?? 0);
+      const precioVenta = Number(this.form.value.precioVenta ?? 0);
+
       const updated: Producto = {
         ...this.producto,
-        ...this.form.value,
-        // No enviar base64 al backend; la imagen se sube con POST /imagen
-        imagenUrl: this.producto.imagenUrl || ''
+        nombre: String(this.form.value.nombre ?? '').trim(),
+        categoria: String(this.form.value.categoria ?? '').trim(),
+        precioCompra,
+        precioVenta,
+        costoUnitario: precioCompra,
+        stock: Number(this.form.value.stock ?? 0),
+        imagenUrl: this.producto.imagenUrl || '',
       };
 
       const nuevaCat = this.form.value.categoria;

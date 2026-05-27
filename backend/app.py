@@ -23,6 +23,7 @@ from routes.admin_routes import admin_bp
 from auth import auth_bp
 from routes.mesa_routes import mesa_bp
 from routes.producto_routes import producto_blueprint
+from db_schema import ensure_producto_costo_unitario
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -83,6 +84,7 @@ def trigger_seed():
                 precio_base=35000,
                 precio_pequena=35000,
                 precio_venta=35000,
+                costo_unitario=15000,
                 precio_compra=15000,
                 stock=50,
             )
@@ -102,6 +104,10 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.WARNING)
     with app.app_context():
         db.create_all()
+        try:
+            ensure_producto_costo_unitario()
+        except Exception as e:
+            logging.warning('No se pudo verificar costo_unitario en producto: %s', e)
         admin_email = 'admin@seasonsclub.com'
         admin_existente = Usuario.query.filter_by(email=admin_email).first()
         

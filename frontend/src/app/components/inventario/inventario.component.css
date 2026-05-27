@@ -37,11 +37,112 @@
   text-shadow: 0 0 4px rgba(0, 240, 255, 0.2);
 }
 
-/* --- CUADRÍCULA DE PRODUCTOS (CSS GRID) --- */
+/* --- TABLA DE INVENTARIO (rentabilidad) --- */
+.tabla-inventario-wrapper {
+  margin-bottom: 24px;
+  padding: 16px;
+  overflow-x: auto;
+  background: rgba(0, 0, 0, 0.85);
+  border-radius: 12px;
+}
+
+.tabla-inventario {
+  width: 100%;
+  border-collapse: collapse;
+  color: #ffffff;
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+}
+
+.tabla-inventario thead th {
+  text-align: left;
+  padding: 10px 12px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--neon-cyan);
+  border-bottom: 1px solid rgba(0, 240, 255, 0.25);
+}
+
+.tabla-inventario tbody td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.tabla-inventario tbody tr:hover {
+  background: rgba(0, 240, 255, 0.04);
+}
+
+.tabla-inventario .celda-nombre {
+  font-weight: 700;
+  max-width: 220px;
+}
+
+.tabla-inventario .celda-inversion {
+  color: #ff9800;
+  font-weight: 700;
+}
+
+.tabla-inventario .celda-margen-porcentaje {
+  font-weight: 800;
+}
+
+.tabla-inventario .celda-margen-dinero {
+  color: var(--neon-cyan);
+  font-weight: 700;
+}
+
+.tabla-inventario .celda-rentabilidad {
+  color: #4caf50;
+  font-weight: 700;
+}
+
+.tabla-inventario .fila-insumo td {
+  opacity: 0.75;
+}
+
+.margen-bajo {
+  color: #f97316 !important;
+  text-shadow: 0 0 6px rgba(249, 115, 22, 0.45);
+}
+
+.valor-margen,
+.valor-margen-pct {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.margen-dinero-valor {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--neon-cyan);
+}
+
+.margen-porcentaje-valor {
+  font-size: 11px;
+  font-weight: 800;
+  color: #10b981;
+}
+
+.margen-porcentaje-valor.margen-bajo {
+  color: #f97316;
+  text-shadow: 0 0 4px rgba(249, 115, 22, 0.35);
+}
+
+.producto-valores {
+  flex-wrap: wrap;
+  gap: 8px 6px;
+}
+
+/* --- CUADRÍCULA DE TARJETAS --- */
+.grid-tarjetas,
 .lista-productos-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 20px;
+  margin-bottom: 24px;
 }
 
 .tarjeta-producto-panel {
@@ -87,6 +188,7 @@
 }
 
 /* --- ETIQUETAS DE CATEGORÍA --- */
+.etiqueta,
 .categoria-tag {
   position: absolute;
   top: 8px;
@@ -101,28 +203,61 @@
   color: #ffffff;
 }
 
-.cat-botellas {
-  background: linear-gradient(135deg, #d946ef, #8b5cf6);
-}
-
-.cat-cervezas {
-  background: linear-gradient(135deg, #06b6d4, #2563eb);
-}
-
-.cat-cocteles {
-  background: linear-gradient(135deg, #10b981, #047857);
-}
-
-.cat-insumos {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-}
-
 .cat-licores {
-  background: linear-gradient(135deg, #e53e3e, #f87171);
+  background-color: #ef4444;
+}
+
+.cat-cerveza {
+  background-color: #f59e0b;
+}
+
+.cat-coctel {
+  background-color: #8b5cf6;
+}
+
+.cat-insumo {
+  background-color: #d97706;
 }
 
 .cat-bebidas {
-  background: linear-gradient(135deg, #805ad5, #9f7aea);
+  background-color: #2563eb;
+}
+
+.cat-snacks {
+  background-color: #10b981;
+}
+
+.cat-botellas {
+  background-color: #d946ef;
+}
+
+.cat-general {
+  background-color: #64748b;
+}
+
+/* Categorías personalizadas (hash estable por nombre) */
+.cat-alt-cyan {
+  background-color: #06b6d4;
+}
+
+.cat-alt-rosa {
+  background-color: #ec4899;
+}
+
+.cat-alt-indigo {
+  background-color: #6366f1;
+}
+
+.cat-alt-lima {
+  background-color: #84cc16;
+}
+
+.cat-alt-teal {
+  background-color: #14b8a6;
+}
+
+.cat-alt-gris {
+  background-color: #475569;
 }
 
 /* --- DETALLES Y VALORES --- */
@@ -233,6 +368,7 @@
 
 /* Responsive Grid Adaptation */
 @media (max-width: 600px) {
+  .grid-tarjetas,
   .lista-productos-grid {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 12px;
@@ -373,7 +509,7 @@
   text-shadow: 0 0 15px #ff9800, 0 0 25px #ff9800 !important;
 }
 
-.valor-utilidad {
+.valor-rentabilidad {
   color: #4caf50 !important;
   text-shadow: 0 0 15px #4caf50, 0 0 25px #4caf50 !important;
 }

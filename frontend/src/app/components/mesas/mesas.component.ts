@@ -15,17 +15,19 @@ import { CommonModule } from '@angular/common';
 import { InventarioService } from '../../services/inventario.service';
 import { MesaService, Mesa } from '../../services/mesa.service';
 import { FacturaPrintComponent } from '../factura-print/factura-print.component';
+import { PagoComponent, ConfirmacionPagoEfectivo } from '../pago/pago.component';
 import { Producto } from '../../models/producto.model';
 
 @Component({
   selector: 'app-mesas',
   standalone: true,
-  imports: [CommonModule, FacturaPrintComponent],
+  imports: [CommonModule, FacturaPrintComponent, PagoComponent],
   templateUrl: './mesas.component.html',
   styleUrls: ['./mesas.component.scss']
 })
 export class MesasComponent implements OnInit, OnDestroy {
   mostrarModal = false;
+  mostrarModalPago = false;
   mesaSeleccionada: Mesa | null = null;
   cargandoAccionMesa = false;
   cargando = false;
@@ -287,6 +289,23 @@ export class MesasComponent implements OnInit, OnDestroy {
         }
       });
     }
+  }
+
+  abrirPagoEfectivo(): void {
+    if (!this.mesaSeleccionada || this.totalCuentaReal <= 0) {
+      alert('No hay consumo para cobrar en esta mesa.');
+      return;
+    }
+    this.mostrarModalPago = true;
+  }
+
+  cerrarModalPago(): void {
+    this.mostrarModalPago = false;
+  }
+
+  confirmarPagoEfectivo(_detalle: ConfirmacionPagoEfectivo): void {
+    this.mostrarModalPago = false;
+    this.cobrarYFacturarMesa('Efectivo');
   }
 
   cobrarYFacturarMesa(metodoPago: string): void {

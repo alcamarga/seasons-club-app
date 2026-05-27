@@ -1,0 +1,65 @@
+<div class="pago-overlay" (click)="onCancelar()">
+  <div class="pago-modal-wrap" (click)="$event.stopPropagation()">
+  <app-glass-panel class="pago-modal" [interactive]="true">
+    <header class="pago-header">
+      <h2>💰 Pago en Efectivo</h2>
+      <button type="button" class="btn-cerrar-pago" (click)="onCancelar()" aria-label="Cerrar">&times;</button>
+    </header>
+
+    <div class="pago-cuerpo">
+      <section class="pago-panel-izquierdo">
+        <div class="pago-resumen">
+          <div class="campo-monto">
+            <span class="etiqueta-monto">Total</span>
+            <span class="valor-monto total">{{ total | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+          </div>
+          <div class="campo-monto">
+            <span class="etiqueta-monto">Entregado</span>
+            <span class="valor-monto entregado">{{ entregadoVisual | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+          </div>
+          <div class="campo-monto">
+            <span class="etiqueta-monto">Cambio</span>
+            <span class="valor-monto cambio" [class.cambio-negativo]="cambioNegativo"
+              [class.cambio-positivo]="cambioPositivo || cambio === 0">
+              {{ cambio | currency:'COP':'symbol-narrow':'1.0-0' }}
+            </span>
+          </div>
+        </div>
+
+        <div class="grilla-denominaciones">
+          <button type="button" class="btn-denominacion" *ngFor="let valor of denominaciones"
+            (click)="sumarDenominacion(valor)">
+            {{ formatearDenominacion(valor) }}
+          </button>
+        </div>
+
+        <button type="button" class="btn-limpiar-entregado" (click)="limpiarEntregado()">
+          Limpiar entregado
+        </button>
+      </section>
+
+      <section class="pago-panel-teclado">
+        <p class="titulo-teclado">Valor exacto</p>
+        <div class="display-teclado">
+          {{ bufferTeclado || '0' }}
+        </div>
+        <div class="grid-teclado">
+          <button type="button" class="btn-tecla" *ngFor="let tecla of teclas" (click)="pulsarTecla(tecla)">
+            {{ tecla }}
+          </button>
+        </div>
+        <button type="button" class="btn-aplicar-teclado" (click)="aplicarBufferTeclado()">
+          Sumar al entregado
+        </button>
+      </section>
+    </div>
+
+    <footer class="pago-footer">
+      <button type="button" class="btn-pago-secundario" (click)="onCancelar()">Cancelar</button>
+      <button type="button" class="btn-pago-primario" [disabled]="!puedeConfirmar" (click)="onConfirmar()">
+        Confirmar pago
+      </button>
+    </footer>
+  </app-glass-panel>
+  </div>
+</div>

@@ -1,14 +1,14 @@
 <div class="contenedor-inventario">
 
-  <button class="btn-agregar" (click)="agregarProducto()">➕ Agregar Producto</button>
-
   <div class="header-titulo-inventario glass-panel">
     <img src="assets/seasons-logo2.png" alt="Logo Seasons Club"
       class="logo-inventario">
     <h2 class="titulo-inventario">INVENTARIO DE SEASONS CLUB</h2>
   </div>
 
-  <div class="lista-productos-grid">
+  <button class="btn-agregar" (click)="agregarProducto()">➕ Agregar Producto</button>
+
+  <div class="grid-tarjetas">
     <app-glass-panel *ngFor="let p of productos" [interactive]="true" [class.insumo-card]="p.esInsumo"
       class="tarjeta-producto-panel">
       <div class="card-producto-tactil">
@@ -17,7 +17,7 @@
           <img [src]="inventarioService.resolverUrlImagen(p.imagenUrl)" [alt]="p.nombre" class="imagen-producto"
             onerror="this.src='assets/seasons-logo2.png'">
 
-          <span class="categoria-tag" [ngClass]="'cat-' + p.categoria.toLowerCase()">
+          <span [class]="'etiqueta ' + obtenerClaseCategoria(p.categoria)">
             {{ p.categoria }}
           </span>
 
@@ -54,6 +54,22 @@
                 {{ p.stock }}
               </span>
             </div>
+
+            <div class="vertical-divider-card" *ngIf="!p.esInsumo"></div>
+
+            <div class="valor-margen" *ngIf="!p.esInsumo">
+              <span class="label">MARGEN ($)</span>
+              <span class="margen-dinero-valor">
+                {{ p.margenDinero | currency:'COP':'symbol-narrow':'1.0-0' }}
+              </span>
+            </div>
+
+            <div class="valor-margen-pct" *ngIf="!p.esInsumo">
+              <span class="label">MARGEN (%)</span>
+              <span class="margen-porcentaje-valor" [class.margen-bajo]="margenBajo(p)">
+                {{ p.margenPorcentaje | number:'1.1-2' }}%
+              </span>
+            </div>
           </div>
 
           <div class="acciones-card-wrapper">
@@ -70,14 +86,64 @@
       </div>
     </app-glass-panel>
   </div>
-  <div id="dashboard-financiero">
+
+  <div class="tabla-inventario-wrapper glass-panel" *ngIf="productos.length > 0">
+    <table class="tabla-inventario">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Categoría</th>
+          <th>Inversión</th>
+          <th>Precio venta</th>
+          <th>Stock</th>
+          <th>Margen ($)</th>
+          <th>Rentabilidad</th>
+          <th>Margen (%)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of productos" [class.fila-insumo]="p.esInsumo">
+          <td class="celda-nombre">{{ p.nombre }}</td>
+          <td>{{ p.categoria }}</td>
+          <td class="celda-inversion">
+            {{ inversionProducto(p) | currency:'COP':'symbol-narrow':'1.0-0' }}
+          </td>
+          <td>
+            <ng-container *ngIf="!p.esInsumo; else sinPrecioTabla">
+              {{ p.precioVenta | currency:'COP':'symbol-narrow':'1.0-0' }}
+            </ng-container>
+            <ng-template #sinPrecioTabla>—</ng-template>
+          </td>
+          <td>{{ p.stock }}</td>
+          <td class="celda-margen-dinero">
+            <ng-container *ngIf="!p.esInsumo; else sinMargenTabla">
+              {{ p.margenDinero | currency:'COP':'symbol-narrow':'1.0-0' }}
+            </ng-container>
+          </td>
+          <td class="celda-rentabilidad">
+            <ng-container *ngIf="!p.esInsumo; else sinMargenTabla">
+              {{ rentabilidadProducto(p) | currency:'COP':'symbol-narrow':'1.0-0' }}
+            </ng-container>
+          </td>
+          <td class="celda-margen-porcentaje" [class.margen-bajo]="margenBajo(p)">
+            <ng-container *ngIf="!p.esInsumo; else sinMargenTabla">
+              {{ p.margenPorcentaje | number:'1.1-2' }}%
+            </ng-container>
+          </td>
+          <ng-template #sinMargenTabla>—</ng-template>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="dashboard-financiero" *ngIf="productos.length > 0">
     <div class="resumen-item">
-      <h3>INVERSIÓN EN INVENTARIO</h3>
+      <h3>TOTAL INVERSIÓN</h3>
       <p class="valor-inversion">{{ totalInversion | currency:'COP':'symbol':'1.0-0' }}</p>
     </div>
     <div class="resumen-item">
-      <h3>UTILIDAD POTENCIAL</h3>
-      <p class="valor-utilidad">{{ totalUtilidad | currency:'COP':'symbol':'1.0-0' }}</p>
+      <h3>TOTAL RENTABILIDAD</h3>
+      <p class="valor-rentabilidad">{{ totalRentabilidad | currency:'COP':'symbol':'1.0-0' }}</p>
     </div>
   </div>
 </div>

@@ -82,8 +82,8 @@
               </button>
             </div>
             <div style="display: flex; gap: 10px; margin-top: 10px;">
-              <button class="btn-pago-efectivo" (click)="cobrarYFacturarMesa('Efectivo')"
-                [disabled]="cargandoAccionMesa">
+              <button class="btn-pago-efectivo" (click)="abrirPagoEfectivo()"
+                [disabled]="cargandoAccionMesa || totalCuentaReal <= 0">
                 💰 Pagar en Efectivo
               </button>
 
@@ -97,6 +97,10 @@
       </div>
     </div>
   </div>
+
+  <app-pago *ngIf="mostrarModalPago" [total]="totalCuentaReal || 0"
+    (confirmar)="confirmarPagoEfectivo($event)" (cancelar)="cerrarModalPago()">
+  </app-pago>
 
   <div id="area-impresion" style="display: none;">
     <app-factura-print [factura]="facturaParaImprimir"></app-factura-print>

@@ -5,6 +5,7 @@ import { InventarioService } from '../../services/inventario.service';
 import { Producto } from '../../models/producto.model';
 import { GlassPanelComponent } from '../glass-panel/glass-panel.component';
 import { InventarioEditModalComponent, GuardarProductoEvento } from './inventario-edit-modal.component';
+import { ordenarProductosPorCategoria } from '../../utils/orden-productos.util';
 
 @Component({
   selector: 'app-inventario',
@@ -15,7 +16,7 @@ import { InventarioEditModalComponent, GuardarProductoEvento } from './inventari
 })
 export class InventarioComponent implements OnInit {
   totalInversion: number = 0;
-  totalUtilidad: number = 0;
+  totalRentabilidad: number = 0;
   productos: Producto[] = [];
   productoSeleccionado: Producto | null = null;
 
@@ -23,16 +24,28 @@ export class InventarioComponent implements OnInit {
 
   ngOnInit(): void { this.cargarProductos(); }
 
+  /** Inversión por fila: costo unitario × stock (columna Inversión). */
+  inversionProducto(p: Producto): number {
+    return (p.precioCompra ?? p.costoUnitario ?? 0) * (p.stock ?? 0);
+  }
+
+  /** Rentabilidad por fila: margen unitario × stock (columna Rentabilidad). */
+  rentabilidadProducto(p: Producto): number {
+    if (p.esInsumo) {
+      return 0;
+    }
+    return (p.margenDinero ?? 0) * (p.stock ?? 0);
+  }
+
   calcularTotales(): void {
-    this.totalInversion = this.productos.reduce((sum, p) => sum + (p.precioCompra * p.stock), 0);
-    const totalVenta = this.productos.reduce((sum, p) => sum + (p.precioVenta * p.stock), 0);
-    this.totalUtilidad = totalVenta - this.totalInversion;
+    this.totalInversion = this.productos.reduce((sum, p) => sum + this.inversionProducto(p), 0);
+    this.totalRentabilidad = this.productos.reduce((sum, p) => sum + this.rentabilidadProducto(p), 0);
   }
 
   cargarProductos(): void {
     this.inventarioService.obtenerProductos().subscribe({
       next: (data) => {
-        this.productos = data;
+        this.productos = ordenarProductosPorCategoria(data);
         this.calcularTotales();
         this.inventarioService.avisarCatalogoActualizado();
       },
@@ -54,10 +67,25 @@ export class InventarioComponent implements OnInit {
   }
 
   onModalSave(evento: GuardarProductoEvento): void {
-    const updated = evento.producto;
-    const obs = updated.id === 0
-      ? this.inventarioService.agregarProducto(updated)
-      : this.inventarioService.actualizarProducto(updated);
+    this.guardarProducto(evento);
+  }
+
+  /** Persiste producto nuevo o existente con costo_unitario y precio_venta explícitos. */
+  guardarProducto(evento: GuardarProductoEvento): void {
+    const base = evento.producto;
+    const costo = Number(base.precioCompra ?? base.costoUnitario ?? 0);
+    const venta = Number(base.precioVenta ?? 0);
+
+    const productoParaApi: Producto = {
+      ...base,
+      precioCompra: costo,
+      precioVenta: venta,
+      costoUnitario: costo,
+    };
+
+    const obs = productoParaApi.id === 0
+      ? this.inventarioService.agregarProducto(productoParaApi)
+      : this.inventarioService.actualizarProducto(productoParaApi);
 
     obs.subscribe({
       next: (guardado) => {
@@ -98,5 +126,60 @@ export class InventarioComponent implements OnInit {
     if (confirm('¿Eliminar?')) {
       this.inventarioService.eliminarProducto(producto.id).subscribe(() => this.cargarProductos());
     }
+  }
+
+  /** Margen % bajo umbral de rentabilidad (30 %). */
+  margenBajo(producto: Producto): boolean {
+    if (producto.esInsumo) {
+      return false;
+    }
+    return (producto.margenPorcentaje ?? 0) < 30;
+  }
+
+  /** Clase CSS de color según categoría (siempre devuelve una clase con color asignado). */
+  obtenerClaseCategoria(categoria: string): string {
+    const slug = (categoria || 'general')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .trim();
+
+    const mapa: Record<string, string> = {
+      licor: 'cat-licores',
+      licores: 'cat-licores',
+      cerveza: 'cat-cerveza',
+      cervezas: 'cat-cerveza',
+      coctel: 'cat-coctel',
+      cocteles: 'cat-coctel',
+      cocktail: 'cat-coctel',
+      cocktails: 'cat-coctel',
+      insumo: 'cat-insumo',
+      insumos: 'cat-insumo',
+      bebida: 'cat-bebidas',
+      bebidas: 'cat-bebidas',
+      snack: 'cat-snacks',
+      snacks: 'cat-snacks',
+      botella: 'cat-botellas',
+      botellas: 'cat-botellas',
+      general: 'cat-general',
+    };
+
+    if (mapa[slug]) {
+      return mapa[slug];
+    }
+
+    const paletaAlterna = [
+      'cat-alt-cyan',
+      'cat-alt-rosa',
+      'cat-alt-indigo',
+      'cat-alt-lima',
+      'cat-alt-teal',
+      'cat-alt-gris',
+    ];
+    let hash = 0;
+    for (let i = 0; i < slug.length; i++) {
+      hash = (hash + slug.charCodeAt(i)) % paletaAlterna.length;
+    }
+    return paletaAlterna[hash];
   }
 }
