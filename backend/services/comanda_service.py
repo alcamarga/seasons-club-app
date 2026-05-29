@@ -65,8 +65,19 @@ def obtener_mesa(mesa_id: int) -> Mesa:
     return mesa
 
 
+def _query_pedidos_pendientes_mesa(mesa_id: int):
+    """Todos los pedidos pendientes de una mesa (padre + subcuentas)."""
+    return Pedido.query.filter_by(mesa_id=mesa_id, estado=ESTADO_PENDIENTE)
+
+
 def obtener_pedido_pendiente(mesa_id: int) -> Pedido | None:
-    """Comanda abierta: individual o pedido maestro si la mesa está en un grupo."""
+    """
+    Comanda principal abierta (individual | maestra), nunca una subcuenta.
+
+    Las subcuentas se listan aparte (subcuenta_service.listar_subcuentas_pendientes).
+    Si se tomara el último pendiente por id, tras crear subcuentas se devolvería
+    la subcuenta y el cierre de mesa fallaría al facturar una sola subcuenta.
+    """
     mesa = Mesa.query.get(mesa_id)
     if not mesa:
         return None
@@ -83,7 +94,8 @@ def obtener_pedido_pendiente(mesa_id: int) -> Pedido | None:
         )
 
     return (
-        Pedido.query.filter_by(mesa_id=mesa_id, estado=ESTADO_PENDIENTE)
+        _query_pedidos_pendientes_mesa(mesa_id)
+        .filter(Pedido.tipo.in_([Pedido.TIPO_INDIVIDUAL, Pedido.TIPO_MAESTRA]))
         .order_by(Pedido.id.desc())
         .first()
     )

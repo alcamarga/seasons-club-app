@@ -269,3 +269,67 @@ def crear_subcuenta(
         'lineas_movidas': lineas_movidas,
         **meta,
     }
+
+
+def resolver_pedido_para_factura(mesa_id: int, pedido_id: int | None) -> Pedido:
+    """Resuelve pedido a facturar: padre por mesa o subcuenta explícita."""
+    mesa = obtener_mesa(mesa_id)
+
+    if pedido_id is not None:
+        pedido = Pedido.query.get(int(pedido_id))
+        if not pedido:
+            raise ComandaError('Pedido no encontrado', 404)
+        if pedido.mesa_id != mesa.id:
+            raise ComandaError('El pedido no pertenece a esta mesa', 409)
+        if pedido.estado != ESTADO_PENDIENTE:
+            raise ComandaError('El pedido no está pendiente de cobro', 400)
+        if pedido.tipo == Pedido.TIPO_SUBCUENTA:
+            padre = Pedido.query.get(pedido.pedido_padre_id) if pedido.pedido_padre_id else None
+            if not padre or padre.estado != ESTADO_PENDIENTE:
+                raise ComandaError('La comanda principal no está activa', 400)
+            return pedido
+        if pedido.tipo in TIPOS_PADRE_PERMITIDOS:
+            return pedido
+        raise ComandaError('Tipo de pedido no facturable', 400)
+
+    pedido_padre = obtener_pedido_pendiente(mesa_id)
+    if not pedido_padre:
+        raise ComandaError('No hay comanda activa para facturar en esta mesa', 404)
+    return pedido_padre
+
+
+def cuenta_mesa_totalmente_saldada(mesa_id: int) -> bool:
+    """True si no quedan líneas ni subcuentas pendientes por cobrar."""
+    from services.comanda_service import _query_pedidos_pendientes_mesa
+
+    pendientes_mesa = _query_pedidos_pendientes_mesa(mesa_id).count()
+    if pendientes_mesa == 0:
+        return True
+
+    pedido_padre = obtener_pedido_pendiente(mesa_id)
+    if not pedido_padre:
+        # Aún hay pedidos pendientes (p. ej. solo subcuentas) → no liberar mesa
+        return False
+
+    if pedido_padre.lineas_activas().count() > 0:
+        return False
+    if float(pedido_padre.total or 0) > 0.009:
+        return False
+    if listar_subcuentas_pendientes(pedido_padre.id):
+        return False
+    return True
+
+
+def aplicar_cierre_mesa_tras_factura(mesa: Mesa) -> str:
+    """Libera mesa o grupo solo cuando padre y subcuentas están saldados."""
+    if not cuenta_mesa_totalmente_saldada(mesa.id):
+        return mesa.estado
+
+    if mesa.grupo_mesa_id:
+        from services.grupo_mesa_service import cerrar_grupo_activo
+
+        cerrar_grupo_activo(mesa.grupo_mesa_id, commit=False)
+    else:
+        mesa.estado = 'LIBRE'
+
+    return mesa.estado
