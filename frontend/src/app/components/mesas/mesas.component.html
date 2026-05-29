@@ -1,106 +1,189 @@
-<div class="contenedor-principal">
+<div class="contenedor-principal" [class.con-barra-union]="mostrarBarraUnion">
 
   <div class="encabezado">
-    <img src="assets/seasons-logo2.png" alt="Seasons Club Logo"
-      class="logo-club">
+    <img src="assets/seasons-logo2.png" alt="Seasons Club Logo" class="logo-club">
     <h1 class="titulo-modulo">Módulo de Gestión de Mesas</h1>
     <div class="linea-decorativa"></div>
-  </div>
 
-  <div *ngIf="cargando" class="texto-carga">
-    <p>Conectando con el servidor de Seasons Club...</p>
-  </div>
-
-  <div *ngIf="!cargando" class="grid-mesas">
-    <button *ngFor="let m of mesas" (click)="onMesaClick(m)"
-      [ngClass]="{ 'libre': m.estado === 'LIBRE', 'ocupada': m.estado === 'OCUPADA' }" class="mesa-circulo">
-      <span class="mesa-texto-mini">Mesa</span>
-      <span class="mesa-numero">#{{ m.numero_mesa }}</span>
-      <span class="mesa-texto-estado">{{ m.estado }}</span>
-    </button>
-  </div>
-
-  <div *ngIf="mostrarModal" class="modal-overlay" (click)="cerrarModal()">
-    <div class="modal-pos" (click)="$event.stopPropagation()">
-      <div class="modal-header">
-        <img src="assets/seasons-logo2.png" alt="Seasons Club Logo"
-          class="logo-branding-mini">
-        <h2>Mesa #{{ mesaSeleccionada?.numero_mesa }}</h2>
-        <span class="badge-estado"
-          [ngClass]="{ 'libre': mesaSeleccionada?.estado === 'LIBRE', 'ocupada': mesaSeleccionada?.estado === 'OCUPADA' }">
-          {{ mesaSeleccionada?.estado }}
-        </span>
-        <button class="btn-cerrar-x" (click)="cerrarModal()">&times;</button>
-      </div>
-
-      <div class="modal-body">
-        <div *ngIf="mesaSeleccionada?.estado === 'LIBRE'" class="flujo-libre">
-          <p class="instruccion">La mesa está vacía. Inicia una nueva orden para habilitar el consumo.</p>
-          <button class="btn-accion-pos btn-abrir" (click)="abrirComandaMesa()" [disabled]="cargandoAccionMesa">
-            {{ cargandoAccionMesa ? 'Abriendo...' : '🚀 ABRIR COMANDA' }}
+    @if (!cargando) {
+      <div class="barra-herramientas-mapa">
+        @if (!enModoUnir) {
+          <button type="button" class="btn-modo-unir" (click)="activarModoUnir()">
+            🔗 Unir mesas
           </button>
+        } @else {
+          <button type="button" class="btn-modo-unir activo" (click)="cancelarModoUnir()">
+            ✕ Salir del modo unir
+          </button>
+          <span class="hint-modo-unir">Toca mesas OCUPADAS libres de grupo para seleccionarlas</span>
+        }
+      </div>
+    }
+  </div>
+
+  @if (cargando) {
+    <div class="texto-carga">
+      <p>Conectando con el servidor de Seasons Club...</p>
+    </div>
+  }
+
+  @if (!cargando) {
+    <div class="grid-mesas">
+      @for (m of mesas; track m.id) {
+        <button
+          type="button"
+          (click)="onMesaClick(m)"
+          [ngClass]="clasesMesaGrid(m)"
+          class="mesa-circulo">
+          @if (enModoUnir && mesaAnfitrionaId === m.id && mesasSeleccionadasUnion.has(m.id)) {
+            <span class="badge-anfitriona">⭐</span>
+          }
+          <span class="mesa-texto-mini">Mesa</span>
+          <span class="mesa-numero">#{{ m.numero_mesa }}</span>
+          @if (m.grupo_mesa_id) {
+            <span class="mesa-badge-grupo">Grupo</span>
+          } @else {
+            <span class="mesa-texto-estado">{{ m.estado }}</span>
+          }
+        </button>
+      }
+    </div>
+  }
+
+  @if (mostrarBarraUnion) {
+    <div class="barra-union-flotante" role="toolbar" aria-label="Unir mesas seleccionadas">
+      <div class="barra-union-info">
+        <span class="barra-union-contador">
+          {{ cantidadSeleccionadas }} mesa{{ cantidadSeleccionadas === 1 ? '' : 's' }} seleccionada{{ cantidadSeleccionadas === 1 ? '' : 's' }}
+        </span>
+        <div class="barra-union-anfitriona">
+          <span class="label-anfitriona">Anfitriona:</span>
+          @for (m of mesasSeleccionadasLista; track m.id) {
+            <button
+              type="button"
+              class="chip-anfitriona"
+              [class.activa]="mesaAnfitrionaId === m.id"
+              (click)="seleccionarAnfitriona(m.id)">
+              #{{ m.numero_mesa }}
+            </button>
+          }
+        </div>
+        @if (errorUnion) {
+          <p class="barra-union-error">{{ errorUnion }}</p>
+        }
+      </div>
+      <div class="barra-union-acciones">
+        <button type="button" class="btn-barra-cancelar" (click)="cancelarModoUnir()" [disabled]="cargandoUnion">
+          Cancelar
+        </button>
+        <button
+          type="button"
+          class="btn-barra-unir"
+          (click)="ejecutarUnionMesas()"
+          [disabled]="!puedeUnir || cargandoUnion">
+          {{ cargandoUnion ? 'Uniendo...' : 'Unir mesas' }}
+        </button>
+      </div>
+    </div>
+  }
+
+  @if (mostrarModal) {
+    <div class="modal-overlay" (click)="cerrarModal()">
+      <div class="modal-pos" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <img src="assets/seasons-logo2.png" alt="Seasons Club Logo" class="logo-branding-mini">
+          <div class="modal-titulo-grupo">
+            <h2>Mesa #{{ mesaSeleccionada?.numero_mesa }}</h2>
+            @if (grupoActivo.es_grupo_activo && grupoActivo.numeros_mesas_grupo.length) {
+              <span class="badge-grupo-activo">
+                Grupo: {{ grupoActivo.numeros_mesas_grupo.join(' · ') }}
+              </span>
+            }
+          </div>
+          <span class="badge-estado"
+            [ngClass]="{ 'libre': mesaSeleccionada?.estado === 'LIBRE', 'ocupada': mesaSeleccionada?.estado === 'OCUPADA' }">
+            {{ mesaSeleccionada?.estado }}
+          </span>
+          <button type="button" class="btn-cerrar-x" (click)="cerrarModal()">&times;</button>
         </div>
 
-        <div *ngIf="mesaSeleccionada?.estado === 'OCUPADA'" class="flujo-ocupada">
-          <div class="seccion-ticket">
-            <h3>📝 Cuenta Acumulada</h3>
-            <div class="lista-productos">
-              <div *ngFor="let p of productosReales" class="item-producto"
-                style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid #eee; padding: 5px;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                  <span style="font-weight: bold; color: #f472b6;">{{ p.cantidad }}x</span>
-                  <span>{{ p.nombre }}</span>
+        <div class="modal-body">
+          @if (mesaSeleccionada?.estado === 'LIBRE') {
+            <div class="flujo-libre">
+              <p class="instruccion">La mesa está vacía. Inicia una nueva orden para habilitar el consumo.</p>
+              <button type="button" class="btn-accion-pos btn-abrir" (click)="abrirComandaMesa()" [disabled]="cargandoAccionMesa">
+                {{ cargandoAccionMesa ? 'Abriendo...' : '🚀 ABRIR COMANDA' }}
+              </button>
+            </div>
+          }
+
+          @if (mesaSeleccionada?.estado === 'OCUPADA') {
+            <div class="flujo-ocupada">
+              <div class="seccion-ticket">
+                <h3>📝 Cuenta Acumulada</h3>
+                <div class="lista-productos">
+                  @for (p of productosReales; track p.linea_id ?? p.producto_id) {
+                    <div class="item-producto fila-producto-pos">
+                      <div class="fila-producto-info">
+                        <span class="cant">{{ p.cantidad }}x</span>
+                        <span class="nom">{{ p.nombre }}</span>
+                        @if (mostrarOrigenLinea(p)) {
+                          <span class="badge-origen-mesa">M#{{ p.mesa_origen_numero }}</span>
+                        }
+                      </div>
+                      <div class="fila-producto-acciones">
+                        <button type="button" class="btn-cant restar" (click)="cambiarCantidadTrago(p.producto_id, 'restar')">-</button>
+                        <button type="button" class="btn-cant sumar" (click)="cambiarCantidadTrago(p.producto_id, 'sumar')">+</button>
+                        <button type="button" class="btn-precio-linea" (click)="cambiarPrecioTrago(p.producto_id, (p.precio || 0))">
+                          ${{ (p.cantidad * (p.precio || 0)) | number }}
+                        </button>
+                      </div>
+                    </div>
+                  }
                 </div>
-                <div style="display: flex; align-items: center; gap: 8px;">
-                  <button (click)="cambiarCantidadTrago(p.producto_id, 'restar')"
-                    style="background: #ef4444; color: white; border: none; padding: 2px 8px; border-radius: 4px;">-</button>
-                  <button (click)="cambiarCantidadTrago(p.producto_id, 'sumar')"
-                    style="background: #10b981; color: white; border: none; padding: 2px 8px; border-radius: 4px;">+</button>
-                  <button (click)="cambiarPrecioTrago(p.producto_id, (p.precio || 0))"
-                    style="background: none; border: none; color: #3b82f6; cursor: pointer; font-weight: bold; text-decoration: underline;">
-                    ${{ (p.cantidad * (p.precio || 0)) | number }}
+                <div class="total-ticket">
+                  <span>TOTAL: </span>
+                  <span class="total-valor">${{ (totalCuentaReal || 0) | number }}</span>
+                </div>
+              </div>
+
+              <div class="seccion-catalogo-expandida">
+                <h3>🍾 Catálogo de Licores</h3>
+                <div class="grid-catalogo">
+                  @for (prod of menuBarra; track prod.id) {
+                    <button type="button" class="card-producto" (click)="inyectarTrago(prod)"
+                      [style.backgroundImage]="urlFondoCatalogo(prod)"
+                      [style.backgroundColor]="urlFondoCatalogo(prod) === 'none' ? '#2d3748' : 'transparent'">
+                      <div class="card-overlay">
+                        <div class="card-nombre">{{ prod.nombre }}</div>
+                        <div class="card-precio">${{ (prod.precioVenta || 0) | number }}</div>
+                      </div>
+                    </button>
+                  }
+                </div>
+                <div class="fila-botones-pago">
+                  <button type="button" class="btn-pago-efectivo" (click)="abrirPagoEfectivo()"
+                    [disabled]="cargandoAccionMesa || totalCuentaReal <= 0">
+                    💰 Pagar en Efectivo
+                  </button>
+                  <button type="button" class="btn-pago-transf" (click)="cobrarYFacturarMesa('Transferencia')"
+                    [disabled]="cargandoAccionMesa">
+                    📱 Pagar Transferencia
                   </button>
                 </div>
               </div>
             </div>
-            <div class="total-ticket" style="margin-top: 15px; font-size: 1.2em; font-weight: bold; text-align: right;">
-              <span>TOTAL: </span>
-              <span class="total-valor">${{ (totalCuentaReal || 0) | number }}</span>
-            </div>
-          </div>
-
-          <div class="seccion-catalogo-expandida">
-            <h3>🍾 Catálogo de Licores</h3>
-            <div class="grid-catalogo">
-              <button *ngFor="let prod of menuBarra" class="card-producto" (click)="inyectarTrago(prod)"
-                [style.backgroundImage]="urlFondoCatalogo(prod)"
-                [style.backgroundColor]="urlFondoCatalogo(prod) === 'none' ? '#2d3748' : 'transparent'">
-                <div class="card-overlay">
-                  <div class="card-nombre">{{ prod.nombre }}</div>
-                  <div class="card-precio">${{ (prod.precioVenta || 0) | number }}</div>
-                </div>
-              </button>
-            </div>
-            <div style="display: flex; gap: 10px; margin-top: 10px;">
-              <button class="btn-pago-efectivo" (click)="abrirPagoEfectivo()"
-                [disabled]="cargandoAccionMesa || totalCuentaReal <= 0">
-                💰 Pagar en Efectivo
-              </button>
-
-              <button class="btn-pago-transf" (click)="cobrarYFacturarMesa('Transferencia')"
-                [disabled]="cargandoAccionMesa">
-                📱 Pagar Transferencia
-              </button>
-            </div>
-          </div>
+          }
         </div>
       </div>
     </div>
-  </div>
+  }
 
-  <app-pago *ngIf="mostrarModalPago" [total]="totalCuentaReal || 0"
-    (confirmar)="confirmarPagoEfectivo($event)" (cancelar)="cerrarModalPago()">
-  </app-pago>
+  @if (mostrarModalPago) {
+    <app-pago [total]="totalCuentaReal || 0"
+      (confirmar)="confirmarPagoEfectivo($event)" (cancelar)="cerrarModalPago()">
+    </app-pago>
+  }
 
   <div id="area-impresion" style="display: none;">
     <app-factura-print [factura]="facturaParaImprimir"></app-factura-print>

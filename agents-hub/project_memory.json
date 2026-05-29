@@ -36,12 +36,25 @@
     "Historial de ventas filtrable por mesa",
     "Inventario y catálogo de barra con rentabilidad (costo_unitario, margen_dinero, margen_porcentaje)",
     "RBAC Admin/Mesero con rutas y sidebar condicionados",
-    "Control de usuarios admin|mesero"
+    "Control de usuarios admin|mesero",
+    "Fase A: PedidoLinea como fuente de verdad + comanda_service",
+    "Fase B.1: Unión de mesas (grupo_mesa_service, POST /api/mesas/unir, GET consumo con metadatos de grupo)",
+    "Fase B.2 Paso 1: models/mesa.model.ts + mesa.service unirMesasApi y tipos de consumo",
+    "Fase B.2: Modo unir mesas + barra flotante en MesasComponent",
+    "Fase C.1: subcuenta_service + POST /api/mesas/:id/separar + GET consumo con subcuentas",
+    "Fase C.2: POST /api/facturas con pedido_id (subcuenta) + cierre inteligente de mesa (validado local, pendiente push)"
   ],
   "pending_tasks": [
+    "Fase B.3: Desunir mesas (opcional futuro)",
+    "Sincronizar push C.2 backend al repo remoto",
+    "Fase C.3: UI tabs + modo dividir + pago por subcuenta en MesasComponent",
     "Migraciones Alembic",
     "Pantalla barman (rol futuro)",
     "Métricas por mesero en pedidos"
+  ],
+  "solved_critical_bugs": [
+    "Fase B.1 backend: grupo_mesa_service + resolución pedido maestro en obtener_pedido_pendiente y GET /consumo (2026-05-28)",
+    "Fase C.1 backend: subcuenta_service + separar cuenta por linea_id con split parcial (2026-05-28)"
   ],
   "dev_credentials": {
     "admin": { "email": "admin@seasonsclub.com", "password": "admin1" },

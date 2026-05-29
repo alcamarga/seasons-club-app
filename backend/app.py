@@ -13,6 +13,9 @@ from models.insumo import Insumo
 from models.producto import Producto
 from models.receta import Receta
 from models.mesa import Mesa
+from models.pedido import Pedido
+from models.pedido_linea import PedidoLinea
+from models.grupo_mesa import GrupoMesa, MesaGrupoMiembro
 from models.venta import Venta
 from models.corte_caja import CorteCaja
 from models.historial_ventas import HistorialVentas
